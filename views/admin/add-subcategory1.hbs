@@ -1,0 +1,28 @@
+<section>
+  <div class="container">
+    <h2>Add Sub-Category</h2>
+    <form id="subcategoryForm" method="POST" action="/admin/addsubcategory">
+      <div class="form-group">
+        <label for="category">Select Category:</label>
+        <select class="form-control" id="category" name="category" required>
+          <option value="">Select Category</option>
+          {{#each category}}
+            <option value="{{categoryName}}">{{categoryName}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="subCategory">Sub-Category:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="subCategory"
+          name="subcategory"
+          placeholder="Enter Sub-Category"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</section>

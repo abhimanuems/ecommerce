@@ -1,0 +1,41 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <a href="/admin/addcategory" class="btn btn-success btn-md">Add Category</a>
+    </div>
+    <table class="table table-striped mt-2">
+      <thead>
+        <tr>
+          <th scope="col">SL NO</th>
+          <th scope="col">Category's</th>
+          <th scope="col">Category Icon</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each category}}
+          <tr>
+            <td>{{@key}}</td>
+            <td>{{categoryName}}</td>
+
+            <td><img src="{{icon}}" alt="Product Image" /></td>
+            <td><button class="btn btn-primary mb-6">Edit</button>
+              <form
+                method="POST"
+                action="/admin/delete-category/{{_id}}?_method=DELETE"
+                class="d-inline"
+              >
+                <input type="hidden" name="_method" value="DELETE" />
+                <button
+                  type="submit"
+                  class="btn btn-danger"
+                  onclick="return confirm('Are you sure you want to delete?')"
+                >Delete</button>
+              </form></td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,50 @@
+
+
+
+
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <ul class="list-inline menu">
+                        <li class="list-inline-item mx-5">Mobiles</li>
+                        <li class="list-inline-item mx-5">Electronics</li>
+                        <li class="list-inline-item mx-5">Books</li>
+                        <li class="list-inline-item mx-5">Health & wellness</li>
+                        <li class="list-inline-item mx-5">Grocery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                {{#each product}}
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-end">
+                            <i class="fas fa-heart wishlist-icon"></i>
+                        </div>
+                        <img src="product1.jpg" class="card-img-top" alt="Product 1" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{this.productName}}</h5>
+                            <p class="card-text">Brand: {{this.price}}</p>
+                            <p class="card-text">Price: $99.99</p>
+                            <p class="card-text">
+                                {{this.description}}
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-warning">Add to Cart</button>
+                                <button class="btn btn-primary">Buy Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+
+    

@@ -1,0 +1,355 @@
+<section>
+  <header style="background-color: #1b1ec7;">
+    <nav class="navbar navbar-expand-lg ">
+      <div class="container">
+        <a class="navbar-brand" href="/" style="color: #FFF;">Melocia</a>
+        <div class="navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <!-- Button trigger modal -->
+              <button
+              style="background-color: #ffff;"
+                type="button"
+                class="btn "
+                data-toggle="modal"
+                data-target="#exampleModalCenter"
+              >
+                Login
+              </button>
+
+              <!-- Modal -->
+              <!-- First Modal -->
+              <div
+                class="modal fade"
+                id="exampleModalCenter"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div
+                  class="modal-dialog modal-dialog-centered modal-lg"
+                  role="document"
+                >
+                  <div class="modal-content">
+                    <div
+                      class="modal-body"
+                      style="display: flex; height: 600px;"
+                    >
+                      <div
+                        class="col-lg-4"
+                        style="background-color: #2874f0; color: #fff; padding: 20px;"
+                      >
+                        <br />
+                        <br />
+                        <br />
+                        <h2>Login
+                          <br />
+                          or
+                          <br />
+                          Sign Up</h2>
+                        <br />
+                        <h4>Get Access to your
+                          <br />
+                          Orders, Wishlist and
+                          <br />
+                          Recommendations</h4>
+                      </div>
+                      <div class="col-lg-8" style="padding: 20px;">
+                        <form action="/otp" method="POST">
+                          <div class="row">
+                            <div class="col">
+                              <br />
+                              <br />
+                              <br />
+                              <label for="phone">Enter your phone number:</label>
+                              <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                class="form-control"
+                                placeholder="Enter phone Number"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="col">
+                              <h6>By continuing, you agree to Melocia's Terms of
+                                Use and Privacy Policy</h6>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <button
+                                type="submit"
+                                class="btn btn-warning"
+                                onclick="$('#exampleModalCenter').hide(); $('#otpModal').modal('show');"
+                              >Get OTP</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">New to Melocia? Create an account</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+             <!-- Signup Modal -->
+              <div
+                class="modal fade"
+                id="signupModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div
+                  class="modal-dialog modal-dialog-centered modal-lg"
+                  role="document"
+                >
+                  <div class="modal-content">
+                    <div
+                      class="modal-body"
+                      style="display: flex; height: 600px;"
+                    >
+                      <div
+                        class="col-lg-4"
+                        style="background-color: #2874f0; color: #fff; padding: 20px;"
+                      >
+                        <br />
+                        <br />
+                        <br />
+                        <h2>Sign Up</h2>
+                        <br />
+                        <h4>Get Access to your
+                          <br />
+                          Orders, Wishlist and
+                          <br />
+                          Recommendations</h4>
+                      </div>
+                      <div class="col-lg-8" style="padding: 20px;">
+                        <form action="/signup" method="POST">
+
+                          <div class="row">
+                            <div class="col">
+                              <label for="Name">Name:</label>
+                              <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                class="form-control"
+                                placeholder="Enter name"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <br />
+                              <label for="phone">Enter your phone number:</label>
+                              <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                class="form-control"
+                                placeholder="Enter phone number"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="col">
+                              <label for="email">Email:</label>
+                              <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter your email"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <br />
+                        
+                          <br />
+                          <div class="row">
+                            <div class="col">
+                              <h6>By signing up, you agree to Melocia's Terms of Use and Privacy Policy</h6>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <button
+                               type="submit"
+                                class="btn btn-warning"
+                                 onclick="$('#signupModal').hide(); $('#otpModalsignup').modal('show');"
+                              >Sign Up</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#exampleModalCenter">Already have an account? Login</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                 <div
+                class="modal fade"
+                id="otpModalsignup"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div
+                  class="modal-dialog modal-dialog-centered modal-lg"
+                  role="document"
+                >
+                  <div class="modal-content">
+                    <div
+                      class="modal-body"
+                      style="display: flex; height: 600px;"
+                    >
+                      <div
+                        class="col-lg-4"
+                        style="background-color: #2874f0; color: #fff; padding: 20px;"
+                      >
+                        <br />
+                        <br />
+                        <br />
+                        <h2>OTP Verification</h2>
+                        <br />
+                        <h4>Enter the OTP sent to your phone number</h4>
+                      </div>
+                      <div class="col-lg-8" style="padding: 20px;">
+                        <form action="/verify" method="POST">
+                          <div class="row">
+                            <div class="col">
+                              <br />
+                              <br />
+                              <br />
+                              <label for="otp">Enter your OTP:</label>
+                              <input
+                                type="text"
+                                id="otp"
+                                name="otp"
+                                class="form-control"
+                                placeholder="Enter OTP"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="col">
+                              <button
+                                type="submit"
+                                class="btn btn-primary"
+                              >Verify OTP</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{!-- end of isgnupmodal --}}
+              <div
+                class="modal fade"
+                id="otpModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div
+                  class="modal-dialog modal-dialog-centered modal-lg"
+                  role="document"
+                >
+                  <div class="modal-content">
+                    <div
+                      class="modal-body"
+                      style="display: flex; height: 600px;"
+                    >
+                      <div
+                        class="col-lg-4"
+                        style="background-color: #2874f0; color: #fff; padding: 20px;"
+                      >
+                        <br />
+                        <br />
+                        <br />
+                        <h2>Login
+                          <br />
+                          or
+                          <br />
+                          Sign Up
+                        </h2>
+
+                        <br />
+                        <h4>Get Access to your
+                          <br />
+                          Orders, Wishlist and
+                          <br />
+                          Recommendations</h4>
+                      </div>
+                      <div class="col-lg-8" style="padding: 20px;">
+                        <form action="verify" method="post">
+                          <div class="row">
+                            <div class="col">
+                              <br />
+                              <br />
+                              <br />
+                              <label for="phone">Enter your OTP:</label>
+                              <input
+                                type="tel"
+                                id="otp"
+                                name="otp"
+                                class="form-control"
+                                placeholder="Enter OTP"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="col">
+                              <button
+                                type="submit"
+                                class="btn btn-warning"
+                              >Login / Sign Up</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="">New to Melocia? Create an account</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"  style="color: #ffff;"href="/wishlist"> <i class="fas fa-heart mr-2"></i>Wishlist</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #ffff;"href="/cart"> <i class="fas fa-shopping-cart mr-2"></i>Cart</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+</section>

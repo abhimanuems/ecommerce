@@ -1,0 +1,28 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+ .modal-content {
+   border-radius: 0;
+ }
+
+ .left-section {
+   background-color: #2874f0;
+   color: white;
+   padding: 30px;
+ }
+
+ .left-section h1 {
+   font-size: 30px;
+   margin-bottom: 30px;
+ }
+
+ .left-section p {
+   font-size: 16px;
+   margin-bottom: 30px;
+  }

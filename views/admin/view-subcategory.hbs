@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+      <a href="/admin/addsubcategory" class="btn btn-success btn-md">Add Subcategory</a>
+    </div>
+  <div class="container">
+     {{#if data}}
+    <h1 style="text-align: center; color:green">Subcategories</h1>
+    {{#each data}}
+    <h1>
+      {{data}}
+    </h1>
+      {{#if subcategory.length}}
+        <h2>Category: {{categoryName}}</h2>
+        <table class="table table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Sl No</th>
+              <th>Subcategory</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each subcategory}}
+              <tr>
+                <td>{{@index}}</td>
+                <td>{{this}}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm">Edit</button>
+<form method="POST" action="/admin/deletesubcategory" class="d-inline">
+  <input type="hidden" name="documentId" value="{{../_id}}" />
+  <input type="hidden" name="arrayKey" value="{{this}}" />
+  <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+</form>
+
+
+</td>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    {{/each}}
+  {{else}}
+    <p>No subcategories found.</p>
+  {{/if}}
+    </div>
+  </div>
+
+ 

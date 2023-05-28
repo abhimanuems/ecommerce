@@ -1,0 +1,158 @@
+<div class="container">
+  <h2>Add Product</h2>
+  <form action="/admin/addproduct" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="productName">Product Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="productName"
+        name="productName"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="productBrand">Product Brand:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="productBrand"
+        name="productBrand"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select class="form-control" id="category" name="category" required>
+        <option value="">Select Category</option>
+        {{#each category}}
+          <option value="{{categoryName}}">{{categoryName}}</option>
+        {{/each}}
+      </select>
+    </div>
+  
+    {{!-- <div class="form-group">
+      <label for="subCategory">Sub Category:</label>
+      <select class="form-control" id="subCategory" name="subCategory" required>
+        <option value="">Select Sub Category</option>
+        <!-- This section will be dynamically populated -->
+      </select>
+    </div> --}}
+    <div class="form-group">
+      <label for="quantity">Quantity:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="quantity"
+        name="quantity"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="buyPrice">Buyed Price:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="buyPrice"
+        name="buyPrice"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="sellingPrice">Selling Price:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="sellingPrice"
+        name="sellingPrice"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="sellingPrice">Offered Price:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="offeredprice"
+        name="offeredprice"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="description">Upload image:</label>
+      <br />
+      <input type="file" name="image" accept="image/*" required />
+    </div>
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="flexSwitchCheckDefault"
+        name="trendingProduct"
+      />
+      <label class="form-check-label" for="flexSwitchCheckDefault">Add to
+        trending Products</label>
+    </div>
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="flexSwitchCheckChecked"
+        name="featuredProduct"
+      />
+      <label class="form-check-label" for="flexSwitchCheckChecked">Add to
+        featured product</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+
+<script>
+  // Get the category and subcategory data from the Handlebars template
+  var categoryData = {{{category}}}; // Replace "categoryData" with the variable containing your category data
+
+  // Function to update the subcategory select options based on the selected category
+  function updateSubcategories() {
+    var categorySelect = document.getElementById("category");
+    var subcategorySelect = document.getElementById("subCategory");
+    var selectedCategory = categorySelect.value;
+    
+    // Clear the existing options
+    subcategorySelect.innerHTML = "<option value=''>Select Sub Category</option>";
+    
+    // Find the selected category in the data
+    var selectedData = categoryData.find(function(item) {
+      return item.categoryName === selectedCategory;
+    });
+    
+    // Add subcategory options for the selected category
+    if (selectedData) {
+      selectedData.subcategory.forEach(function(subcategory) {
+        var option = document.createElement("option");
+        option.value = subcategory;
+        option.textContent = subcategory;
+        subcategorySelect.appendChild(option);
+      });
+    }
+  }
+
+  // Event listener for the category select element
+  var categorySelect = document.getElementById("category");
+  categorySelect.addEventListener("change", function() {
+    updateSubcategories();
+  });
+
+  // Call updateSubcategories initially if a category is already selected
+  updateSubcategories();
+</script>

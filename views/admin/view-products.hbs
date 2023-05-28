@@ -1,0 +1,61 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <a href="/admin/addproduct" class="btn btn-success btn-md">Add Product</a>
+    </div>
+    <table class="table table-striped mt-2 table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">SL No</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Brand</th>
+          <th scope="col">Category</th>
+          <th scope="col">Sub category</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Buy price</th>
+          <th scope="col">Selling price</th>
+          <th scope="col">Offered Price</th>
+          <th scope="col">Trending Products</th>
+          <th scope="col">Featured Product</th>
+          <th scope="col">Description</th>
+          <th scope="col">Image</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each product}}
+          <tr>
+            <td>{{@key}}</td>
+            <td>{{productName}}</td>
+            <td>{{productBrand}}</td>
+            <td>{{category}}</td>
+            <td>{{subCategory}}</td>
+            <td>{{quantity}}</td>
+            <td>{{buyPrice}}</td>
+            <td>{{sellingPrice}}</td>
+            <td>{{offeredprice}}</td>
+            <td>{{trendingProduct}}</td>
+            <td>{{featuredProduct}}</td>
+            <td>{{description}}</td>
+            <td><img src="{{image}}" alt="Product Image" /></td>
+            <td>
+              <button class="btn btn-primary mb-6">Edit</button>
+              <form
+                method="POST"
+                action="/admin/deleteproduct/{{_id}}?_method=DELETE"
+                class="d-inline"
+              >
+                <input type="hidden" name="_method" value="DELETE" />
+                <button
+                  type="submit"
+                  class="btn btn-danger"
+                  onclick="return confirm('Are you sure you want to delete?')"
+                >Delete</button>
+              </form>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

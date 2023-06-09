@@ -74,27 +74,97 @@
 
 // console.log("kth misiing number is "+missingNumber[4])
 
-const arr = [1, 1, 2, 2, 2, 3];
-let map =new Map()
-const length = arr.length;
-function findFrequency(arr)
-{
+// const arr = [1, 1, 2, 2, 2, 3];
+// let map =new Map()
+// const length = arr.length;
+// function findFrequency(arr)
+// {
     
-    for(let i=0;i<length;i++)
-    {
-        let count = 0;
-        for(let j=0;j<length;j++)
-        {
-            if(arr[i]===arr[j])
-            {
-                ++count;
+//     for(let i=0;i<length;i++)
+//     {
+//         let count = 0;
+//         for(let j=0;j<length;j++)
+//         {
+//             if(arr[i]===arr[j])
+//             {
+//                 ++count;
 
-            }
-        }
+//             }
+//         }
 
-        if(arr[i]!=arr[i-1])
-      map.set()
-    }
+//         if(arr[i]!=arr[i-1])
+//       map.set()
+//     }
+// }
+// findFrequency(arr)
+// console.log(map)
+
+// let  nums = [5,5 ,5];
+// let k = 2;
+// let sum =0;
+// let index;
+
+// for(let i=0;i<k;i++)
+// {
+
+//     let max = Math.max(...nums);
+//     index = nums.indexOf(max);
+//     nums[index]=nums[index]+1
+
+//     sum+=max;
+
+
+// }
+// console.log(sum)
+
+// let word1 = ["ab", "c"];
+// let word2 = ["a", "bc"];
+// let check1 = [];
+// let check2 = [];
+
+
+// function check(word, check) {
+//     let k = 0;
+//   let length = word.length;
+//   for (let i = 0; i < length; i++) {
+//     for (let j = 0; j < word[i].length; j++) {
+//       check[k] = word[i][j];
+//       k++;
+//     }
+//   }
+// }
+
+// check(word1, check1);
+// check(word2, check2);
+// console.log(check1,check2)
+
+// if (check1.join("") === check2.join("")) {
+//   console.log(true);
+// } else {
+//   console.log(false);
+// }
+
+
+function check(nums)
+{
+  let flag=0;
+  for(let i=0;i<nums.length-1;i++)
+{
+  if(nums[i]>nums[i+1] && flag==0)
+  {
+    nums.splice(i,1);
+    flag=1;
+  }
+   if((nums[i-1] > nums[i] || nums[i]==nums[i+1]|| nums[i] > nums[i+1] ) && flag==1  )
+  {
+    return false
+  }
+
 }
-findFrequency(arr)
-console.log(map)
+return true;
+}
+
+const nums = [1,2,10,5,7];
+console.log(check(nums));
+console.log(nums)
+

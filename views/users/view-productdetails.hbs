@@ -1,0 +1,22 @@
+<div class="container">
+  {{#each products}}
+   
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/productImages/{{_id}}.jpeg" alt="Product Image" class="img-fluid w-75 rounded">
+      </div>
+      <div class="col-md-6 justify-content-center">
+          <h1 style="color: rgb(38, 37, 39);">{{productName}} </h1>
+        <h4>Product Description</h4>
+        <p>{{ description}}</p>
+        <h6>Brand: {{ productBrand}}</h6>
+        <h5>₹: {{offeredprice}}  </h5>
+        <p>Price :<del>₹{{sellingPrice}}</del></p>
+        <p>In stock {{quantity}}</p>
+         <p>{{description}}</p>
+        <button class="btn btn-primary" onclick="window.location.href='/addtocart/{{_id}}';">Add to Cart</button>
+        <button class="btn btn-warning">Buy Now</button>
+        {{/each}}
+      </div>
+    </div>
+  </div>

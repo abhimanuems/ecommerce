@@ -1,0 +1,71 @@
+.my-custom-scrollbar {
+    position: relative;
+    height: 600px;
+    overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+#adminheader{
+    font-size: 25px;
+}
+
+@media (max-width: 350.98px) {
+
+    .admin-slider-a {
+        font-size: 5px;
+        margin-left: -26px;
+    }
+
+}
+
+@media (min-width: 350.98px) and (max-width: 575.98px) {
+
+    .admin-slider-a {
+        font-size: 6.5px;
+        margin-left: -24px;
+    }
+
+}
+
+
+
+
+@media (min-width: 575.98px) and (max-width: 767.98px) {
+    .admin-slider-a {
+            font-size: 9px;
+            margin-left: -20px;
+        }
+   
+}
+
+
+@media (min-width: 767.98px) and (max-width: 991.98px) {
+ 
+
+    .admin-slider-a {
+            font-size: 11px;
+            margin-left: -14px;
+        }
+}
+
+
+@media (min-width: 991.98px) and (max-width: 1199.98px) {
+    .admin-slider-a {
+            font-size: 13px;
+            margin-left: -11px;
+        }
+   
+}
+
+
+@media (min-width: 1199.98px) and  (max-width: 1399.98px) {
+    .admin-slider-a {
+            font-size: 15px;
+            margin-left: -8px;
+        }
+    
+}
+

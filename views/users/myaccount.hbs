@@ -1,0 +1,109 @@
+<div class="conatiner">
+  <div class="row">
+    <div class="col-3 ml-5">
+      <div class="card mx-3 my-3">
+        <div class="card-body">
+          <h1>
+            <img
+              class="img-fluid"
+              src="\images\profile-pic-male_4811a1.svg"
+              alt="First slide"
+            />
+            Hello</h1>
+        </div>
+      </div>
+      <div class="card mx-3 my-3">
+        <div class="card-body">
+          <a href="">My Accounts</a>
+          <ul style="list-style-type: none;">
+            <li>
+              <a href="/myaccount/address">Address</a>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+      <div class="card mx-3 my-3">
+        <div class="card-body">
+          <a href="/userorders">My orders</a>
+
+        </div>
+
+      </div>
+
+    </div>
+<div class="col-7">
+  <ul class="list-group mx-3 my-3">
+    <li class="list-group-item active text-center">
+      PERSONAL INFORMATION
+      <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter1">
+ Edit
+</button>
+    </li>
+    {{#each data}}
+    <form action="">
+      <li class="list-group-item text-center">
+        <input style="width:500px" type="text" class="text-center editable" placeholder="{{name}}" value="{{name}}" readonly>
+      </li>
+      <li class="list-group-item text-center">
+        <input style="width:500px" type="text" class="text-center editable" placeholder="{{email}}" value="{{email}}" readonly>
+      </li>
+      <li class="list-group-item text-center">
+        <input style="width:500px" type="tel" class="text-center editable" placeholder="{{phone}}" value="{{phone}}" readonly>
+      </li>
+      <li class="list-group-item">
+        <h6>FAQs</h6>
+        <br>
+        <p>What happens when I update my email address (or mobile number)?</p>
+        <p>Your login email id (or mobile number) changes, likewise. You'll receive all your account related communication on your updated email address (or mobile number).</p>
+      </li>
+      {{/each}}
+    </form>
+  </ul>
+</div>
+
+  </div>
+
+</div>
+
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit the Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{#each data}}
+       <div class="container">
+  <form action="/update-user-details" method="POST" class="form-container">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" class="form-control" value="{{name}}">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" class="form-control" value="{{email}}">
+    </div>
+    <div class="form-group">
+      <label for="mobile">Mobile Number:</label>
+      <input type="tel" id="mobile" name="phone" class="form-control" value="{{phone}}">
+    </div>
+    <div class="form-group">
+      <input type="submit" value="Submit" class="btn btn-primary">
+    </div>
+  </form>
+</div>
+
+{{/each}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

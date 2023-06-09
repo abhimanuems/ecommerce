@@ -1,21 +1,49 @@
 <section>
   <header style="background-color: #1b1ec7;">
-    <nav class="navbar navbar-expand-lg ">
+    <nav class="navbar navbar-expand-lg">
       <div class="container">
         <a class="navbar-brand" href="/" style="color: #FFF;">Melocia</a>
         <div class="navbar-collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <!-- Button trigger modal -->
-              <button
-              style="background-color: #ffff;"
-                type="button"
-                class="btn "
-                data-toggle="modal"
-                data-target="#exampleModalCenter"
-              >
-                Login
-              </button>
+              {{#if user}}
+
+                <div class="container">
+
+                  <div class="dropdown">
+                    <button
+                      class="btn dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      My Account
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      <a class="dropdown-item" href="/myaccount">My Profile</a>
+                      <a class="dropdown-item" href="/userorders">My Orders</a>
+                      <a class="dropdown-item" href="/logout">Log out</a>
+                    </div>
+                  </div>
+                </div>
+              {{else}}
+                <button
+                  style="background-color: #ffff;"
+                  type="button"
+                  class="btn"
+                  data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                >
+                  Login
+                </button>
+              {{/if}}
 
               <!-- Modal -->
               <!-- First Modal -->
@@ -44,10 +72,8 @@
                         <br />
                         <br />
                         <h2>Login
-                          <br />
-                          or
-                          <br />
-                          Sign Up</h2>
+
+                        </h2>
                         <br />
                         <h4>Get Access to your
                           <br />
@@ -93,14 +119,18 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">New to Melocia? Create an account</a>
+                      <a
+                        href="#"
+                        data-dismiss="modal"
+                        data-toggle="modal"
+                        data-target="#signupModal"
+                      >New to Melocia? Create an account</a>
                     </div>
                   </div>
                 </div>
               </div>
 
-
-             <!-- Signup Modal -->
+              <!-- Signup Modal -->
               <div
                 class="modal fade"
                 id="signupModal"
@@ -178,19 +208,20 @@
                             </div>
                           </div>
                           <br />
-                        
+
                           <br />
                           <div class="row">
                             <div class="col">
-                              <h6>By signing up, you agree to Melocia's Terms of Use and Privacy Policy</h6>
+                              <h6>By signing up, you agree to Melocia's Terms of
+                                Use and Privacy Policy</h6>
                             </div>
                           </div>
                           <div class="row">
                             <div class="col">
                               <button
-                               type="submit"
+                                type="submit"
                                 class="btn btn-warning"
-                                 onclick="$('#signupModal').hide(); $('#otpModalsignup').modal('show');"
+                                onclick="$('#signupModal').hide(); $('#otpModalsignup').modal('show');"
                               >Sign Up</button>
                             </div>
                           </div>
@@ -198,13 +229,18 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#exampleModalCenter">Already have an account? Login</a>
+                      <a
+                        href="#"
+                        data-dismiss="modal"
+                        data-toggle="modal"
+                        data-target="#exampleModalCenter"
+                      >Already have an account? Login</a>
                     </div>
                   </div>
                 </div>
               </div>
 
-                 <div
+              <div
                 class="modal fade"
                 id="otpModalsignup"
                 tabindex="-1"
@@ -233,7 +269,7 @@
                         <h4>Enter the OTP sent to your phone number</h4>
                       </div>
                       <div class="col-lg-8" style="padding: 20px;">
-                        <form action="/verify" method="POST">
+                        <form action="/signupverify" method="POST">
                           <div class="row">
                             <div class="col">
                               <br />
@@ -265,7 +301,7 @@
                   </div>
                 </div>
               </div>
-              {{!-- end of isgnupmodal --}}
+              {{! end of isgnupmodal }}
               <div
                 class="modal fade"
                 id="otpModal"
@@ -291,10 +327,7 @@
                         <br />
                         <br />
                         <h2>Login
-                          <br />
-                          or
-                          <br />
-                          Sign Up
+
                         </h2>
 
                         <br />
@@ -305,7 +338,7 @@
                           Recommendations</h4>
                       </div>
                       <div class="col-lg-8" style="padding: 20px;">
-                        <form action="verify" method="post">
+                        <form action="/verify" method="post">
                           <div class="row">
                             <div class="col">
                               <br />
@@ -328,24 +361,38 @@
                               <button
                                 type="submit"
                                 class="btn btn-warning"
-                              >Login / Sign Up</button>
+                              >Login</button>
+
                             </div>
                           </div>
                         </form>
                       </div>
                     </div>
-                    <div class="modal-footer">
-                      <a href="">New to Melocia? Create an account</a>
-                    </div>
+
                   </div>
                 </div>
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link"  style="color: #ffff;"href="/wishlist"> <i class="fas fa-heart mr-2"></i>Wishlist</a>
+              <a class="nav-link ml-3" style="color: #ffff;" href="/wishlist">
+                <i class="fas fa-heart mr-2"></i>Wishlist</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style="color: #ffff;"href="/cart"> <i class="fas fa-shopping-cart mr-2"></i>Cart</a>
+              {{#if user}}
+              <a class="nav-link ml-3" style="color: #ffff;" href="/cart">
+                <i class="fas fa-shopping-cart mr-2"></i>Cart
+                <span
+                  class="ml-1 position-absolute top-0 start-100 translate-middle badge rounded-pill badge-danger"
+                >
+                {{cartLength}}
+                </span>
+              </a>
+              {{else}}
+               <a class="nav-link ml-3" style="color: #ffff;" href="/cart">
+                <i class="fas fa-shopping-cart mr-2"></i>Cart
+              </a>
+              {{/if}}
+
             </li>
           </ul>
         </div>

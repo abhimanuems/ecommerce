@@ -1,61 +1,265 @@
 <section>
   <div class="container">
-    <div class="row">
-      <a href="/admin/addproduct" class="btn btn-success btn-md">Add Product</a>
+    <div class="row mt-3">
+      {{! <a href="/admin/addproduct" class="btn btn-success btn-md">Add Product</a> }}
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-primary mb-3"
+        data-toggle="modal"
+        data-target="#exampleModalCenter"
+      >
+        addproduct
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModalCenter"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Add new
+                products</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <form
+                action="/admin/addproduct"
+                method="POST"
+                enctype="multipart/form-data"
+              >
+                <div class="form-group">
+                  <label for="productName">Product Name:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productName"
+                    name="productName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="productBrand">Product Brand:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productBrand"
+                    name="productBrand"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="category">Category:</label>
+                  <select
+                    class="form-control"
+                    id="category"
+                    name="category"
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    {{#each category}}
+                      <option value="{{categoryName}}">{{categoryName}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="quantity">Quantity:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="quantity"
+                    name="quantity"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="buyPrice">Buyed Price:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="buyPrice"
+                    name="buyPrice"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="sellingPrice">Selling Price:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="sellingPrice"
+                    name="sellingPrice"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="sellingPrice">Offered Price:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="offeredprice"
+                    name="offeredprice"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="description">Description:</label>
+                  <textarea
+                    class="form-control"
+                    id="description"
+                    name="description"
+                    rows="4"
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="description">Upload image:</label>
+                  <br />
+                  <input type="file" name="image" accept="image/*" required />
+                </div>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckDefault"
+                    name="trendingProduct"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="flexSwitchCheckDefault"
+                  >Add to trending Products</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckChecked"
+                    name="featuredProduct"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="flexSwitchCheckChecked"
+                  >Add to featured product</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <table class="table table-striped mt-2 table-bordered">
+ 
+  {{#if product}}
+   <div  class="table-wrapper-scroll-y my-custom-scrollbar ">
+
+     <table class=" table table-striped mt-2 table-bordered table-sm ">
       <thead>
-        <tr>
-          <th scope="col">SL No</th>
-          <th scope="col">Product Name</th>
-          <th scope="col">Brand</th>
-          <th scope="col">Category</th>
-          <th scope="col">Sub category</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Buy price</th>
-          <th scope="col">Selling price</th>
-          <th scope="col">Offered Price</th>
-          <th scope="col">Trending Products</th>
-          <th scope="col">Featured Product</th>
-          <th scope="col">Description</th>
-          <th scope="col">Image</th>
-          <th scope="col">Actions</th>
+        <tr style="font-size: 12px;">
+          <th scope="col" class="text-center">Product Name</th>
+          <th scope="col" class="text-center">Brand</th>
+          <th scope="col" class="text-center">Category</th>
+          <th scope="col" class="text-center">Quantity</th>
+          <th scope="col" class="text-center">Buy price</th>
+          <th scope="col" class="text-center">Selling price</th>
+          <th scope="col" class="text-center">Offered Price</th>
+          <th scope="col" class="text-center">Trending</th>
+          <th scope="col" class="text-center">Featured</th>
+          <th scope="col" class="text-center">Description</th>
+          <th scope="col" class="text-center">Image</th>
+          <th scope="col" class="text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
         {{#each product}}
-          <tr>
-            <td>{{@key}}</td>
-            <td>{{productName}}</td>
-            <td>{{productBrand}}</td>
-            <td>{{category}}</td>
-            <td>{{subCategory}}</td>
-            <td>{{quantity}}</td>
-            <td>{{buyPrice}}</td>
-            <td>{{sellingPrice}}</td>
-            <td>{{offeredprice}}</td>
-            <td>{{trendingProduct}}</td>
-            <td>{{featuredProduct}}</td>
-            <td>{{description}}</td>
-            <td><img src="{{image}}" alt="Product Image" /></td>
+          <tr style="font-size: 12px;">
+            <td class="text-center"><div class ="text-truncate" style="max-width :100px">{{productName}}</div></td>
+            <td class="text-center "> <div class ="text-truncate" style="max-width :100px">{{productBrand}}</div></td>
+            <td class="text-center"> <div class ="text-truncate" style="max-width :100px">{{category}}</div></td>
+            <td class="text-center">{{quantity}}</td>
+            <td class="text-center">{{buyPrice}}</td>
+            <td class="text-center">{{sellingPrice}}</td>
+            <td class="text-center">{{offeredprice}}</td>
+            <td class="text-center">{{trendingProduct}}</td>
+            <td class="text-center">{{featuredProduct}}</td>
+            <td class="text-center"><div class ="text-truncate" style="max-width :100px">{{description}}</td>
+            <td class="text-center"><img
+                src="/productImages/{{_id}}.jpeg"
+                style="width: 50px; height:40px;"
+                alt="Product Image"
+              /></td>
             <td>
-              <button class="btn btn-primary mb-6">Edit</button>
-              <form
-                method="POST"
-                action="/admin/deleteproduct/{{_id}}?_method=DELETE"
-                class="d-inline"
-              >
-                <input type="hidden" name="_method" value="DELETE" />
+              <div class="btn-group">
                 <button
-                  type="submit"
-                  class="btn btn-danger"
-                  onclick="return confirm('Are you sure you want to delete?')"
-                >Delete</button>
-              </form>
+                  type="button btn-primary"
+                  style="font-size: 7px;"
+                  class="btn"
+                  data-toggle="collapse"
+                  data-target="#toggleButtons{{_id}}"
+                >
+                  <i class="bi bi-three-dots">...</i>
+                </button>
+              </div>
+
+              <div id="toggleButtons{{_id}}" class="collapse">
+                <form action="/admin/editproducts/{{_id}}" method="get">
+                  <button
+                    type="submit"
+                    class="btn-xs btn-primary"
+                  >&nbspEdit&nbsp</button>
+                </form>
+                <form
+                  method="POST"
+                  action="/admin/deleteproduct/{{_id}}?_method=DELETE"
+                  class="d-inline"
+                >
+                  <input type="hidden" name="_method" value="DELETE" />
+                  <button
+                    type="submit"
+                    class="btn-xs btn-danger"
+                    onclick="return confirm('Are you sure you want to delete?')"
+                  >Delete</button>
+                </form>
+              </div>
             </td>
+
           </tr>
         {{/each}}
       </tbody>
     </table>
+
+   </div>
   </div>
+  {{else}}
+  <h2>Oops Product list is empty!</h2>
+  {{/if}}
 </section>
+
+<script>
+  function validateForm()
+  {
+    alert("enetred here!")
+    console.log("enetred herr")
+  }
+</script>

@@ -1,0 +1,99 @@
+.icon-hover-primary:hover {
+    border-color: #3b71ca !important;
+    background-color: white !important;
+}
+
+.icon-hover-primary:hover i {
+    color: #3b71ca !important;
+}
+
+.icon-hover-danger:hover {
+    border-color: #dc4c64 !important;
+    background-color: white !important;
+}
+
+.icon-hover-danger:hover i {
+    color: #dc4c64 !important;
+}
+
+
+#dropdownMenuButton{
+    color:white !important;
+    border: none;
+}
+
+@media (max-width: 800px) {
+    .col-3 {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 0;
+        margin-bottom: 20px;
+    }
+
+    .col-7 {
+        width: 100%;
+    }
+}
+
+.custom-button-spacing {
+    margin-left: .5rem;
+}
+
+@media (max-width: 1000px) {
+    .menu {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .menu li {
+        margin-bottom: 10px;
+    }
+}
+
+
+@media (min-width: 1025px) {
+    .h-custom {
+        height: 100vh !important;
+    }
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+    top: 13px;
+}
+
+.bg-grey {
+    background-color: #eae8e8;
+}
+
+@media (min-width: 992px) {
+    .card-registration-2 .bg-grey {
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+}
+
+@media (max-width: 991px) {
+    .card-registration-2 .bg-grey {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+}
+
+.wishlist-icon {
+    color: #808080;
+   
+}
+
+.wishlist-icon.clicked {
+    color: #ff0000;
+    /* Clicked color */
+}
+
+

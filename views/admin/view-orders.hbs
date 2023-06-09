@@ -1,0 +1,113 @@
+<section>
+  <div class="container mt-3">
+    <h3 style="color: lightslategray;">Orders </h3>
+    {{#if order}}
+    
+    <div  class="table-wrapper-scroll-y my-custom-scrollbar ">
+      <table class="table table-striped mt-2 table-bordered table-sm">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center">Mobile Number</th>
+            <th scope="col" class="text-center">Payment Mode</th>
+            <th scope="col" class="text-center">Coupon</th>
+            <th scope="col" class="text-center">status</th>
+            <th scope="col" class="text-center">Amount</th>
+            <th scope="col" class="text-center">Address</th>
+             <th scope="col" class="text-center">Details</th>
+            <th scope="col" class="text-center">Date</th>
+            <th scope="col" class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each order}}
+          <tr>
+            <td class="text-center">{{phone}}</td>
+            <td class="text-center">{{paymentMode}}</td>
+            <td class="text-center">{{coupon}}</td>
+            <td class="text-center">{{status}}</td>
+            <td class="text-center">{{totalPrice}}</td>
+            <td class="text-center">
+              <button type="button" class="btn-outline-secondary view-address-btn" data-toggle="modal" data-target="#exampleModalCenter{{_id}}">
+                View Address
+              </button>
+            </td>
+                <td class="text-center"><button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenterDetails{{_id}}">
+view Details
+</button>
+
+</td>
+            <td class="text-center">{{formatDate Date}}</td>
+            <td class="text-center">
+              <form class="status-form">
+                <div class="container">
+                  <select class="status" name="status">
+                    <option>Select</option>
+                    <option value="on-the-way">On the Way</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                  <input type="hidden" name="orderId" value="{{_id}}" />
+                </div>
+              </form>
+            </td>
+          </tr>
+          
+          <div class="modal fade" id="exampleModalCenter{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content text-sm-start">
+                <div class="modal-body text-sm-start">
+                  <p>{{address.name}}</p>
+                  <p>{{address.address}}</p>
+                  <p>{{address.pincode}}</p>
+                  <p>{{mobile}}</p>
+                  <p>{{locality}}</p>
+                  <p>{{address.state}}</p>
+                  <p>{{alternatePhone}}</p>
+                  <p>{{landmark}}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+           <div class="modal fade" id="exampleModalCenterDetails{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content text-sm-start">
+                <div class="modal-body text-sm-start">
+                  <p>Product Ids :
+                    {{#each productId}}
+                    {{this}}
+                    {{/each}}</p>
+                   <p>Mobile Number :{{phone}}</p>
+                  <p>Delivery Fee :{{deliveryFee}}</p>
+                  <p>Payment Mode :{{paymentMode}}</p>
+                  <p> Coupon :{{coupon}}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        
+          {{/each}}
+          
+          <tr>
+            <td colspan="8">
+              <div></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  {{else}}
+  <h4>No orders</h4>
+  {{/if}}
+</section>
+

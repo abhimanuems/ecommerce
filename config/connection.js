@@ -10,7 +10,6 @@ module.exports.connect = async function () {
 
   try {
     const client = await MongoClient.connect(url);
-    console.log("Database connected")
     state.db = client.db(dbname);
   } catch (error) {
     throw new Error(`Error connecting to MongoDB: ${error}`);

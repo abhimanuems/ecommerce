@@ -25,20 +25,35 @@
 
       {{#each mobiles}}
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-          <div class="card my-2">
+          <div
+            class="card my-2"
+            
+          >
             <div class="card-header d-flex justify-content-end">
               <i class="fas fa-heart wishlist-icon"></i>
             </div>
-            <div class="card-img-top">
-              <img class="card-img-top img-fluid" style ="height:100px"src="\images\img.PNG" alt="Card image cap" />
+            <div class="card-img-top text-center" onclick="window.location.href='/products/{{_id}}';">
+              <img
+                class="card-img-top img-thumbnail"
+                style="height:300px; width:auto"
+                src="/productImages/{{_id}}.jpeg"
+                alt="Card image cap"
+              />
             </div>
 
-            <div class="card-body">
-              <h6 class="card-title">{{productName}}</h6>
-              <p class="card-text small">₹{{sellingPrice}}</p>
+            <div class="card-body" onclick="window.location.href='/products/{{_id}}';">
+           
+              <div class ="text-truncate" style="max-width :150px">   <h6 class="card-title">{{productName}}</h6></p></div>
+              <div class ="text-truncate" style="max-width :150px"><pclass="card-text large">Brand: {{productBrand}}</p></div>
+               <div class ="text-truncate" style="max-width :150px">  <p class="card-text small">{{description}}</p></div>
+         
+            
+              <p class="card-text small">₹{{sellingPrice}}
+                <del>₹{{buyPrice}}</del></p>
+
             </div>
             <div class="d-flex justify-content-between">
-              <button class="btn btn-warning ml-2 mb-2">Add to Cart</button>
+              <button class="btn btn-warning ml-2 mb-2" onclick="window.location.href='/addtocart/{{_id}}'">Add to Cart</button>
               <button class="btn btn-primary mr-2 mb-2">Buy Now</button>
             </div>
           </div>

@@ -1,0 +1,172 @@
+<div class="container">
+  <h1 style="color:slategrey ;">Edit Product</h1>
+  <hr />
+  <div class="row">
+    {{#each product}}
+      <div class="col-md-3">
+        <div class="text-center">
+          <img
+            src="/productImages/{{_id}}.jpeg"
+            class="avatar img-circle"
+            alt="avatar"
+          />
+        </div>
+      </div>
+      <div class="col-md-9 personal-info">
+        <h3 style="color: lightslategray;">Edit Products</h3>
+
+        <form
+          class="form-horizontal"
+          role="form"
+          action="/admin/editproducts/{{_id}}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <div class="form-group">
+            <label class="col-lg-3 control-label">ProductName:</label>
+            <div class="col-lg-8">
+              <input
+                class="form-control"
+                type="text"
+                value="{{productName}}"
+                name="productName"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Brand Name</label>
+            <div class="col-lg-8">
+              <input
+                class="form-control"
+                type="text"
+                value="{{productBrand}}"
+                name="productBrand"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Category:</label>
+            <div class="col-lg-8">
+              <select class="form-control" id="category" name="category">
+                <option value="{{category}}">{{category}}</option>
+                {{#each category}}
+                  <option value="{{categoryName}}">{{categoryName}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label"> Quantity</label>
+            <div class="col-lg-8">
+              <input
+                class="form-control"
+                type="number"
+                id="quantity"
+                name="quantity"
+                value="{{quantity}}"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label"> Buyed Price:</label>
+            <div class="col-lg-8">
+              <input
+                class="form-control"
+                type="number"
+                id="buyPrice"
+                name="buyPrice"
+                value="{{buyPrice}}"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label"> Selling Price:</label>
+            <div class="col-lg-8">
+              <input
+                class="form-control"
+                type="number"
+                id="sellingPrice"
+                name="sellingPrice"
+                value="{{sellingPrice}}"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label"> Selling Price:</label>
+            <div class="col-lg-8">
+              <input
+                class="form-control"
+                type="number"
+                id="offeredprice"
+                name="offeredprice"
+                value="{{offeredprice}}"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Description</label>
+            <div class="col-lg-8">
+              <input
+                class="form-control"
+                type="text"
+                value="{{description}}"
+                name="description"
+              />
+            </div>
+          </div>
+
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+              name="trendingProduct"
+              value="{{trendingProduct}}"
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault">Add to
+              trending Products</label>
+          </div>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckChecked"
+              name="featuredProduct"
+              value="featuredProduct"
+            />
+            <label class="form-check-label" for="flexSwitchCheckChecked">Add to
+              featured product</label>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Upload image:</label>
+            <br />
+            <input
+              class="col-lg-3 control-label"
+              type="file"
+              name="image"
+              accept="image/*"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input
+                type="submit"
+                class="btn btn-primary"
+                value="Save Changes"
+                onclick="validateForm"
+              />
+              <span></span>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    {{/each}}
+  </div>
+</div>
+<hr />

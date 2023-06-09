@@ -1,0 +1,243 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="container my-1">
+        <div class="card my-3 mx-3">
+          <div class="card-body">
+            <h2 style="color:#2874f0 ;">Login: {{mobileNumber}}</h2>
+          </div>
+        </div>
+
+        <div class="card my-3 mx-3">
+          <div class="card-body">
+            <h6>Select Address</h6>
+
+            <div class="container mx-2 my-3">
+              {{#if address}}
+                <form id="addressForm" action="/paymentGate" method="POST">
+                  <div class="form-group">
+                    {{#each address}}
+                      <div class="custom-control custom-checkbox">
+                        <input
+                          type="checkbox"
+                          class="custom-control-input address-checkbox"
+                          id="addressCheckbox{{@index}}"
+                          value="{{@index}}"
+                        />
+                        <label
+                          class="custom-control-label"
+                          for="addressCheckbox{{@index}}"
+                          value="{{@index}}"
+                        >
+                          {{this.name}}
+                          <br />
+                          {{this.pincode}}
+                          <br />
+                          {{this.address}}
+                          <br />
+                          {{this.city}}
+                          <br />
+                          {{this.state}}
+                        </label>
+                      </div>
+                    {{/each}}
+
+                    <input
+                      type="hidden"
+                      name="selectedAddressIndex"
+                      id="selectedAddressIndex"
+                    />
+
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      id="deliverButton"
+                      style="display: none;"
+                    >Deliver Here with COD</button>
+                  </div>
+                </form>
+              {{else}}
+                <h6>No address found!</h6>
+              {{/if}}
+              <br />
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#exampleModalCentercart"
+              >
+                Add new address
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="container my-1">
+        <div class="card-body">
+          <h5 style="color: #2874f0;">Total Price</h5>
+        </div>
+
+        <div class="container my-1">
+          <div class="card-body border">
+            <div class="d-flex justify-content-between mb-2">
+              <p class="mb-2">Total price:</p>
+              <p class="mb-2">₹{{amounts.totalAmountSellingPrice}}</p>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <p class="mb-2">Discount:</p>
+              <p class="mb-2 text-success">{{subtract
+                  amounts.totalAmountSellingPrice
+                  amounts.totalAmountOfferedPrice
+                }}</p>
+            </div>
+            {{#notLessThan amounts.totalAmountOfferedPrice 500}}
+              <div class="d-flex justify-content-between mb-2">
+                <p class="mb-2">Delivery Fee:</p>
+                <p class="mb-2 text-success"><del>₹60</del></p>
+              </div>
+              <hr />
+              <div class="d-flex justify-content-between">
+                <p class="mb-2">Total price:</p>
+                <p class="mb-2 fw-bold">₹{{amounts.totalAmountOfferedPrice}}</p>
+              </div>
+            {{else}}
+              <div class="d-flex justify-content-between mb-2">
+                <p class="mb-2">Delivery Fee:</p>
+                <p class="mb-2 text-success">₹60</p>
+              </div>
+            {{/notLessThan}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModalCentercart"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container mt-5">
+          <h2 style="color: #2874f0;">Add Address</h2>
+          <form action="/addaddress/{{mobileNumber}}" method="POST" enctype="multipart/form-data" id="myformAddress">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input
+                type="text"
+                class="form-control" 
+                name="name"
+                id="name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="mobile">Mobile Number:</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="mobile"
+                name="mobile"
+                pattern="[0-9]{10}"
+                required
+              />
+              <small class="form-text text-muted">Please enter a 10-digit mobile
+                number.</small>
+            </div>
+            <div class="form-group">
+              <label for="pincode">Pincode:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="pincode"
+                name="pincode"
+                pattern="[0-9]{6}"
+                required
+              />
+              <small class="form-text text-muted">Please enter a 6-digit
+                pincode.</small>
+            </div>
+            <div class="form-group">
+              <label for="locality">Locality:</label>
+              <input
+                type="text"
+                class="form-control"
+                name="locality"
+                id="locality"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <textarea
+                class="form-control"
+                id="address"
+                rows="3"
+                name="address"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="city">City/District/Town:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                name="city"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="state">State:</label>
+              <select class="form-control" id="state" name="state" required>
+                <option disabled selected>Select State</option>
+                <option>Andhra Pradesh</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="landmark">Landmark:</label>
+              <input
+                type="text"
+                class="form-control"
+                name="landmark"
+                id="landmark"
+                placeholder="optional"
+              />
+            </div>
+            <div class="form-group">
+              <label for="alternatePhone">Alternate Phone:</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="alternatePhone"
+                name="alternatePhone"
+                placeholder="optional"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

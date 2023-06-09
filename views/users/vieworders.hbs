@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="row">
+    <!-- Left Sidebar -->
+    <div class="col-3 ml-5">
+      <!-- Profile Card -->
+      <div class="card mx-3 my-3">
+        <div class="card-body">
+          <h1>
+            <img class="img-fluid" src="\images\profile-pic-male_4811a1.svg" alt="Profile Picture" />
+            Hello
+          </h1>
+        </div>
+      </div>
+      <!-- My Accounts Card -->
+      <div class="card mx-3 my-3">
+        <div class="card-body">
+          <a href="">My Accounts</a>
+          <ul style="list-style-type: none;">
+            <li>
+              <a href="/myaccount/address">Address</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- My Orders Card -->
+      <div class="card mx-3 my-3">
+        <div class="card-body">
+          <a href="/userorders">My orders</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Content Area -->
+    <div class="col-7">
+      <ul class="list-group mx-3 my-3">
+        <li class="list-group-item active text-center">Orders</li>
+        {{#if orders}}
+        {{#each orders}}
+        <li class="list-group-item">
+          <div class="card">
+            <div class="row g-0">
+              <div class="col-md-4 text-center mt-3">
+                <img src="/productImages/{{productId.[0]}}.jpeg" alt="Product Image" class="card-img" style="width: 100px; height: 100px;" />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <p class="card-text">₹{{totalPrice}}</p>
+                  <div class="card-text text-truncate" style="max-width: 300px;">
+                    {{address.name}} {{address.mobile}} {{address.pincode}} {{address.locality}}
+                  </div>
+                  <p class="card-text">{{formatDate Date}}</p>
+                  {{#ifEqual status 'delivered'}}
+                  <span class="badge badge-pill badge-success">{{status}}</span>
+                    {{else ifEqual status 'cancelled'}}
+                  <span class="badge badge-pill badge-danger">Cancelled</span>
+
+                  {{else}}
+                  <span class="badge badge-pill badge-info">{{status}}</span>
+                 <button type="button" class="btn btn-outline-danger ml-2 cancelBtn" data-order-id="{{_id}}">Cancel</button>
+                  {{/ifEqual}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        {{/each}}
+        {{else}}
+        <br>
+        <br>
+        <h1 style="color: darkgray;">No orders!</h1>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+   
+    $('.cancelBtn').click(function() {
+      var orderId = $(this).data('order-id'); 
+
+     
+      $.ajax({
+        url: 'userorderstatus',  
+        type: 'POST',
+        data: {
+          order_id: orderId,
+          new_status: 'cancelled' 
+        },
+        success: function(response) {
+       location.reload();
+        },
+        error: function(xhr, status, error) {
+      
+          console.log(xhr.responseText);
+          alert('Error updating order status');
+        }
+      });
+    });
+  });
+</script>

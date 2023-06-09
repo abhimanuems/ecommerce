@@ -1,0 +1,55 @@
+  <section>
+  <div class="container mt-3">
+    <h3 style="color: lightslategray;">Users </h3>
+    <div class="</div>">
+    {{#if user}}
+   <table class="table table-bordered  mt-3">
+  <thead>
+    <tr>
+      <th scope="col" class="text-center">Sl No</th>
+      <th scope="col" class="text-center">Email</th>
+      <th scope="col" class="text-center">Mobile Number</th>
+      <th scope="col" class="text-center">Name</th>
+      <th scope="col" class="text-center">status</th>
+      <th scope="col" class="text-center">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each user}}
+    <tr>
+      <td scope="row" class="text-center">{{@key}}</td>
+      <td class="text-center">{{email}}</td>
+      <td class="text-center">{{phone}}</td>
+      <td class="text-center">{{name}}</td>
+      {{#if status}}
+        <td class="text-center btn-outline-success">Active</td>
+        {{else}}
+           <td class="text-center  btn-outline-danger">Blocked</td>
+           {{/if}}
+        <td class="text">
+       
+  <div class="container">
+ <form id="myForm" action="/admin/viewusers/{{_id}}" method="POST">
+ 
+    {{#if status}}
+    <input type="hidden" name="status" value="false"> 
+    <button class="btn btn-outline-danger">  &nbsp Block &nbsp</button>
+     
+    {{else}}
+        <input type="hidden" name="block" value="true"> 
+          <button class="btn btn-outline-primary">UnBlock</button>
+       
+  {{/if}}
+</form>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+<div>
+  <h2>No users signed up yet!</h2>
+</div>
+{{/if}}
+</div>
+  </div>
+  </section>

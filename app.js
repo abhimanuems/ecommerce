@@ -10,13 +10,10 @@ var db = require("./config/connection");
 const session = require("express-session");
 const router = require("./routes/user");
 const fileUpload = require("express-fileupload");
-
+const handleBarHelpers = require('./handlebarHelpers/helper.js');
 
 db.connect();
-// db.connect((err) => {
-//   if (err) console.log("connection error" + err);
-//   else console.log("Database connected ");
-// });
+
 var app = express();
 
 // view engine setup
@@ -27,6 +24,7 @@ app.engine(
   exphbs.engine({
     extname: ".hbs",
     defaultLayout: "layout",
+    helpers: __dirname+ "/handlebarHelpers/",
     layoutsDir: __dirname + "/views/layout/",
     partialsDir: __dirname + "/views/partials/",
   })
@@ -40,6 +38,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
+
+app.use((req, res, next) => {
+  res.header(
+    "Cache-control",
+    "no-cache,private,no-store,must-revalidate,max-stale=0, post-check=0,pre-check=0"
+  );
+  next();
+});
 app.use(
   session({
     secret: "my-secret-key",
@@ -47,7 +53,6 @@ app.use(
     saveUninitialized: false,
   })
 );
-
 app.use("/admin", adminRouter);
 app.use("/", userRouter);
 

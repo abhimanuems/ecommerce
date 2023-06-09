@@ -30,14 +30,14 @@
         {{/each}}
       </select>
     </div>
-  
-    {{!-- <div class="form-group">
+
+    {{! <div class="form-group">
       <label for="subCategory">Sub Category:</label>
       <select class="form-control" id="subCategory" name="subCategory" required>
         <option value="">Select Sub Category</option>
         <!-- This section will be dynamically populated -->
       </select>
-    </div> --}}
+    </div> }}
     <div class="form-group">
       <label for="quantity">Quantity:</label>
       <input
@@ -116,43 +116,3 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
-
-
-<script>
-  // Get the category and subcategory data from the Handlebars template
-  var categoryData = {{{category}}}; // Replace "categoryData" with the variable containing your category data
-
-  // Function to update the subcategory select options based on the selected category
-  function updateSubcategories() {
-    var categorySelect = document.getElementById("category");
-    var subcategorySelect = document.getElementById("subCategory");
-    var selectedCategory = categorySelect.value;
-    
-    // Clear the existing options
-    subcategorySelect.innerHTML = "<option value=''>Select Sub Category</option>";
-    
-    // Find the selected category in the data
-    var selectedData = categoryData.find(function(item) {
-      return item.categoryName === selectedCategory;
-    });
-    
-    // Add subcategory options for the selected category
-    if (selectedData) {
-      selectedData.subcategory.forEach(function(subcategory) {
-        var option = document.createElement("option");
-        option.value = subcategory;
-        option.textContent = subcategory;
-        subcategorySelect.appendChild(option);
-      });
-    }
-  }
-
-  // Event listener for the category select element
-  var categorySelect = document.getElementById("category");
-  categorySelect.addEventListener("change", function() {
-    updateSubcategories();
-  });
-
-  // Call updateSubcategories initially if a category is already selected
-  updateSubcategories();
-</script>

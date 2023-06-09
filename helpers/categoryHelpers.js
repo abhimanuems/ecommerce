@@ -1,14 +1,14 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
-const { ObjectId } = require("mongodb")
+const { ObjectId } = require("mongodb");
 module.exports = {
   addCategory: (category) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CATEGORYCOLLECTION)
         .insertOne(category)
-        .then(() => {
-          resolve(true);
+        .then((result) => {
+          resolve(result);
         })
         .catch((err) => {
           reject(err);
@@ -16,8 +16,8 @@ module.exports = {
     });
   },
   viewCategory: () => {
-    return new Promise(async (resolve, reject) => {
-      let product = await db
+    return new Promise((resolve, reject) => {
+      let product = db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
         .find()
@@ -26,8 +26,8 @@ module.exports = {
     });
   },
   viewSubCategory: () => {
-    return new Promise(async (resolve, reject) => {
-      let subCategory = await db
+    return new Promise((resolve, reject) => {
+      let subCategory = db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
         .find()
@@ -38,8 +38,8 @@ module.exports = {
     });
   },
   getCategoryId: (category) => {
-    return new Promise(async (resolve, reject) => {
-      let categoryId = await db
+    return new Promise((resolve, reject) => {
+      let categoryId = db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
         .find({ categoryName: category })
@@ -47,6 +47,19 @@ module.exports = {
       resolve(categoryId);
     }).catch((err) => {
       reject(err);
+    });
+  },
+  updateCategory: (id, update) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .updateOne({ _id: new ObjectId(id) }, { $set: update })
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   },
 
@@ -79,21 +92,20 @@ module.exports = {
     });
   },
   deleteSubcategory: (categoryId, subCategoryId) => {
-    return new Promise((resolve,reject)=>{
-       db.get()
-  .collection(collection.CATEGORYCOLLECTION)
-  .updateOne(
-    { _id: new ObjectId(categoryId) },
-    { $pull: { subcategory: subCategoryId } })
-         .then(() => {
-           resolve(true);
-         })
-         .catch((err) => {
-           console.log(err);
-           reject(err);
-         });
-
-    })
-    
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .updateOne(
+          { _id: new ObjectId(categoryId) },
+          { $pull: { subcategory: subCategoryId } }
+        )
+        .then(() => {
+          resolve(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
   },
 };

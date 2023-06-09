@@ -1,0 +1,341 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h1>
+            <img class="img-fluid" src="\images\profile-pic-male_4811a1.svg" alt="Profile Picture" />
+            Hello
+          </h1>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <a href="">My Accounts</a>
+          <ul style="list-style-type: none;">
+            <li><a href="/myaccount/address">Address</a></li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <a href="/userorders">My orders</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="list-group">
+        <li class="list-group-item active text-center">Address</li>
+        <div class="mt-2 mb-2">
+          <button type="button" class="btn btn-outline-primary"   data-toggle="modal"
+                data-target="#exampleModalCentercart">Add address</button>
+        </div>
+        {{#if address}}
+        {{#each address}}
+        <div class="card">
+          <div class="card-body">
+            <div class ="text-truncate" style="max-width :600px">{{this.name}} &nbsp; {{address}} &nbsp; {{this.mobile}} {{this.state}}</div>
+            <form action="/deleteaddress/{{@index}}" method="POST">
+               <button  type="button" class="btn btn-outline-danger  custom-button-spacing float-right class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"" >
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+  </svg>
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      Confirm that do you want to delete?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</form>
+ <form action="/editaddress/{{@index}}" method="POST">
+<button type="submit" class="btn btn-outline-primary ml-3 custom-button-spacing float-right" data-toggle="modal" data-target="#exampleModalCenteraddress">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+  </svg>
+</button>
+
+      <div
+  class="modal fade"
+  id="exampleModalCenteraddress"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container mt-5">
+          <h2 style="color: #2874f0;">Edit Address</h2>
+   <form action="/addaddress" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" name="name"  value ="{{this.name}}"id="name"/>
+    </div>
+    <div class="form-group">
+      <label for="mobile">Mobile Number:</label>
+      <input type="tel" class="form-control" id="mobile" name="mobile" pattern="[0-9]{10}" value="{{this.phone}}" required />
+      <small class="form-text text-muted">Please enter a 10-digit mobile number.</small>
+    </div>
+    <div class="form-group">
+      <label for="pincode">Pincode:</label>
+      <input type="text" class="form-control" id="pincode" name="pincode" pattern="[0-9]{6}" value ="{{this.pincode}}"required />
+      <small class="form-text text-muted">Please enter a 6-digit pincode.</small>
+    </div>
+    <div class="form-group">
+      <label for="locality">Locality:</label>
+      <input type="text" class="form-control" name="locality" id="locality" value="{{this.locality}}"required />
+    </div>
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <textarea class="form-control" id="address" rows="3" name="address" value=" {{this.address}}"required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="city">City/District/Town:</label>
+      <input type="text" class="form-control" id="city" name="city"value=" {{this.city}}" required />
+    </div>
+    <div class="form-group">
+      <label for="state">State:</label>
+      <select class="form-control" id="state" name="state" value="{{this.state}}" required>
+        <option disabled selected>Select State</option>
+        <option>Andhra Pradesh</option>
+        <option>Arunachal Pradesh</option>
+        <option>Assam</option>
+        <option>Bihar</option>
+        <option>Chhattisgarh</option>
+        <option>Goa</option>
+        <option>Gujarat</option>
+        <option>Haryana</option>
+        <option>Himachal Pradesh</option>
+        <option>Jharkhand</option>
+        <option>Karnataka</option>
+        <option>Kerala</option>
+        <option>Madhya Pradesh</option>
+        <option>Maharashtra</option>
+        <option>Manipur</option>
+        <option>Meghalaya</option>
+        <option>Mizoram</option>
+        <option>Nagaland</option>
+        <option>Odisha</option>
+        <option>Punjab</option>
+        <option>Rajasthan</option>
+        <option>Sikkim</option>
+        <option>Tamil Nadu</option>
+        <option>Telangana</option>
+        <option>Tripura</option>
+        <option>Uttar Pradesh</option>
+        <option>Uttarakhand</option>
+        <option>West Bengal</option>
+        <option>Andaman and Nicobar Islands</option>
+        <option>Chandigarh</option>
+        <option>Dadra and Nagar Haveli and Daman and Diu</option>
+        <option>Delhi</option>
+        <option>Lakshadweep</option>
+        <option>Puducherry</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="landmark">Landmark:</label>
+      <input type="text" class="form-control" name="landmark" id="landmark" placeholder="optional" />
+    </div>
+    <div class="form-group">
+      <label for="alternatePhone">Alternate Phone:</label>
+      <input type="tel" class="form-control" id="alternatePhone" name="alternatePhone" placeholder="optional" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</form>
+
+
+</p>
+          </div>
+        </div>
+        {{/each}}
+        {{else}}
+        <div>
+          <h2>No address Found!</h2>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="modal fade"
+  id="exampleModalCentercart"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container mt-5">
+          <h2 style="color: #2874f0;">Add Address</h2>
+   <form action="/addaddress" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" name="name" id="name" required/>
+    </div>
+    <div class="form-group">
+      <label for="mobile">Mobile Number:</label>
+      <input type="tel" class="form-control" id="mobile" name="mobile" pattern="[0-9]{10}" required />
+      <small class="form-text text-muted">Please enter a 10-digit mobile number.</small>
+    </div>
+    <div class="form-group">
+      <label for="pincode">Pincode:</label>
+      <input type="text" class="form-control" id="pincode" name="pincode" pattern="[0-9]{6}" required />
+      <small class="form-text text-muted">Please enter a 6-digit pincode.</small>
+    </div>
+    <div class="form-group">
+      <label for="locality">Locality:</label>
+      <input type="text" class="form-control" name="locality" id="locality" required />
+    </div>
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <textarea class="form-control" id="address" rows="3" name="address" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="city">City/District/Town:</label>
+      <input type="text" class="form-control" id="city" name="city" required />
+    </div>
+    <div class="form-group">
+      <label for="state">State:</label>
+      <select class="form-control" id="state" name="state" required>
+        <option disabled selected>Select State</option>
+        <option>Andhra Pradesh</option>
+        <option>Arunachal Pradesh</option>
+        <option>Assam</option>
+        <option>Bihar</option>
+        <option>Chhattisgarh</option>
+        <option>Goa</option>
+        <option>Gujarat</option>
+        <option>Haryana</option>
+        <option>Himachal Pradesh</option>
+        <option>Jharkhand</option>
+        <option>Karnataka</option>
+        <option>Kerala</option>
+        <option>Madhya Pradesh</option>
+        <option>Maharashtra</option>
+        <option>Manipur</option>
+        <option>Meghalaya</option>
+        <option>Mizoram</option>
+        <option>Nagaland</option>
+        <option>Odisha</option>
+        <option>Punjab</option>
+        <option>Rajasthan</option>
+        <option>Sikkim</option>
+        <option>Tamil Nadu</option>
+        <option>Telangana</option>
+        <option>Tripura</option>
+        <option>Uttar Pradesh</option>
+        <option>Uttarakhand</option>
+        <option>West Bengal</option>
+        <option>Andaman and Nicobar Islands</option>
+        <option>Chandigarh</option>
+        <option>Dadra and Nagar Haveli and Daman and Diu</option>
+        <option>Delhi</option>
+        <option>Lakshadweep</option>
+        <option>Puducherry</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="landmark">Landmark:</label>
+      <input type="text" class="form-control" name="landmark" id="landmark" placeholder="optional" />
+    </div>
+    <div class="form-group">
+      <label for="alternatePhone">Alternate Phone:</label>
+      <input type="tel" class="form-control" id="alternatePhone" name="alternatePhone" placeholder="optional" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function validateForm() {
+  var name = document.getElementById('name').value.trim();
+  var mobile = document.getElementById('mobile').value;
+  var pincode = document.getElementById('pincode').value;
+  var locality = document.getElementById('locality').value;
+  var address = document.getElementById('address').value;
+  var city = document.getElementById('city').value;
+  var state = document.getElementById('state').value;
+
+  var mobilePattern = /^[0-9]{10}$/;
+  var pincodePattern = /^[0-9]{6}$/;
+
+  if (name == '') {
+    alert('Please enter your name.');
+    return false;
+  }
+  if (!mobilePattern.test(mobile)) {
+    alert('Please enter a valid 10-digit mobile number.');
+    return false;
+  }
+  if (!pincodePattern.test(pincode)) {
+    alert('Please enter a valid 6-digit pincode.');
+    return false;
+  }
+  if (locality.trim() == '') {
+    alert('Please enter the locality.');
+    return false;
+  }
+  if (address.trim() == '') {
+    alert('Please enter the address.');
+    return false;
+  }
+  if (city.trim() == '') {
+    alert('Please enter the city/district/town.');
+    return false;
+  }
+  if (state == 'Select State') {
+    alert('Please select a state.');
+    return false;
+  }
+
+  return true;
+}
+
+</script>

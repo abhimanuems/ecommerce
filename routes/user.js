@@ -1,91 +1,75 @@
-var express = require("express");
-var router = express.Router();
-const productHelper = require("../helpers/productHelpers");
+const express = require("express");
+const router = express.Router();
+// const productHelper = require("../helpers/productHelpers");
+// const userHelpers = require("../helpers/userHelpers");
+const userLoginController = require("../controllers/userController/userLogin");
+const productController = require("../controllers/userController/productView");
+const orderController = require("../controllers/userController/order");
 const userHelpers = require("../helpers/userHelpers");
-const accountSid = "AC4ef830ccb0c57b3561a7385f8bc15f3b";
-const authToken = "f2df494f5e37eb3f8afdb62e440c1de1";
-const client = require("twilio")(accountSid, authToken);
+const order = require("../controllers/userController/order");
+const orderHelpers = require("../helpers/orderHelpers");
+const { route } = require("express/lib/application");
 
+router.post("/signup", userLoginController.userSignUp);
 
-/* GET home page. */
-router.get("/", function (req, res) {
-  console.log("session at userhome",req.session)
-  productHelper.getFeaturedProduct().then((fProduct)=>{
-    var featuredProduct = fProduct
-     productHelper.getTrendingFeaturedForUserHome().then((product) => {
-       res.render("users/user-viewproducts", {
-         product,
-         featuredProduct,
-         admin: false,
-       });
-     });
-  })
- 
-});
+router.post("/signupverify", userLoginController.userSignupPost);
 
-router.post('/signup',(req,res)=>{
+router.post("/otp", userLoginController.getOtp);
 
- try{
-  console.log(req.body)
-  req.session.name = req.body.name;
-  req.session.phone = req.body.phone;
-  req.session.email = req.body.email
-  req.session.OTP = Math.floor(Math.random() * 9999);
-  const phoneNumber = "+91" + req.session.phone;
-  req.session.save();
-  client.messages.create({
-    body: `  ${req.session.OTP} is the verification code for create  Melocia account`,
-    to: "whatsapp:" + phoneNumber,
-    from: "whatsapp:+14155238886",
-  });
- }
- catch(err){
-  console.log("error at adding user",err)
- }
+router.post("/verify", userLoginController.otpVerify);
 
+router.get("/", productController.home);
 
-})
-router.post('/otp',(req,res)=>{
-   req.session.OTP = Math.floor(Math.random() * 9999);
-   const phoneNumber = "+91" + req.body.phone;
-  req.session.save();
-  client.messages
-    .create({
-      body: `  ${req.session.OTP} is the verification code to login to your Melocia account`,
-      to: "whatsapp:" + phoneNumber,
-      from: "whatsapp:+14155238886",
-    })
-    .then((message) => {
-     
+router.get("/mobile", productController.mobile);
 
-    })
-    .catch((err) => console.log(err));
-});
+router.get("/electronics", productController.electronics);
 
-router.post('/verify',(req,res)=>{
-  console.log("at verify ",req.session)
+router.get("/books", productController.books);
 
- if(req.session.OTP == req.body.otp)
- {
-  console.log("ootp verified")
-  res.redirect('/')
- }
- else
- {
-    console.log("ootp  not verified");
-    res.redirect('/');
- }
+router.get("/health-wellness", productController.healthAndWellness);
 
-});
+router.get("/grocery", productController.grocery);
 
-router.get('/mobile',(req,res)=>{
+router.get("/products/:id", productController.getProductDetails);
 
+router.get("/cart", orderController.getCart);
 
-  productHelper.getMobiles().then((mobiles)=>{
-    console.log(mobiles)
-      res.render("users/user-category-mobile", { admin: false,mobiles });
-  })
+router.get('/wishlist',orderController.getWishlist);
 
-})
+router.get("/addwishlist/:id",userLoginController.addWishlist);
+
+router.get("/removewishlist/:id",userLoginController.removeWishlist);
+
+router.get("/addtocart/:id", orderController.addToCart);
+
+router.post("/quantityupdate", orderController.cartQuantity);
+
+router.get("/removecart/:id", orderController.removeCart);
+
+router.get("/checkoutForOrder", orderController.checkOut);
+
+router.post("/paymentGate", orderController.placeOrder);
+
+router.post("/addaddress/:id", orderController.addAddress);
+
+router.post("/addaddress", orderController.addAddressmyAccount);
+
+router.post("/editaddress/:id", orderController.editAddress);
+
+router.post("/paymentMode", orderController.paymentMode);
+
+router.get("/myaccount", userLoginController.myAccount);
+
+router.get("/userorders", orderController.myOrders);
+
+router.post("/userorderstatus", orderController.updateOrderStatus);
+
+router.get("/myaccount/address", order.myAddress);
+
+router.post("/deleteaddress/:id", order.deleteAddress);
+
+router.post("/update-user-details", userLoginController.updateUser);
+
+router.get("/logout", userLoginController.logOut);
 
 module.exports = router;

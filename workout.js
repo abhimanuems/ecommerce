@@ -145,26 +145,56 @@
 // }
 
 
-function check(nums)
-{
-  let flag=0;
-  for(let i=0;i<nums.length-1;i++)
-{
-  if(nums[i]>nums[i+1] && flag==0)
-  {
-    nums.splice(i,1);
-    flag=1;
-  }
-   if((nums[i-1] > nums[i] || nums[i]==nums[i+1]|| nums[i] > nums[i+1] ) && flag==1  )
-  {
-    return false
-  }
+// function check(nums)
+// {
+//   let flag=0;
+//   for(let i=0;i<nums.length-1;i++)
+// {
+//   if(nums[i]>nums[i+1] && flag==0)
+//   {
+//     nums.splice(i,1);
+//     flag=1;
+//   }
+//    if((nums[i-1] > nums[i] || nums[i]==nums[i+1]|| nums[i] > nums[i+1] ) && flag==1  )
+//   {
+//     return false
+//   }
 
-}
-return true;
-}
+// }
+// return true;
+// }
 
-const nums = [1,2,10,5,7];
-console.log(check(nums));
-console.log(nums)
+// const nums = [1,2,10,5,7];
+// console.log(check(nums));
+// console.log(nums)
+
+
+var buddyStrings = function (s, goal) {
+  let k = 0;
+  for (let i = 0; i < s.length - 1; i++) {
+    if (s[i] != goal[i]) {
+
+      [s[i], s[i + 1]] = [s[i + 1], s[i]];
+      k++;
+    }
+  var areEqual = JSON.stringify(s) === JSON.stringify(goal);
+    if (k == 2) {
+      if (areEqual) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  if (areEqual) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let s = ['a','b'];
+ let goal = ['b','a']
+ console.log(buddyStrings(s,goal))
+   console.log(s, goal);
 

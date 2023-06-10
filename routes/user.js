@@ -50,6 +50,8 @@ router.get("/checkoutForOrder", orderController.checkOut);
 
 router.post("/paymentGate", orderController.placeOrder);
 
+router.get('/succeess',orderController.getSuccessPage);
+
 router.post("/addaddress/:id", orderController.addAddress);
 
 router.post("/addaddress", orderController.addAddressmyAccount);
@@ -58,7 +60,9 @@ router.post("/editaddress/:id", orderController.editAddress);
 
 router.post("/paymentMode", orderController.paymentMode);
 
-router.get("/myaccount", userLoginController.myAccount);
+router.post("/verifypayment",orderController.verifyPayment);
+
+router.get("/myaccount", userLoginController.myAccount); 
 
 router.get("/userorders", orderController.myOrders);
 

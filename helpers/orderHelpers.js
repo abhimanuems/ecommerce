@@ -4,6 +4,12 @@ const { response } = require("express");
 const { mobile } = require("../controllers/userController/productView");
 const { parse } = require("handlebars");
 const ObjectId = require("mongodb").ObjectId;
+const Razorpay = require("razorpay");
+const async = require("hbs/lib/async");
+const instance = new Razorpay({
+  key_id: "rzp_test_bLt7yzzH20t8v9",
+  key_secret: "9f8327fvCnjWCAj0mpp8uNJB",
+});
 module.exports = {
   getCartLength: (mobileNumber) => {
     return new Promise(async (resolve, reject) => {
@@ -179,25 +185,35 @@ module.exports = {
       resolve(address);
     });
   },
-  orderDetails: (phoneNumber, proId, totalprice, addressOrder, deliveryfee) => {
+  orderDetails: (
+    phoneNumber,
+    proId,
+    totalprice,
+    addressOrder,
+    deliveryfee,
+    paymentMode
+  ) => {
     const orderDetails = {
       phone: phoneNumber,
       productId: proId,
       totalPrice: totalprice,
       address: addressOrder,
       deliveryFee: deliveryfee,
-      paymentMode: "COD",
+      paymentMode,
       coupon: " ",
       status: "orderplaced",
       Date: Date.now(),
     };
 
-    return new Promise((resolve, reject) => {
-      db.get()
+    return new Promise(async(resolve, reject) => {
+      await db.get()
         .collection(collection.ORDERCOLLECTION)
         .insertOne(orderDetails)
         .then((response) => {
-          resolve(response);
+          console.log("response is ",response.insertedId)
+          const orderId = response.insertedId.toString();
+          resolve(orderId);
+
         });
     });
   },
@@ -369,4 +385,20 @@ module.exports = {
       resolve();
     });
   },
+
+  razorPay:(id,total)=>{
+    console.log("razpor pay is ",id,total)
+    return new Promise((resolve,reject)=>{
+      
+      var options = {
+        amount: total,
+        currency: "INR",
+        receipt: id,
+      };
+      instance.orders.create(options, function (err, order) {
+        console.log(order,"is the order");
+        resolve(order);
+      });
+    })
+  }
 };

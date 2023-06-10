@@ -1,6 +1,7 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
 const { ObjectId } = require("mongodb");
+const async = require("hbs/lib/async");
 module.exports = {
   addCategory: (category) => {
     return new Promise((resolve, reject) => {
@@ -108,4 +109,43 @@ module.exports = {
         });
     });
   },
+  addVouchers: (data) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .insertOne({ voucher: data });
+    }).then(() => {
+      resolve(true);
+    });
+  },
+  getExistingVouchers: () => {
+    return new Promise(async (resolve, reject) => {
+      const vouchers = await db
+        .get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .aggregate([{ $project: { categoryName: 0} },
+          { $project: { voucher: 1} }])
+        .toArray();
+      console.log("vouchers are vouchers ", vouchers[0]);
+      resolve(vouchers[0]);
+    });
+  },
+  deleteVoucher: (id) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .deleteOne({ _id: new ObjectId(id) })
+        .then(() => {
+          resolve(true);
+        });
+    });
+  },
+  editVouchers:(id,data)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collection.CATEGORYCOLLECTION).updateOne({
+        _id: new ObjectId(id)
+      },
+      {$set:{voucher : data}})
+    })
+  }
 };

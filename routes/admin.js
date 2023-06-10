@@ -7,6 +7,8 @@ const adminProductController = require("../controllers/adminControllers/adminPro
 const adminUserController = require("../controllers/adminControllers/adminUser");
 const adminLoginController = require("../controllers/adminControllers/adminLogin");
 const adminOrderController = require("../controllers/adminControllers/adminOrders");
+const adminOfferController = require("../controllers/adminControllers/adminOffer");
+const { route } = require("express/lib/application");
 
 router.get("/login", adminLoginController.login);
 
@@ -49,6 +51,14 @@ router.post("/viewusers/:id", adminUserController.userBlock);
 router.get("/vieworders", adminOrderController.viewOrders);
 
 router.post("/updateorderstatus", adminOrderController.updateStatus);
+
+router.get("/offers/coupon",adminOfferController.couponPage);
+
+router.post('/offers/coupon',adminOfferController.addVouchers);
+
+router.post('/deletevoucher/:id',adminOfferController.deleteVouchers);
+
+router.post("/offers/editcoupon/:id", adminOfferController.editVoucher);
   
 
 router.get("/logout", adminLoginController.logOut);

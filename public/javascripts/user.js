@@ -71,10 +71,10 @@ checkboxes.forEach((checkbox) => {
   });
 });
 
-document.getElementById("deliverButton").addEventListener("click", (event) => {
-  event.preventDefault();
-  document.getElementById("addressForm").submit();
-});
+// document.getElementById("deliverButton").addEventListener("click", (event) => {
+//   event.preventDefault();
+//   document.getElementById("addressForm").submit();
+// });
 
 //for wishlist
 
@@ -84,5 +84,14 @@ document.getElementsByClassName("wishlist-icon").addEventListener("click", funct
 });
 
 
+document.querySelectorAll(".selectaddress").forEach(function (input) {
+  input.addEventListener("change", function () {
+    alert("entered here");
+    var newName = this.getAttribute("id") + "Modified";
+    document.querySelectorAll(".selectaddress").forEach(function (otherInput) {
+      otherInput.setAttribute("name", newName);
+    });
+  });
+});
 
 

@@ -4,6 +4,7 @@ const orderHelpers = require("../../helpers/orderHelpers");
 const productHelpers = require("../../helpers/productHelpers");
 const userorderHelpers = require("../../helpers/userShowOrderHelper");
 const { mobile } = require("./productView");
+const { response } = require("express");
 
 module.exports = {
   getCart: async (req, res) => {
@@ -135,6 +136,7 @@ module.exports = {
   placeOrder: async (req, res) => {
     if (req.session.user) {
       const addressIndex = req.body.selectedAddressIndex;
+      const paymentMode = req.body.paymentMethod;
       await orderHelpers
         .findAdressByindex(req.session.mobileNumber, addressIndex)
         .then((address) => {
@@ -147,20 +149,34 @@ module.exports = {
         var deliveryFee = 0;
       }
       const totalPrice = req.session.amounts.totalAmountOfferedPrice;
-      orderHelper.orderDetails(
-        req.session.mobileNumber,
-        req.session.productIds,
-        totalPrice,
-        req.session.address,
-        deliveryFee
-      );
       orderHelper.deleteCart(req.session.mobileNumber);
-      req.session.OrderPlaced = true;
-      res.render("users/paymentPaage", {
-        admin: false,
-        user: req.session.user,
-        mobileNumber: req.session.mobileNumber,
-      });
+      orderHelper
+        .orderDetails(
+          req.session.mobileNumber,
+          req.session.productIds,
+          totalPrice,
+          req.session.address,
+          deliveryFee,
+          paymentMode
+        )
+        .then((id) => {
+          console.log("order id is ", id);
+          req.session.OrderPlaced = true;
+          if (paymentMode == "COD") {
+            res.json({COD:true});
+          } else {
+            orderHelpers.razorPay(id, totalPrice).then((response) => {
+              console.log("response from the raporpay ", response);
+              res.json({response});
+            });
+          }
+        });
+
+      // res.render("users/paymentPaage", {
+      //   admin: false,
+      //   user: req.session.user,
+      //   mobileNumber: req.session.mobileNumber,
+      // });
     } else {
       res.redirect("/");
     }
@@ -257,30 +273,39 @@ module.exports = {
   getWishlist: (req, res) => {
     if (req.session.user) {
       userHelpers.getWishlist(req.session.mobileNumber).then((wishlist) => {
-        if(wishlist.length!=0)
-        {
-          const productIdArray =wishlist[0].wishlist;
-      productHelpers.getWishProduct(productIdArray).then((products)=>{
-        console.log("products at wishlist is",products)
+        if (wishlist.length != 0) {
+          const productIdArray = wishlist[0].wishlist;
+          productHelpers.getWishProduct(productIdArray).then((products) => {
+            console.log("products at wishlist is", products);
 
+            res.render("users/wishlist", {
+              admin: false,
+              user: req.session.user,
+              mobile: req.session.mobileNumber,
+              products,
+            });
+          });
+        } else {
           res.render("users/wishlist", {
             admin: false,
             user: req.session.user,
             mobile: req.session.mobileNumber,
-            products,
           });
-      })
-      
-      }
-      else
-      {
-         res.render("users/wishlist", {
-           admin: false,
-           user: req.session.user,
-           mobile: req.session.mobileNumber,
-         });
-      }
+        }
       });
     }
   },
+  getSuccessPage: (req, res) => {
+    if (req.session.user) {
+      res.render("users/paymentPaage", {
+        admin: false,
+        user: req.session.user,
+        mobileNumber: req.session.mobileNumber,
+      });
+    }
+  },
+  verifyPayment:(req,res)=>{
+    console.log(req.body);
+     
+  }
 };

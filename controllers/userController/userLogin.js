@@ -2,7 +2,7 @@ const userHelpers = require("../../helpers/userHelpers");
 const productHelper = require("../../helpers/productHelpers");
 const orderHelpers = require("../../helpers/orderHelpers");
 const accountSid = "AC4ef830ccb0c57b3561a7385f8bc15f3b";
-const authToken = "ebe58b8eee50ca15efbeebaa838fe4ff";
+const authToken = "0e07ae8dbd11b75424b876d0907dbab7";
 const client = require("twilio")(accountSid, authToken);
 var phoneNumberGlobal;
 module.exports = {

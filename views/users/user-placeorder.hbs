@@ -6,7 +6,7 @@
       <div class="container my-1">
         <div class="card my-3 mx-3">
           <div class="card-body">
-            <h2 style="color:#2874f0 ;">Login: {{mobileNumber}}</h2>
+            <h2 style="color:#27374D ;">Login: {{mobileNumber}}</h2>
           </div>
         </div>
 
@@ -16,7 +16,7 @@
 
             <div class="container mx-2 my-3">
               {{#if address}}
-                <form id="addressForm" action="/paymentGate" method="POST">
+            
                   <div class="form-group">
                     {{#each address}}
                       <div class="custom-control custom-checkbox">
@@ -50,14 +50,9 @@
                       id="selectedAddressIndex"
                     />
 
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      id="deliverButton"
-                      style="display: none;"
-                    >Deliver Here with COD</button>
+               
                   </div>
-                </form>
+           
               {{else}}
                 <h6>No address found!</h6>
               {{/if}}
@@ -112,10 +107,45 @@
             {{/notLessThan}}
           </div>
         </div>
+
+        <div class="container my-1">
+          <div class="card-body">
+            <button
+              id="placeOrderButton"
+              type="button"
+              class="btn btn-success"
+              data-toggle="modal"
+              data-target="#exampleModalCenterPlaceOrder"
+            >
+              Place Order
+            </button>
+
+            <div class="modal fade" id="exampleModalCenterPlaceOrder" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered position-fixed fixed-bottom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Select the Payment Mode</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-check">
+            <input type="radio" id="cod" name="paymentMethod" value="COD">
+            <label for="cod">COD</label>
+            <br>
+            <input type="radio" id="razorpay" name="paymentMethod" value="Razorpay">
+            <label for="razorpay">Razorpay</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="proceedToPaymentButton" type="button" class="btn btn-primary">Proceed To Payment</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 <div
   class="modal fade"
@@ -125,17 +155,23 @@
   aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true"
 >
+
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <div class="container mt-5">
           <h2 style="color: #2874f0;">Add Address</h2>
-          <form action="/addaddress/{{mobileNumber}}" method="POST" enctype="multipart/form-data" id="myformAddress">
+          <form
+            action="/addaddress/{{mobileNumber}}"
+            method="POST"
+            enctype="multipart/form-data"
+            id="myformAddress"
+          >
             <div class="form-group">
               <label for="name">Name:</label>
               <input
                 type="text"
-                class="form-control" 
+                class="form-control"
                 name="name"
                 id="name"
                 required
@@ -240,4 +276,95 @@
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Handle address selection
+      $(".address-checkbox").change(function () {
+        var selectedAddressIndex = $(this).val();
+        $("#selectedAddressIndex").val(selectedAddressIndex);
+      });
 
+      // Handle place order button click
+      $("#placeOrderButton").click(function () {
+        // Open the place order modal
+        $('#exampleModalCenterPlaceOrder').modal('show');
+      });
+
+      // Handle proceed to payment button click
+      $("#proceedToPaymentButton").click(function () {
+        var selectedAddressIndex = $("#selectedAddressIndex").val();
+        var paymentMethod = $("input[name='paymentMethod']:checked").val();
+
+        // Combine the data into an object
+        var orderData = {
+          selectedAddressIndex: selectedAddressIndex,
+          paymentMethod: paymentMethod
+        };
+
+        // Send the data to the server using AJAX
+        $.ajax({
+          url: "/paymentGate", // Replace with your server endpoint
+          type: "POST",
+          data: orderData,
+          success: function (response) {
+            
+            if(response.COD)
+            {
+               location.href="/succeess"
+            } else{
+              console.log(response.response)
+              razorPayment(response.response)
+            }
+           
+          },
+          error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+          }
+        }); 
+
+       
+        $('#exampleModalCenterPlaceOrder').modal('hide');
+      });
+    });
+
+    function razorPayment(order){
+      var options = {
+    "key": "rzp_test_bLt7yzzH20t8v9", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Melocia",
+    "description": "Your  Transaction Details",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+        verifyPayment(response,order);
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+    }
+    function verifyPayment(payment,order){
+      $.ajax({
+        url:'/verifypayment',
+        method:"post",
+        data:{payment,order},
+        
+      })
+    }
+  </script>

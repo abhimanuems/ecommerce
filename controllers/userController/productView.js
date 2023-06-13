@@ -1,3 +1,4 @@
+const productHelpers = require("../../helpers/productHelpers");
 const productHelper = require("../../helpers/productHelpers");
 const userHelpers = require("../../helpers/userHelpers");
 module.exports = {
@@ -113,5 +114,15 @@ module.exports = {
       }
     });
   },
-  
-};
+  searchItems:(req,res)=>{
+
+    console.log(req.body.searchTerm)
+
+    productHelpers.searchItems(req.body.searchTerm).then((result)=>{
+      res.json({products:result});
+    })
+
+
+  }
+
+  }

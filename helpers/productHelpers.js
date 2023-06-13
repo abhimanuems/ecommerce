@@ -209,17 +209,33 @@ module.exports = {
       console.log(response);
     });
   },
-  getWishProduct:(productIds)=>{
-    const productIdObjects =productIds.map((index)=> new ObjectId(index))
-    console.log(productIdObjects)
-    return new Promise(async(resolve,reject)=>{
+  getWishProduct: (productIds) => {
+    const productIdObjects = productIds.map((index) => new ObjectId(index));
+    console.log(productIdObjects);
+    return new Promise(async (resolve, reject) => {
       const products = await db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
         .find({ _id: { $in: productIdObjects } })
         .toArray();
-        console.log(products);
-        resolve(products)
+      console.log(products);
+      resolve(products);
+    });
+  },
+  searchItems:(text)=>{
+    return new Promise(async(resolve,reject)=>{
+
+      const products = await db
+        .get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .find({ productName: { $regex: text, $options: "i" } })
+        .toArray();
+      console.log(products,"are at the search items ");
+      resolve(products)
+
+    }).catch((err)=>{
+      reject(err);
+
     })
   }
 };

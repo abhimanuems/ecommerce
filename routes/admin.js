@@ -59,6 +59,11 @@ router.post('/offers/coupon',adminOfferController.addVouchers);
 router.post('/deletevoucher/:id',adminOfferController.deleteVouchers);
 
 router.post("/offers/editcoupon/:id", adminOfferController.editVoucher);
+
+router.get("/offers/offer", adminOfferController.offerPage);
+
+router.post('/addoffer',adminOfferController.addOffer);
+
   
 
 router.get("/logout", adminLoginController.logOut);

@@ -2,9 +2,10 @@ const userHelpers = require("../../helpers/userHelpers");
 const productHelper = require("../../helpers/productHelpers");
 const orderHelpers = require("../../helpers/orderHelpers");
 const accountSid = "AC4ef830ccb0c57b3561a7385f8bc15f3b";
-const authToken = "0e07ae8dbd11b75424b876d0907dbab7";
+const authToken = "8e0b2d20444703ef11974a37852cdbdb";
 const client = require("twilio")(accountSid, authToken);
-var phoneNumberGlobal;
+let phoneNumberGlobal;
+console.log(accountSid);
 module.exports = {
   userSignUp: (req, res) => {
     try {
@@ -154,28 +155,21 @@ module.exports = {
       res.redirect("/");
     }
   },
-  addWishlist:(req,res)=>{
-    if(req.session.user)
-    {
-      console.log("mobile number is ",req.session.mobileNumber);
-      userHelpers.addWishlistData(req.session.mobileNumber,req.params.id);
+  addWishlist: (req, res) => {
+    if (req.session.user) {
+      console.log("mobile number is ", req.session.mobileNumber);
+      userHelpers.addWishlistData(req.session.mobileNumber, req.params.id);
+    } else {
+      res.redirect("/");
     }
-    else{
-      res.redirect('/');
-    }
-    
   },
-  removeWishlist:(req,res)=>{
-    if(req.session.user)
-    {
-      userHelpers.removeWishlistByid(req.session.mobileNumber,req.params.id);
-      res.redirect('/wishlist');
-
-    } else
-    {
-      res.redirect('/');
+  removeWishlist: (req, res) => {
+    if (req.session.user) {
+      userHelpers.removeWishlistByid(req.session.mobileNumber, req.params.id);
+      res.redirect("/wishlist");
+    } else {
+      res.redirect("/");
     }
-    
   },
 
   logOut: (req, res) => {
@@ -188,5 +182,4 @@ module.exports = {
       }
     });
   },
-
 };

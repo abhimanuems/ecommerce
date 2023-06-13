@@ -28,11 +28,31 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
-  editVoucher:(req,res)=>{
+  editVoucher: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.editVouchers(req.params.id, req.body);
       res.redirect("/admin/offers/coupon");
     } else {
       res.redirect("/admin/login");
-    }}
+    }
+  },
+  offerPage: (req, res) => {
+    if (req.session.isAdmin) {
+      categoryHelpers.getOffers().then((offers) => {
+        categoryHelpers.viewCategory().then((category)=>{
+          res.render("admin/offers", { admin: true, offers,category });
+        })
+        
+      });
+    } else {
+      res.redirect("/admin/login");
+    }
+  },
+  addOffer:(req,res)=>{
+   
+    categoryHelpers.addOffer(req.body).then((response)=>{
+      
+    })
+
   }
+};

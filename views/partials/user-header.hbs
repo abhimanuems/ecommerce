@@ -4,8 +4,20 @@
       <div class="container">
         <a class="navbar-brand" href="/" style="color: #FFF;">Melocia</a>
         <div class="navbar-collapse">
+        <div class="search-bar">
+            <input type="text" class="form-control" placeholder="Search">
+            <span class="search-icon">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>
+          <section id="suggestionsContainer">
+          </section>
+
           <ul class="navbar-nav ml-auto">
+
             <li class="nav-item">
+
+              
               <!-- Button trigger modal -->
               {{#if user}}
 
@@ -400,3 +412,74 @@
     </nav>
   </header>
 </section>
+<script>
+ $(document).ready(function() {
+      $('.search-icon').click(function() {
+        var searchTerm = $('input').val().trim().toLowerCase();
+        sendSearchRequest(searchTerm);
+      });
+
+      $('input').keyup(function() {
+        var searchTerm = $(this).val().trim().toLowerCase();
+        sendSearchRequest(searchTerm);
+      });
+
+      function sendSearchRequest(searchTerm) {
+        $.ajax({
+          url: '/search', 
+          method: 'POST', 
+          data: { searchTerm: searchTerm },
+          success: function(response) {
+            updateSearchResults(response.products);
+            showSuggestions(response.products);
+          },
+          error: function() {
+            console.log('An error occurred while fetching search results.');
+          }
+        });
+      }
+
+      function updateSearchResults(results) {
+        var $searchResults = $('.search-results');
+        $searchResults.empty();
+        if (results.length > 0) {
+          $.each(results, function(index, result) {
+            $searchResults.append('<li>' + result + '</li>');
+          });
+        } else {
+          $searchResults.append('<li>No results found.</li>');
+        }
+      }
+      //suggestions
+
+      function showSuggestions(suggestions) {
+    $(suggestionsContainer).empty();
+    if (suggestions.length > 0) {
+      // Create a list of suggestion items
+      let suggestionList = $('<ul>');
+
+      
+      // Add each suggestion as a list item
+    suggestions.forEach(suggestion => {
+    const suggestionElement = document.createElement("div");
+    suggestionElement.textContent = suggestion.productName;
+    suggestionElement.classList.add("suggestion");
+    suggestionElement.addEventListener("click", () => {
+      // Handle the selection of a suggestion (e.g., fill the search bar with the suggestion)
+      document.getElementById("searchInput").value = suggestion.productName;
+      // Clear the suggestions
+      document.getElementById("suggestionsContainer").innerHTML = "";
+    });
+    document.getElementById("suggestionsContainer").appendChild(suggestionElement);
+  });
+
+
+      // Add the suggestion list to the suggestions container
+      {{!-- suggestionsContainer.append(suggestionList);
+       let searchButton = $('<button>').text('Search').addClass('search-button');
+    suggestionsContainer.append(searchButton); --}}
+    }
+  }
+
+    });
+</script>

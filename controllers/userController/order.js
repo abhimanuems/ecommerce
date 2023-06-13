@@ -3,8 +3,10 @@ const orderHelper = require("../../helpers/orderHelpers");
 const orderHelpers = require("../../helpers/orderHelpers");
 const productHelpers = require("../../helpers/productHelpers");
 const userorderHelpers = require("../../helpers/userShowOrderHelper");
+const offerHelpers = require("../../helpers/categoryHelpers");
 const { mobile } = require("./productView");
 const { response } = require("express");
+const async = require("hbs/lib/async");
 
 module.exports = {
   getCart: async (req, res) => {
@@ -163,11 +165,11 @@ module.exports = {
           console.log("order id is ", id);
           req.session.OrderPlaced = true;
           if (paymentMode == "COD") {
-            res.json({COD:true});
+            res.json({ COD: true });
           } else {
             orderHelpers.razorPay(id, totalPrice).then((response) => {
               console.log("response from the raporpay ", response);
-              res.json({response});
+              res.json({ response });
             });
           }
         });
@@ -304,8 +306,58 @@ module.exports = {
       });
     }
   },
-  verifyPayment:(req,res)=>{
-    console.log(req.body);
+  verifyPayment: (req, res) => {
+    if (req.session.user) {
+      orderHelpers
+      console.log("enetedd at veerify payment ")
+        .verifyPayment(req.body)
+        .then(() => {
+          orderHelpers.changePaymentStatus(req.body["receipt"]).then(() => {
+            res.json({ status: true });
+          });
+        })
+        .catch((err) => {
+          console.log(err, "is at the payment gate razor pay");
+          res.json({ status: false, err });
+        });
+    } else {
+      res.redirect("/");
+    }
+  },
+  applyCoupoun:async (req,res)=>{
+  if(req.session.user)
+  {
+   const coupon = req.body.coupon;
+   let totalPrice =(req.body.total);
+   totalPrice = totalPrice.replace("₹", "");
+   console.log(totalPrice)
+   totalPrice=parseInt(totalPrice)
+   await offerHelpers.checkCoupon(coupon).then((result)=>{
+    console.log("result inside the applycouppoun is ",result)
+    if(result.length>0){
+      
+      if(result[0].voucher.priceType ==='flat')
+      {
+        console.log("totalprice inside ",totalPrice)
+        totalPrice = totalPrice - parseInt(result[0].voucher.price);
+        console.log("after applying voucher is ",totalPrice)
+        
+        console.log("amounts are ", req.session.amounts);
+        req.session.amounts= { totalAmountSellingPrice: 10000, totalAmountOfferedPrice: totalPrice }
+         res.json({ status: true,price:totalPrice});
+
+      }
+      else
+      {
+        res.json({status:true})
+      }
      
+    }
+    else{
+      console.log("eneterd herre")
+      res.json({status:false})
+    }
+   })
+  }
   }
 };

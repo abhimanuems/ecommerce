@@ -276,9 +276,10 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
   <script>
-    $(document).ready(function () {
+    {{!-- $(document).ready(function () {
+      alert("enetere here ")
       // Handle address selection
       $(".address-checkbox").change(function () {
         var selectedAddressIndex = $(this).val();
@@ -293,6 +294,7 @@
 
       // Handle proceed to payment button click
       $("#proceedToPaymentButton").click(function () {
+        alert("eneter at the proocceed to payment ")
         var selectedAddressIndex = $("#selectedAddressIndex").val();
         var paymentMethod = $("input[name='paymentMethod']:checked").val();
 
@@ -302,12 +304,13 @@
           paymentMethod: paymentMethod
         };
 
-        // Send the data to the server using AJAX
+       
         $.ajax({
-          url: "/paymentGate", // Replace with your server endpoint
+          url: "/paymentGate", 
           type: "POST",
           data: orderData,
           success: function (response) {
+            alert("enterf heere")
             
             if(response.COD)
             {
@@ -331,13 +334,13 @@
 
     function razorPayment(order){
       var options = {
-    "key": "rzp_test_bLt7yzzH20t8v9", // Enter the Key ID generated from the Dashboard
-    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "key": "rzp_test_bLt7yzzH20t8v9", 
+    "amount": order.amount, 
     "currency": "INR",
     "name": "Melocia",
     "description": "Your  Transaction Details",
     "image": "https://example.com/your_logo",
-    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "order_id": order.id, 
     "handler": function (response){
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
@@ -350,7 +353,7 @@
         "contact": "9000090000"
     },
     "notes": {
-        "address": "Razorpay Corporate Office"
+        "address": "Melocia private Limited"
     },
     "theme": {
         "color": "#3399cc"
@@ -364,7 +367,23 @@ var rzp1 = new Razorpay(options);
         url:'/verifypayment',
         method:"post",
         data:{payment,order},
-        
+         success: function (response) {
+          alert(response)
+          console.log(response)
+          alert(response.status)
+          if(response.status ===true){
+              location.href="/succeess"
+          }
+          else if(response.status ==false)
+          {
+            alert(response.err)
+            location.href='/'
+          }
+           error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+          }
+         }
       })
-    }
+    } --}}
   </script>

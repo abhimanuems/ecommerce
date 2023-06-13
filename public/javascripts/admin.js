@@ -140,3 +140,7 @@ function showError(fieldId, errorMessage) {
   field.placeholder = errorMessage;
 }
 
+
+$(document).ready(function () {
+  $("#myTable").DataTable();
+});

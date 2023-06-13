@@ -21,7 +21,7 @@ module.exports = {
       let product = db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
-        .find()
+        .find({ categoryName: { $exists: true } }, { _id: 1, categoryName: 1 })
         .toArray();
       resolve(product);
     });
@@ -110,6 +110,7 @@ module.exports = {
     });
   },
   addVouchers: (data) => {
+    console.log(data, "droma dding the data");
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CATEGORYCOLLECTION)
@@ -123,11 +124,9 @@ module.exports = {
       const vouchers = await db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
-        .aggregate([{ $project: { categoryName: 0} },
-          { $project: { voucher: 1} }])
+        .find({ voucher: { $exists: true } }, { _id: 1, voucher: 1 })
         .toArray();
-      console.log("vouchers are vouchers ", vouchers[0]);
-      resolve(vouchers[0]);
+      resolve(vouchers);
     });
   },
   deleteVoucher: (id) => {
@@ -140,12 +139,75 @@ module.exports = {
         });
     });
   },
-  editVouchers:(id,data)=>{
+  editVouchers: (id, data) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .updateOne(
+          {
+            _id: new ObjectId(id),
+          },
+          { $set: { voucher: data } }
+        );
+    });
+  },
+  getOffers: () => {
+    return new Promise((resolve, reject) => {
+      const offers = db
+        .get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .find({ offers: { $exists: true } }, { _id: 1, offers: 1 })
+        .toArray();
+      resolve(offers);
+    });
+  },
+  checkCoupon: (data) => {
+    return new Promise(async (resolve, reject) => {
+      const coupon = data.toString();
+      console.log("coupon at data base is ", coupon);
+      const convertedDate = new Date().toISOString().split("T")[0];
+      console.log(convertedDate, "is ate check copoun");
+      const coupons = await db
+        .get()
+        .collection(collection.CATEGORYCOLLECTION)
+        .aggregate([
+          {
+            $match: {
+              "voucher.voucherCode": coupon,
+              "voucher.startTime": { $lte: convertedDate },
+              "voucher.endTime": { $gte: convertedDate },
+            },
+          },
+          {
+            $project: {
+              "voucher.price": 1,
+              "voucher.priceType": 1,
+              "voucher.minSpent": 1,
+            },
+          },
+        ])
+        .toArray();
+      resolve(coupons);
+    }).catch((err) => {
+      reject(err);
+      console.log(err, "is at check coupoun");
+    });
+  },
+  addOffer:(data)=>{
+    data['status'] =true;
+    console.log(data)
+    console.log(data.Category,"from the add offer")
+    console.log(new ObjectId(data.Category),"is the category id")
+
     return new Promise((resolve,reject)=>{
-      db.get().collection(collection.CATEGORYCOLLECTION).updateOne({
-        _id: new ObjectId(id)
-      },
-      {$set:{voucher : data}})
+      db.get()
+        .collection(collection.CREDENTIALCOLLECTION)
+        .insertOne({ _id: new ObjectId(data.Category) }, { $set: { offer: data } })
+        .then((response) => {
+          console.log(response, "at the add offer");
+        });
     })
+
+    
   }
 };

@@ -49,29 +49,31 @@
         <div class="row mr-2 ml-2">
           {{#each product}}
             <div class="col-lg-3 col-md-6 mb-4">
-              <div class ="card" >
-                <div class="card-header d-flex justify-content-end">
-                    <span>
+             <div class="card">
+  <div class="card-header d-flex justify-content-end" style="background-color: #ffffff;">
+    <span>
+        {{#if user}}
+            <i onclick="window.location.href='/addwishlist/{{_id}}'" class="fas fa-heart wishlist-icon"></i>
+            {{else}}
+             <i onclick="openModal()" class="fas fa-heart wishlist-icon"></i>
+             {{/if}}
+    </span>
+  </div>
+  <div class="card-img-top text-center" onclick="window.location.href='/products/{{_id}}';">
+    <img class="card-img-top my-3 me-3" style="height: 200px; width: auto" src="/productImages/{{_id}}.jpeg" alt="Card image cap" />
+  </div>
+  <div class="card-body">
+    <h6 class="card-title large">{{productName}}</h6>
+    <p class="card-text small">Brand: {{productBrand}}</p>
+    <!-- <p class="card-text small">{{description}}</p> -->
+    <p class="card-text">₹ {{offeredprice}} <del>₹{{sellingPrice}}</del></p>
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-warning btn-sm" onclick="window.location.href='/addtocart/{{_id}}'">Add to Cart</button>
+      <button class="btn btn-primary btn-sm">Buy Now</button>
+    </div>
+  </div>
+</div>
 
-
-                       <i onclick="window.location.href='/addwishlist/{{_id}}'" class="fas fa-heart wishlist-icon"  ></i>
-              
-                 
-                </div>
-                <div class="card-img-top text-center"  onclick="window.location.href='/products/{{_id}}';">
-              <img class="card-img-top img-fluid " style ="height:300px; width:auto"src="/productImages/{{_id}}.jpeg" alt="Card image cap" />
-            </div>
-                <div class="card-body">
-                  <h5 class="card-title large">{{productName}}</h5>
-                  <p class="card-text small">Brand: {{productBrand}}</p>
-                  {{!-- <p class="card-text small">{{description}}</p> --}}
-                  <p class="card-text">₹ {{offeredprice}} <del>₹{{sellingPrice}}</p>
-                  <div class="d-flex justify-content-between">
-                    <button class="btn btn-warning"  onclick="window.location.href='/addtocart/{{_id}}'">Add to Cart</button>
-                    <button class="btn btn-primary">Buy Now</button>
-                  </div>
-                </div>
-              </div>
             </div>
           {{/each}}
         </div>
@@ -137,19 +139,24 @@
             <div class="col-lg-3 col-md-6 mb-4">
             <div class="container-sm">
            <div  >
-        <div class="card-header d-flex justify-content-end">
-            <i class="fas fa-heart wishlist-icon"></i>
+        <div class="card-header d-flex justify-content-end" style="background-color: #ffffff;">
+          {{#if user}}
+            <i onclick="window.location.href='/addwishlist/{{_id}}'" class="fas fa-heart wishlist-icon"></i>
+            {{else}}
+             <i onclick="openModal()" class="fas fa-heart wishlist-icon"></i>
+             {{/if}}
+
         </div>
          <div class="card-img-top text-center"  onclick="window.location.href='/products/{{_id}}';">
-            <img class="card-img-top img-fluid" style="height: 300px;" src="/productImages/{{_id}}.jpeg" alt="Card image cap" />
+            <img class="card-img-top me-3 my-3" style="height: 200px; width: auto;" src="/productImages/{{_id}}.jpeg" alt="Card image cap" />
         </div>
         <div class="card-body" onclick="window.location.href='/products/{{_id}}';">
             <h5 class="card-text large">{{productName}}</h5>
             <p class="card-text small">Brand: {{productBrand}}</p>
             <p class="card-text">₹ {{offeredprice}} <del>₹{{sellingPrice}}</p>
             <div class="d-flex justify-content-between">
-                <button class="btn btn-warning" onclick="window.location.href='/addtocart/{{_id}}'">Add to Cart</button>
-                <button class="btn btn-primary">Buy Now</button>
+                <button class="btn btn-warning btn-sm" onclick="window.location.href='/addtocart/{{_id}}'">Add to Cart</button>
+                <button class="btn btn-primary btn-sm">Buy Now</button>
             </div>
         </div>
     </div>
@@ -204,3 +211,8 @@
 
 </div>
 </section>
+<script>
+  function openModal() {
+    $('#exampleModalCenter').modal('show');
+  }
+</script>

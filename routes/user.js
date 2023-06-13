@@ -10,6 +10,7 @@ const order = require("../controllers/userController/order");
 const orderHelpers = require("../helpers/orderHelpers");
 const { route } = require("express/lib/application");
 
+
 router.post("/signup", userLoginController.userSignUp);
 
 router.post("/signupverify", userLoginController.userSignupPost);
@@ -18,7 +19,7 @@ router.post("/otp", userLoginController.getOtp);
 
 router.post("/verify", userLoginController.otpVerify);
 
-router.get("/", productController.home);
+router.get("/",productController.home);
 
 router.get("/mobile", productController.mobile);
 
@@ -32,9 +33,13 @@ router.get("/grocery", productController.grocery);
 
 router.get("/products/:id", productController.getProductDetails);
 
+router.post("/search",productController.searchItems)
+
 router.get("/cart", orderController.getCart);
 
 router.get('/wishlist',orderController.getWishlist);
+
+router.post("/coupon", orderController.applyCoupoun);
 
 router.get("/addwishlist/:id",userLoginController.addWishlist);
 

@@ -1,8 +1,5 @@
 function validateForm()
         {
-            console.log("enetred here!")
-           
-           alert("enetred in the validate form")
             var name =document.getElementById("name").value;
             var nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
             var email=document.getElementById("email").value;

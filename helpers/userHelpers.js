@@ -1,6 +1,7 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
-const { mobile } = require("../controllers/userController/productView");
+const async = require("hbs/lib/async");
+// const { mobile } = require("../controllers/userController/productView");
 const ObjectId = require("mongodb").ObjectId;
 module.exports = {
   addUser: (details) => {
@@ -221,25 +222,136 @@ module.exports = {
         );
     });
   },
- removeWishlistByid: (mobileNumber, id) => {
-  const ids = id.toString();
-  const array = [ids];
-  console.log("id is ", id);
-  return new Promise((resolve, reject) => {
-    db.get()
-      .collection(collection.CREDENTIALCOLLECTION)
-      .updateOne(
-        { phone: mobileNumber },
-        { $pull: { wishlist: { $in: array } } },
-        (error, result) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
+  removeWishlistByid: (mobileNumber, id) => {
+    const ids = id.toString();
+    const array = [ids];
+    console.log("id is ", id);
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CREDENTIALCOLLECTION)
+        .updateOne(
+          { phone: mobileNumber },
+          { $pull: { wishlist: { $in: array } } },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
           }
-        }
-      );
-  });
-},
+        );
+    });
+  },
+  getReferalcode: () => {
+    function generateReferralCode(length) {
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      var referralCode = "";
 
+      for (var i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        referralCode += characters.charAt(randomIndex);
+      }
+
+      return referralCode;
+    }
+
+    return (referralCode = generateReferralCode(8));
+  },
+  getReferals: () => {
+    return new Promise(async (resolve, reject) => {
+      const referal = await db
+        .get()
+        .collection(collection.CREDENTIALCOLLECTION)
+        .aggregate([
+          {
+            $match: {
+              referalCode: { $exists: true },
+              referal: { $exists: true },
+            },
+          },
+          {
+            $lookup: {
+              from: collection.CREDENTIALCOLLECTION,
+              let: { referred: "$referal" },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: { $eq: ["$referalCode", "$$referred"] },
+                  },
+                },
+                {
+                  $project: {
+                    _id: 0,
+                    referred: "$referalCode",
+                    referrer: "$referal",
+                    phone: "$phone",
+                    wallet: "$wallet",
+                    name: "$name",
+                  },
+                },
+              ],
+              as: "referralInfo",
+            },
+          },
+        ])
+        .toArray();
+      resolve(referal);
+    }).catch((err) => {
+      reject(err);
+    });
+  },
+  approveReferal:()=>{
+    return new Promise(async(resolve,reject)=>{
+     const order= await db.get()
+        .collection(collection.CREDENTIALCOLLECTION).
+        aggregate([
+          {
+            $match: {
+              referalCode: { $exists: true },
+              referal: { $exists: true },
+            },
+          },
+          {
+            $lookup: {
+              from: "order",
+              let: { phone: "$phone" },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        { $eq: ["$phone", "$$phone"] },
+                        {
+                          $lte: [
+                            "$Date",
+                            {
+                              $subtract: [
+                                new Date(),
+                                { $multiply: [30, 24, 60, 60, 1000] },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "orders",
+            },
+          },
+          {
+            $match: {
+              orders: { $ne: [] },
+            },
+          },
+          {
+            $limit: 1,
+          },
+          
+        ]).toArray()
+        console.log('from the approve offer',order)
+
+    })
+  }
 };

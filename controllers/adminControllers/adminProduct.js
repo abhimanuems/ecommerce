@@ -1,6 +1,11 @@
 const productHelper = require("../../helpers/productHelpers");
 const categoryHelper = require("../../helpers/categoryHelpers");
+
 module.exports = {
+  adminDashboard:(req,res)=>{
+    console.log("enterd here")
+    res.render('admin/dashboard',{admin:true})
+  },
   viewProducts: function (req, res) {
     if (req.session.isAdmin) {
       productHelper.getAllProducts().then((product) => {
@@ -21,19 +26,15 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
-  addProductPost: (req, res) => {
+  addProductPost:(req, res)=> {
+    console.log("req body is ",req.body)
     if (req.session.isAdmin) {
       try {
-        productHelper.addProduct(req.body).then((result) => {
-          const image = req.files.image;
-          const id = result.insertedId.toString();
-          image.mv("./public/productImages/" + id + ".jpeg", (err, done) => {
-            if (!err) {
+        const filenames = req.files.map((file) => file.filename);
+        productHelper.addProduct(req.body,filenames).then((response) => {
+          console.log(response)
               res.redirect("/admin/viewproducts");
-            } else {
-              console.log(err);
-            }
-          });
+          
         });
       } catch (err) {
         console.log("error at adding product", err);
@@ -55,14 +56,12 @@ module.exports = {
   },
   editProductsPost: (req, res) => {
     if (req.session.isAdmin) {
-      const id = req.params.id;
-      if (req.files) {
-        const image = req.files.image;
-        image.mv("./public/productImages/" + id + ".jpeg");
-      }
+     console.log(req.files);
+      const filenames = req.files.map((file) => file.filename);
+      console.log(filenames)
 
       productHelper
-        .updateProducts(req.params.id, req.body)
+        .updateProducts(req.params.id, req.body, filenames)
         .then((result) => {
           console.log(result);
           res.redirect("/admin/viewproducts");
@@ -109,16 +108,8 @@ module.exports = {
   addCategoryPost: async (req, res) => {
     if (req.session.isAdmin) {
       try {
-        await categoryHelper.addCategory(req.body).then((result) => {
-          let image = req.files.icon;
-          let id = result.insertedId.toString();
-          image.mv("./public/CategoryIcons/" + id + ".PNG", (err, done) => {
-            if (!err) {
-              res.redirect("/admin/viewcategory");
-            } else {
-              console.log(err);
-            }
-          });
+        await categoryHelper.addCategory(req.body,req.file).then((result) => {
+            res.redirect("/admin/viewcategory");
         });
       } catch (err) {
         console.log("Error ocuured at adding category", err);
@@ -131,13 +122,11 @@ module.exports = {
     if (req.session.isAdmin) {
       const id = req.params.id;
       const update = { categoryName: req.body.categoryName };
+      const images = req.file.filename;
+      console.log(images,'from the edit categiory')
 
-      if (req.files) {
-        const image = req.files.image;
-        image.mv("./public/CategoryIcons/" + id + ".PNG");
-      }
       categoryHelper
-        .updateCategory(id, update)
+        .updateCategory(id, update,images)
         .then((result) => {
           res.redirect("/admin/viewcategory");
         })
@@ -153,6 +142,7 @@ module.exports = {
       try {
         const id = req.params.id;
         categoryHelper.deleteCategory(id);
+        
         res.redirect("/admin/viewcategory");
       } catch (err) {
         res.redirect("/addcategory");

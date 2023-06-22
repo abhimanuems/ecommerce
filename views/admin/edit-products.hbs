@@ -6,7 +6,8 @@
       <div class="col-md-3">
         <div class="text-center">
           <img
-            src="/productImages/{{_id}}.jpeg"
+          style="width: 200px; hieght:250px"
+            src="/productImages/{{images.[0]}}"
             class="avatar img-circle"
             alt="avatar"
           />
@@ -148,6 +149,7 @@
               type="file"
               name="image"
               accept="image/*"
+              multiple
             />
           </div>
 

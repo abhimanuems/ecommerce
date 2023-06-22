@@ -3,135 +3,151 @@
     <div class="row my-3">
       {{!-- <a href="/admin/addcategory" class="btn btn-success btn-md mt-3">Add Category</a> --}}
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Add Category
-</button>
+        Add Category
+      </button>
     </div>
     <!-- Button trigger modal -->
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-       <form action="/admin/addcategory" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-      <label for="productName">Category Name:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="categoryName"
-        name="categoryName"
-        required
-      />
-    </div>
-    <div class="form-group">
-      <label for="description">Upload Icon:</label>
-      <br />
-      <input type="file" name="icon" accept="image/*" required />
-    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Add Category</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/admin/addcategory" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="productName">Category Name:</label>
+                <input type="text" class="form-control" id="categoryName" name="categoryName" required />
+              </div>
+              <div class="form-group">
+                <label for="description">Upload Icon:</label>
+                <br />
+                <input type="file" name="icon" accept="image/*" required />
+              </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
- 
+              <button type="submit" class="btn btn-primary">Submit</button>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+          </form>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-       </form>
     </div>
-  </div>
-</div>
-  <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    {{#if category}}
-    <table class="table table-striped mt-2 table-bordered table-sm">
-      <thead>
-        <tr>
-          <th scope="col" class="text-center">SL NO</th>
-          <th scope="col" class="text-center">Category's</th>
-          <th scope="col" class="text-center">Category Icon</th>
-          <th scope="col" class="text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each category}}
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+      {{#if category}}
+      <table class="table table-striped mt-2 table-bordered table-sm">
+        <thead>
           <tr>
-            <td class="text-center">{{@key}}</td>
+            <th scope="col" class="text-center">SL NO</th>
+            <th scope="col" class="text-center">Category's</th>
+            <th scope="col" class="text-center">Category Icon</th>
+            <th scope="col" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each category}}
+          <tr>
+            <td class="text-center">{{#add @key 1}} {{/add}} </td>
             <td class="text-center">{{categoryName}}</td>
 
-            <td class="text-center"><img src="/CategoryIcons/{{_id}}.PNG" style="width: 50px; height:40px;" alt="Product Image" /></td>
+            <td class="text-center"><img src="/CategoryIcons/{{images}}" style="width: 50px; height:40px;"
+                alt="Product Image" /></td>
             <td class="text-center">
               <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter{{_id}}">
- Edit
-</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#exampleModalCenter{{_id}}">
+                Edit
+              </button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Edit Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="/admin/editcategory/{{_id}}" method="POST" enctype="multipart/form-data">
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-3">
-              <div class="text-center ml-6">
-                <img src="/CategoryIcons/{{_id}}.PNG" class="avatar img-circle" alt="avatar">
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModalCenter{{_id}}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Edit Category</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form action="/admin/editcategory/{{_id}}" method="POST" enctype="multipart/form-data">
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="text-center ml-6">
+                              <img src="/CategoryIcons/{{images}}" class="avatar img-circle" alt="avatar">
+                            </div>
+                          </div>
+                          <div class="col-md-9">
+                            <div class="form-group">
+                              <label class="control-label">Category Name:</label>
+                              <input class="form-control" type="text" value="{{categoryName}}" name="categoryName">
+                            </div>
+                            <div class="form-group">
+                              <label class="control-label">Upload Icon:</label>
+                              <input class="form-control" type="file" name="icon" accept="image/*">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="col-md-9">
-              <div class="form-group">
-                <label class="control-label">Category Name:</label>
-                <input class="form-control" type="text" value="{{categoryName}}" name="categoryName">
-              </div>
-              <div class="form-group">
-                <label class="control-label">Upload Icon:</label>
-                <input class="form-control" type="file" name="image" accept="image/*">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 
               {{!-- <button class="btn btn-primary mb-6">Edit</button> --}}
-              <form
-                method="POST"
-                action="/admin/delete-category/{{_id}}?_method=DELETE"
-                class="d-inline"
-              >
+              <form method="POST" action="/admin/delete-category/{{_id}}?_method=DELETE" class="d-inline">
                 <input type="hidden" name="_method" value="DELETE" />
-                <button
-                  type="submit"
-                  class="btn btn-danger"
-                  onclick="return confirm('Are you sure you want to delete?')"
-                >Delete</button>
-              </form></td>
+                {{!-- <button type="submit" class="btn btn-danger"
+                  onclick="return confirm('Are you sure you want to delete?')">Delete</button> --}}
+                <button type="button" class="btn btn-danger" data-toggle="modal"
+                  data-target="#exampleModalDeleteCategory">
+                  Delete
+                </button>
+                <div class="modal fade" id="exampleModalDeleteCategory" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete {{categoryName}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure to delete
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </td>
           </tr>
-        {{/each}}
+          {{/each}}
 
-      </tbody>
-    </table>
-    {{else}}
-    <div>
-      <h2>Kindly add new Category</h2>
-    </div>
-    {{/if}}
+        </tbody>
+      </table>
+      {{else}}
+      <div>
+        <h2>Kindly add new Category</h2>
+      </div>
+      {{/if}}
     </div>
   </div>
 </section>

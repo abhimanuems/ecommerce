@@ -10,7 +10,7 @@ module.exports = {
     if (req.body.username == "admin" && req.body.password == "admin") {
       req.session.isAdmin = true;
       productHelper.getAllProducts().then((product) => {
-        res.render("admin/view-products", { admin: true, product });
+        res.render("admin/dashboard", { admin: true });
       });
     } else {
       res.render("admin/adminlogin", {

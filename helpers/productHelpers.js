@@ -1,11 +1,19 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
-const { mobile } = require("../controllers/userController/productView");
+// const { mobile } = require("../controllers/userController/productView");
 const { response } = require("express");
-const async = require("hbs/lib/async");
+const res = require("express/lib/response");
+
+
 const ObjectId = require("mongodb").ObjectId;
 module.exports = {
-  addProduct: (product) => {
+  addProduct: (product, files) => {
+    console.log(product.quantity);
+    const quantity = parseInt(product.quantity);
+    console.log(quantity);
+    product.quantity=quantity;
+    product.images = files;
+    product.status = true;
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.PRODUCTCOLLECTION)
@@ -23,7 +31,7 @@ module.exports = {
       let product = db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find()
+        .find({ status: true })
         .toArray();
       resolve(product);
     });
@@ -120,7 +128,9 @@ module.exports = {
       resolve(products);
     });
   },
-  updateProducts: (id, products) => {
+  updateProducts: (id, products, image) => {
+    products.images = image;
+    console.log("after adding product image is ", products);
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.PRODUCTCOLLECTION)
@@ -138,7 +148,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.PRODUCTCOLLECTION)
-        .deleteOne({ _id: new ObjectId(id) });
+        .updateOne({ _id: new ObjectId(id) }, { $set: { status: false } });
       resolve(true);
     }).catch((err) => {
       reject(err);
@@ -205,9 +215,7 @@ module.exports = {
             },
           },
         ]);
-    }).then((response) => {
-      console.log(response);
-    });
+    }).then((response) => {});
   },
   getWishProduct: (productIds) => {
     const productIdObjects = productIds.map((index) => new ObjectId(index));
@@ -222,20 +230,157 @@ module.exports = {
       resolve(products);
     });
   },
-  searchItems:(text)=>{
-    return new Promise(async(resolve,reject)=>{
+  searchItems: (text) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const products = await db
+          .get()
+          .collection(collection.PRODUCTCOLLECTION)
+          .find({ productName: { $regex: text, $options: "i" } })
+          .toArray();
 
-      const products = await db
+        resolve(products.slice(0, 6));
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+  addOffer: (id, data) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .updateOne({ _id: new ObjectId(id) }, { $set: { offer: data } })
+        .then((resposne) => {
+          resolve(response);
+        })
+        .catch((err) => {
+          reject(err);
+          console.log("Error adding at the add product offer", err);
+        });
+    });
+  },
+  latestProduct: () => {
+    return new Promise(async (resolve, reject) => {
+      const product = await db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ productName: { $regex: text, $options: "i" } })
+        .find()
         .toArray();
-      console.log(products,"are at the search items ");
-      resolve(products)
-
-    }).catch((err)=>{
+      resolve(product);
+      console.log(product);
+    });
+  },
+  lowToHighProducts: () => {
+    return new Promise(async (resolve, reject) => {
+      const product = await db
+        .get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .find()
+        .sort({ offeredprice: 1 })
+        .toArray();
+      resolve(product);
+    }).catch((err) => {
       reject(err);
+    });
+  },
+  highToLow: () => {
+    return new Promise(async (resolve, reject) => {
+      const product = await db
+        .get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .find()
+        .sort({ offeredprice: -1 })
+        .toArray();
+      resolve(product);
+    }).catch((err) => {
+      reject(err);
+    });
+  },
+  getFilteredProduct: (categoryName) => {
+    return new Promise(async (resolve, reject) => {
+      const product = await db
+        .get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .aggregate([
+          {
+            $match: { category: categoryName },
+          },
+        ])
+        .toArray();
+      resolve(product);
+      console.log(product);
+    }).catch((err) => {
+      reject(err);
+    });
+  },
+  getProductOffer: (ids) => {
+    return new Promise(async (resolve, reject) => {
+      const date = new Date().toISOString().split("T")[0];
+      const objectIdIds = ids.map((id) => new ObjectId(id));
+      const offers = await db
+        .get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .find({
+          _id: { $in: objectIdIds },
+          offer: { $exists: true },
+          "offer.startDate": { $lte: date },
+          "offer.endDate": { $gte: date },
+        })
+        .project({ offer: 1, _id: 0, productName: 1 })
+        .toArray();
+      resolve(offers);
+    }).catch((err) => {
+      reject(err);
+      console.log("error is ", err);
+    });
+  },
+  getAllProductsWithOffer: () => {
+    return new Promise(async (resolve, reject) => {
+      const product = await db
+        .get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .find({ offer: { $exists: true } })
+        .toArray();
+      console.log(product);
+      resolve(product);
+    }).catch((err) => {
+      reject(err);
+    });
+  },
+  deleteProductOffer: (id) => {
+    return new Promise((resolve, reject) => {
+      console.log("eneter at the delete offer");
+      db.get()
+        .collection(collection.PRODUCTCOLLECTION)
+        .updateOne({ _id: new ObjectId(id) }, { $unset: { offer: "" } })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  updateProductQuantity:(products)=>{
+  try{
+     for (let i=0;i<products.length;i++) {
+      let updatedQuantity = parseInt(products[1][i]);
 
-    })
+     return new Promise(async(resolve,reject)=>{
+     await db
+       .get()
+       .collection(collection.PRODUCTCOLLECTION)
+       .updateOne(
+         { _id: new ObjectId(products[0][i]) },
+         { $inc: { quantity: -updatedQuantity } }
+       );
+     }).then((response)=>{
+     resolve(response);
+     })
+    }
+  }catch(er){
+    console.log(er)
+  }
+
   }
 };

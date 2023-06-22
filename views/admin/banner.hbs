@@ -1,0 +1,220 @@
+<section>
+  <div class="container mt-3">
+    <h3 style="color: #27374D;">Banners </h3>
+    <br />
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModalCenterVocher"
+    >
+      Add Banner
+    </button>
+    <div
+      class="modal fade"
+      id="exampleModalCenterVocher"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      {{! modal for Vouchers }}
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Add Banner</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="container">
+     <form id="voucherId" action="/admin/banner" method="post"   enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-12">
+             <div class="form-group">
+                 <div class="form-group">
+            <label for="title" class="ml-2">Title:</label>
+            <input type="text" class="form-control ml-2" name="title" id="title" placeholder="Title">
+          </div>
+            <label for="category">Select Category:</label>
+            <select class="form-control" id="category" name="category" style="width: 150px;">
+                 <option value="home">home</option>
+                 {{#each category}}
+              <option value="{{_id}}">{{categoryName}}</option>
+              {{/each}}
+            </select>
+          </div>
+         
+        </div>
+        <div class="col-12">
+              <div class="form-group">
+                  <label for="description">Upload image:</label>
+                  <br />
+                  <input type="file" name="image" accept="image/*" multiple required />
+                </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary float-right" id="submitButton">Save</button>
+        </div>
+      </div>
+    </form>
+        
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary f"
+              data-dismiss="modal"
+            >Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    {{#if banner}}
+      <div class="table-wrapper-scroll-y my-custom-scrollbar mt-3">
+
+        <table class="table table-striped">
+          <thead>
+            <tr style="font-size: .8rem;">
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Images</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each banner}}
+              <tr style="font-size: .8rem;">
+                <td>{{banner.title}}</td>
+                <td>{{banner.category}}</td>
+                <td><img src="/banner/{{banner.images.[0]}}" style="width: 50px; height:40px;" alt="Product Image" /></td>
+
+                <td>
+                 
+
+                  
+
+                    <button
+                      type="submit"
+                      class="btn-xs btn-primary"
+                      data-toggle="modal"
+                      data-target="#exampleModalCenterEdit{{_id}}"
+                    >&nbspEdit&nbsp</button>
+                  </div>
+                </td>
+              </tr>
+
+              <div
+                class="modal fade"
+                id="exampleModalCenterEdit{{_id}}"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Edit
+                        Offers</h5>
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="container">
+                        <form
+                          method="POST"
+                          action="/admin/editbanner/{{_id}}"
+                          enctype="multipart/form-data"
+                        >
+                        <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="title" class="ml-2">Title:</label>
+            <input type="text" class="form-control ml-2" name="title"  value="{{banner.title}}"  id="title" placeholder="Title">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+      <div class="row">
+       
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="category">Select Category:</label>
+            <select class="form-control" name="category" style="width: 150px;">
+            <option value="home">home</option>
+              <option value="64857153bb980dc78fda4262">Electronics</option>
+                 <option value="64857165bb980dc78fda4263">Grocery</option>
+                  <option value="64857175bb980dc78fda4264">Books</option>
+                   <option value="6485718abb980dc78fda4265">Health & Wellness</option>
+                    <option value="64887c2374ab0d07b66671ac">Mobiles</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+              <div class="form-group">
+                  <label for="description">Upload image:</label>
+                  <br />
+                  <input type="file" name="image" accept="image/*" multiple required />
+                </div>
+        </div>
+      </div>
+     
+     
+     
+ 
+      <div class="row">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary float-right">Save</button>
+        </div>
+      </div>
+                        </form>
+
+                      </div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary f"
+                        data-dismiss="modal"
+                      >Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <div class="mt-3">
+        <h5 style="color: #27374D;">No Banners found!</h5>
+      </div>
+    {{/if}}
+  </div>
+</section>

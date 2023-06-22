@@ -13,13 +13,19 @@
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="path/to/elevateZoom.css">
+{{!-- <script src="path/to/jquery.min.js"></script> --}}
+<script src="path/to/jquery.elevateZoom.min.js"></script>
+
 
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    {{!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> --}}
+   
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link rel="stylesheet" href="./public/stylesheets/style.css">
+    
         <link rel="stylesheet" href="/stylesheets/admin.css">
+        {{!-- <link href="/stylesheets/productpage.css" rel="stylesheet"> --}}
            <link rel="stylesheet" href="/stylesheets/user.css">
                
          
@@ -40,7 +46,6 @@
 </head>
 
 <body>
-
     {{#unless login}}
     {{#if admin}}
     {{>admin-header}}
@@ -95,6 +100,7 @@
           <script src="/javascripts/user.js"></script>
            <script src="/javascripts/admin.js"></script>
            <script src="/javascripts/razorpay.js"></script>
+       
 </body>
 
 </html>

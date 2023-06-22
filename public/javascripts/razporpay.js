@@ -1,25 +1,25 @@
 $(document).ready(function () {
-  alert("Enter here");
 
-  // Handle address selection
-  $(".address-checkbox").change(function () {
-    var selectedAddressIndex = $(this).val();
-    $("#selectedAddressIndex").val(selectedAddressIndex);
-  });
+ 
+$(".address-checkbox").change(function () {
+  var selectedAddressIndex = $(this).val();
+  $("#selectedAddressIndex").val(selectedAddressIndex);
+});
 
-  // Handle place order button click
-  $("#placeOrderButton").click(function () {
-    // Open the place order modal
+$("#placeOrderButton").click(function () {
+  if ($(".address-checkbox").is(":checked")) {
     $("#exampleModalCenterPlaceOrder").modal("show");
-  });
+  }
+});
 
-  // Handle proceed to payment button click
+
+
   $("#proceedToPaymentButton").click(function () {
-    alert("Enter at the proceed to payment");
+  
     var selectedAddressIndex = $("#selectedAddressIndex").val();
     var paymentMethod = $("input[name='paymentMethod']:checked").val();
 
-    // Combine the data into an object
+  
     var orderData = {
       selectedAddressIndex: selectedAddressIndex,
       paymentMethod: paymentMethod,
@@ -30,17 +30,17 @@ $(document).ready(function () {
       type: "POST",
       data: orderData,
       success: function (response) {
-        alert("Entered here");
 
         if (response.COD) {
           location.href = "/success";
         } else {
+        
           console.log(response.response);
           razorPayment(response.response);
         }
       },
       error: function (xhr, status, error) {
-        // Handle errors
+      
         console.error(error);
       },
     });
@@ -59,9 +59,7 @@ function razorPayment(order) {
     image: "https://example.com/your_logo",
     order_id: order.id,
     handler: function (response) {
-      alert(response.razorpay_payment_id);
-      alert(response.razorpay_order_id);
-      alert(response.razorpay_signature);
+      
       verifyPayment(response, order);
     },
     prefill: {
@@ -80,29 +78,32 @@ function razorPayment(order) {
   rzp1.open();
 }
 
+
+
 function verifyPayment(payment, order) {
-  alert("Entered at verify payment");
   $.ajax({
     url: "/verifypayment",
-    method: "post",
+
     data: {
       payment: payment,
       order: order,
     },
+    method: "post",
     success: function (response) {
-      alert(response);
       console.log(response);
-      alert(response.status);
-      if (response.status === true) {
+      if (response.status == true) {
         location.href = "/success";
-      } else if (response.status === false) {
+      } else if (response.status == false) {
         alert(response.err);
         location.href = "/";
       }
     },
     error: function (xhr, status, error) {
-      // Handle errors
+      
       console.error(error);
+   
+      location.href = "/error";
     },
   });
 }
+

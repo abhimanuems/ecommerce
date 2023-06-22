@@ -2,246 +2,218 @@
   <div class="container">
     <div class="row">
       {{#if product}}
-        <div class="col-lg-9">
-          {{#nestedEach product count}}
-            <div class="card border shadow-0">
-              <div class="m-4">
-                <h4 class="card-title mb-4">
-                  <div class="row gy-3">
-                    <div class="col-lg-5">
-                      <div class="me-lg-5">
-                        <div class="d-flex">
-                          <img
-                            class="card-img-top img-fluid border rounded me-3"
-                            src="/productImages/{{product._id}}.jpeg"
-                            alt="Card image cap"
-                            style="width: 96px; height: 96px;"
-                          />
-                          <div class="">
-                            <a class="nav-link">
-                              <div class="text-truncate" style="max-width: 200px">{{product.productName}}</div>
-                            </a>
-                            <p class="text-muted nav-link">
-                              <div class="text-truncate ml-3" style="max-width: 200px">{{product.productBrand}}</div>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
-                      <div class="ml-2">
-                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                          {{#greaterThan product.quantity count}}
-                            {{#notLessThan product.quantity 1}}
-                              <button class="btn btn-link px-2 decrease-quantity" onclick="decreaseQuantity.call(this, '{{product._id}}','{{../mobile}}')">
-                                <i class="fas fa-minus"></i>
-                              </button>
-                              <input
-                                id="form1"
-                                min="1"
-                                name="quantity"
-                                value="{{count}}"
-                                type="number"
-                                class="form-control form-control quantity-input"
-                                style="width: 57px"
-                              />
-                              <button class="btn btn-link px-2 increase-quantity" onclick="increaseQuantity.call(this, '{{product._id}}','{{../mobile}}')">
-                                <i class="fas fa-plus"></i>
-                              </button>
-                            {{/notLessThan}}
-                          {{else}}
-                            <p class="h6" style="color: red">Out of stock</p>
-                          {{/greaterThan}}
-                        </div>
-                      </div>
-                      {{#notLessThan product.quantity 1}}
-                        <div class="ml-2">
-                          <p class="h6">₹{{multiply product.offeredprice count}}</p>
-                          <br />
-                        </div>
-                      {{else}}
-                        <div class="ml-2">
-                          <p class="h6" style="color: red">Out of stock</p>
-                          <br />
-                        </div>
-                      {{/notLessThan}}
-                    </div>
-                    <div class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
-                      <div class="float-md-end">
-                        <a href="#!" class="btn btn-light border px-2 icon-hover-primary">
-                          <i class="fas fa-heart fa-lg px-1 text-secondary"></i>
+      <div class="col-lg-9">
+        {{#nestedEach product count}}
+        <div class="card border shadow-0">
+          <div class="m-4">
+            <h4 class="card-title mb-4">
+              <div class="row gy-3">
+                <div class="col-lg-5">
+                  <div class="me-lg-5">
+                    <div class="d-flex">
+                      <img class="card-img-top img-fluid border rounded me-3"
+                        src="/productImages/{{product.images.[0]}}" alt="Card image cap"
+                        style="width: 96px; height: 96px;" />
+                      <div class="">
+                        <a class="nav-link">
+                          <div class="text-truncate" style="max-width: 200px">{{product.productName}}</div>
                         </a>
-                        <button class="btn btn-light border text-danger icon-hover-danger" onclick="window.location.href='/removecart/{{product._id}}';">
-                          Remove
-                        </button>
+                        <p class="text-muted nav-link">
+                        <div class="text-truncate ml-3" style="max-width: 200px">{{product.productBrand}}</div>
+                        </p>
                       </div>
                     </div>
                   </div>
-                </h4>
-              </div>
-            </div>
-          {{/nestedEach}}
-        </div>
-        <div class="col-lg-3">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="card mb-3 border shadow-0">
-                <div class="card-body">
-                  <form>
-                    <div class="form-group">
-                      <label class="form-label">Have a coupon?</label>
-                      <div class="input-group">
-                        <input
-                        id="coupounTextBox"
-                          type="text"
-                          class="form-control border"
-                          name=""
-                          placeholder="Coupon code"
-                        />
-                       
-                        <button id="coupounButton" class="btn btn-light border">Apply</button>
-                      </div>
-                      <br>
-                       <p style="color: green; display:none" id="messageId" >  
-
-                     
-                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
-</svg>
-
-   </p>
-
-                      
-                    </div>
-                  </form>
                 </div>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <div class="card shadow-0 border">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="mb-2">Total price:</p>
-                  <p class="mb-2" id="totalprice">₹{{amounts.totalAmountSellingPrice}}</p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="mb-2">Discount:</p>
-                    <p class="mb-2 text-success">{{subtract amounts.totalAmountSellingPrice amounts.totalAmountOfferedPrice}}</p>
-                  </div>
-                  {{#notLessThan amounts.totalAmountOfferedPrice 500}}
-                    <div class="d-flex justify-content-between mb-2">
-                      <p class="mb-2">Delivery Fee:</p>
-                      <p class="mb-2 text-success" ><del>₹60</del></p>
+                <div class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
+                  <div class="ml-2">
+                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                      {{#greaterThan product.quantity count}}
+                      {{#notLessThan product.quantity 1}}
+                      <button class="btn btn-link px-2 decrease-quantity"
+                        onclick="decreaseQuantity.call(this, '{{product._id}}','{{../mobile}}')">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <input id="form1" min="1" name="quantity" value="{{count}}" type="number"
+                        class="form-control form-control quantity-input" style="width: 57px" />
+                      <button class="btn btn-link px-2 increase-quantity"
+                        onclick="increaseQuantity.call(this, '{{product._id}}','{{../mobile}}')">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                      {{/notLessThan}}
+                      {{else}}
+                      <p class="h6" style="color: red">Out of stock</p>
+                      {{/greaterThan}}
                     </div>
-                    <hr />
-                    <div class="d-flex justify-content-between">
-                      <p class="mb-2">Total price:</p>
-                      <p class="mb-2 fw-bold" id="totalPrice">₹{{amounts.totalAmountOfferedPrice}}</p>
-                    </div>
+                  </div>
+                  {{#notLessThan product.quantity 1}}
+                  <div class="ml-2">
+                    <p class="h6">₹{{multiply product.offeredprice count}}</p>
+                    <br />
+                  </div>
                   {{else}}
-                    <div class="d-flex justify-content-between mb-2">
-                      <p class="mb-2">Delivery Fee:</p>
-                      <p class="mb-2 text-success" id="deliveryFee">₹60</p>
-                    </div>
+                  <div class="ml-2">
+                    <p class="h6" style="color: red">Out of stock</p>
+                    <br />
+                  </div>
                   {{/notLessThan}}
-                  <div class="mt-3">
-                    <button class="btn btn-success w-100 shadow-0 mb-2" onclick="window.location.href='/checkoutForOrder/{{_id}}'">
-                      PLACE ORDER
+                </div>
+                <div
+                  class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
+                  <div class="float-md-end">
+                    <a href="#!" class="btn btn-light border px-2 icon-hover-primary">
+                      <i class="fas fa-heart fa-lg px-1 text-secondary"></i>
+                    </a>
+                    <button class="btn btn-light border text-danger icon-hover-danger"
+                      onclick="window.location.href='/removecart/{{product._id}}';">
+                      Remove
                     </button>
                   </div>
+                </div>
+              </div>
+            </h4>
+          </div>
+        </div>
+        {{/nestedEach}}
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row">
+          <div class="col-lg-12 mb-3">
+            {{#if VoucherCodes}}
+
+            <div class="card shadow-0 border">
+
+              <div class="card-body">
+                <div>
+                  <p class="badge badge-pill badge-info">Vouchers</p>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <div>
+
+                    {{#each VoucherCodes }}
+                    <p class="badge badge-success">{{voucher.voucherCode}}</p>
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+              {{/if}}
+            </div>
+          </div>
+
+
+          <div class="col-lg-12">
+            <div class="card mb-3 border shadow-0">
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label class="form-label">Have a coupon?</label>
+                    <div class="input-group">
+                      <input id="coupounTextBox" type="text" class="form-control border" name=""
+                        placeholder="Coupon code" />
+
+                      <button id="coupounButton" class="btn btn-light border">Apply</button>
+                    </div>
+                    <br>
+                    <p style="color: green; display:none" id="messageId">
+                    </p>
+                    <button style="display: none;" class="btn" id="deleteButton">
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                        <path
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                      </svg>
+                    </button>
+
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="card shadow-0 border">
+              <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                  <p class="mb-2">price:</p>
+                  <p class="mb-2" id="totalprice">₹{{amounts.totalAmountSellingPrice}}</p>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  {{!-- <p class="mb-2">Discount:</p> --}}
+                  <p class="mb-2">Coupon Applied</p>
+                  <p style="display: none;" class="mb-2 fw-bold" id="coupounId"></p>
+                  {{!-- <p class="mb-2 text-success">{{subtract amounts.totalAmountSellingPrice
+                    amounts.totalAmountOfferedPrice}}</p> --}}
+                </div>
+                {{#notLessThan amounts.totalAmountOfferedPrice 500}}
+                <div class="d-flex justify-content-between mb-2">
+                  <p class="mb-2">Delivery Fee:</p>
+                  <p class="mb-2 text-success"><del>₹60</del></p>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Total Amount:</p>
+                  <p class="mb-2 fw-bold" id="totalPrice">₹{{amounts.totalAmountOfferedPrice}}</p>
+
+                </div>
+                <hr />
+                {{else}}
+                <div class="d-flex justify-content-between mb-2">
+                  <p class="mb-2">Delivery Fee:</p>
+                  <p class="mb-2 text-success" id="deliveryFee">₹60</p>
+                </div>
+                {{/notLessThan}}
+                <div class="mt-3">
+                  <button class="btn btn-success w-100 shadow-0 mb-2"
+                    onclick="window.location.href='/checkoutForOrder/{{_id}}'">
+                    PLACE ORDER
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       {{else}}
-        <div style="background-color: #ffff;">
-          {{#if user}}
-          <div class="container-fluid bg-light d-flex justify-content-center align-items-center" >
-  <div class="card text-center" style="margin-left: 130px;">
-    <div class="card-body">
-     <img style="width: 50rem; height: 20rem;" src="\images\cartempty.webp" alt="">
-      <h3>Your Cart is empty! </h3>
-      <p>Add items to it now</p>
-      <button type="button" class="btn btn-primary" onclick="window.location.href='/';">
-       Shop now
-      </button>
-    </div>
-  </div>
-</div>
-          {{else}}
-
-        <div class="container-fluid bg-light d-flex justify-content-center align-items-center" >
-  <div class="card text-center" style="margin-left: 150px;">
-    <div class="card-body">
-      <img style="width: 50rem; height: 20rem;" src="\images\cartempty.webp" alt="">
-      <h2>Missing Cart items? </h2>
-      <p>Login to view items</p>
-      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
-        Login
-      </button>
-    </div>
-  </div>
-</div>
-
-           
-          {{/if}}
+      <div style="background-color: #ffff;">
+        {{#if user}}
+        <div class="container-fluid bg-light d-flex justify-content-center align-items-center">
+          <div class="card text-center" style="margin-left: 130px;">
+            <div class="card-body">
+              <img style="width: 50rem; height: 20rem;" src="\images\cartempty.webp" alt="">
+              <h3>Your Cart is empty! </h3>
+              <p>Add items to it now</p>
+              <button type="button" class="btn btn-primary" onclick="window.location.href='/';">
+                Shop now
+              </button>
+            </div>
+          </div>
         </div>
+        {{else}}
+
+        <div class="container-fluid bg-light d-flex justify-content-center align-items-center">
+          <div class="card text-center" style="margin-left: 150px;">
+            <div class="card-body">
+              <img style="width: 50rem; height: 20rem;" src="\images\cartempty.webp" alt="">
+              <h2>Missing Cart items? </h2>
+              <p>Login to view items</p>
+              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        {{/if}}
+      </div>
       {{/if}}
     </div>
   </div>
 </section>
 
 <script>
-  $('#coupounButton').click(function() {
-    event.preventDefault();
-
-
-  const couponCode = $('#coupounTextBox').val();
-  if (couponCode.trim().length === 0) 
-  {
-      $("#messageId").text("Invalid coupon");
-  return
-  }
-  const totalPrice = $('#totalPrice').text();
-
-   $(this).prop('disabled', true);
-
-  $.ajax({
-    url: "/coupon",
-    method: "post",
-    data: { coupon: couponCode, total: totalPrice },
-    success: function(response) {
-      if (response.status) {
-         $("#messageId").css("display", "block");
-         $("#messageId").text("coupon applied");
-        $("#totalPrice").text(response.price);
-          $("#totalprice").text(response.price);
-          if(response.price<500)
-            {
-                $("#deliveryFee").text("60");
-            
-          }
-        
-      } else {
-         $("#messageId").css("display", "block");
-         $("#messageId").css('color', 'red');
-
-         $("#messageId").text("Invalid coupon");
-         setTimeout(()=>{
-          location.reload();
-         },2000)
-      }
-    },
-    error: function(xhr, status, error) {
-      console.log("An error occurred: " + error);
-    },
-     complete: function() {
-      // Enable the submit button after the request is complete
-      {{!-- $('#coupounButton').prop('disabled', false); --}}
-    }
-  
-  });
-});
+ 
 </script>

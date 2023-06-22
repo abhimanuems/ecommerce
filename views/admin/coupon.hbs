@@ -76,18 +76,19 @@
                         <option value="percentage">Percentage</option>
                       </select>
                     </div>
+                    
+                  
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="cappedPrice" class="ml-2">Capped Price:</label>
+                     <div class="form-group">
+                      <label for="minSpent">Percentage</label>
                       <input
                         type="text"
-                        class="form-control ml-2"
-                        id="cappedPrice"
-                        name="cappedPrice"
-                        placeholder="Enter the capped value"
+                        class="form-control"
+                        name="percentage"
+                        placeholder="if percentage"
                       />
                     </div>
                   </div>
@@ -115,17 +116,6 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="limitPerOrder">Limit Per Order:</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="limitPerOrder"
-                        name="limitPerOrder"
-                      />
-                    </div>
-                  </div>
                   <div class="col-12 col-md-8">
                     <div class="form-group">
                       <label for="voucherCode" class="ml-2">Voucher Code:</label>
@@ -196,10 +186,9 @@
               <th scope="col">Title</th>
               <th scope="col">Price</th>
               <th scope="col">Price Type</th>
-              <th scope="col">Capped Price</th>
+              <th scope="col">Percentage</th>
               <th scope="col">Minumum</th>
               <th scope="col">Usage Limit</th>
-              <th scope="col">Limit Per Order</th>
               <th scope="col">Voucher code</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
@@ -213,10 +202,9 @@
                 <td>{{voucher.title}}</td>
                 <td>{{voucher.price}}</td>
                 <td>{{voucher.priceType}}</td>
-                <td>{{voucher.cappedPrice}}</td>
+                <td>{{voucher.percentage}}</td>
                 <td>{{voucher.minSpent}}</td>
                 <td>{{voucher.usageLimit}}</td>
-                <td>{{voucher.limitPerOrder}}</td>
                 <td>{{voucher.voucherCode}}</td>
                 <td>{{voucher.startTime}}</td>
                 <td>{{voucher.endTime}}</td>
@@ -284,7 +272,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Add Voucher</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit Voucher</h5>
             <button
               type="button"
               class="close"
@@ -343,19 +331,16 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="cappedPrice" class="ml-2">Capped Price:</label>
+                  <div class="form-group">
+                      <label for="minSpent">Percentage</label>
                       <input
                         type="text"
-                        class="form-control ml-2"
-                        id="cappedPrice"
-                        name="cappedPrice"
-                         value="{{voucher.cappedPrice}}"
-                        placeholder="Enter the capped value"
+                        class="form-control"
+                        name="percentage"
+                        value="{{voucher.percentage}}"
+                        placeholder="if percentage"
                       />
                     </div>
-                  </div>
                   <div class="col-12 col-md-4">
                     <div class="form-group">
                       <label for="minSpent">Min Spent:</label>
@@ -382,19 +367,6 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="limitPerOrder">Limit Per Order:</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="limitPerOrder"
-                        name="limitPerOrder"
-                            value="{{voucher.limitPerOrder}}"
-                        
-                      />
-                    </div>
-                  </div>
                   <div class="col-12 col-md-8">
                     <div class="form-group">
                       <label for="voucherCode" class="ml-2">Voucher Code:</label>

@@ -169,32 +169,91 @@
 // console.log(nums)
 
 
-var buddyStrings = function (s, goal) {
-  let k = 0;
-  for (let i = 0; i < s.length - 1; i++) {
-    if (s[i] != goal[i]) {
+// var buddyStrings = function (s, goal) {
+//   let k = 0;
+//   for (let i = 0; i < s.length - 1; i++) {
+//     if (s[i] != goal[i]) {
 
-      [s[i], s[i + 1]] = [s[i + 1], s[i]];
-      k++;
+//       [s[i], s[i + 1]] = [s[i + 1], s[i]];
+//       k++;
+//     }
+//   var areEqual = JSON.stringify(s) === JSON.stringify(goal);
+//     if (k == 2) {
+//       if (areEqual) {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     }
+//   }
+//   if (areEqual) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
+
+// function generateReferralCode(length) {
+//   var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+//   var referralCode = "";
+
+//   for (var i = 0; i < length; i++) {
+//     var randomIndex = Math.floor(Math.random() * characters.length);
+//     referralCode += characters.charAt(randomIndex);
+//   }
+
+//   return referralCode;
+// }
+
+// var referralCode = generateReferralCode(8);
+// console.log(referralCode);
+
+
+// let s = ['a','b'];
+//  let goal = ['b','a']
+//  console.log(buddyStrings(s,goal))
+//    console.log(s, goal);
+
+// var numberOfSteps = function (num) {
+//   let count = 0;
+//   while (num > 0) {
+//     console.log(num)
+//     if (num % 2 == 0) {
+    
+//       num /= 2;
+//       count++;
+//         console.log(num, count);
+//     } else {
+//       num -= 1;
+//       console.log(count)
+//       count++;
+//     }
+//   }
+//   return count;
+// };
+// console.log('count is ',numberOfSteps(14));
+
+var getNoZeroIntegers = function (n) {
+  let array = [];
+  let num = n;
+  let nums = [];
+
+  while (n > 0) {
+    array.push((n - 1).toString());
+    console.log(array);
+    if (array.includes("0")) {
+      nums.push(n - 2);
+    } else {
+      nums.push(n-3)
+      console.log(n-1)
+      
     }
-  var areEqual = JSON.stringify(s) === JSON.stringify(goal);
-    if (k == 2) {
-      if (areEqual) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-  if (areEqual) {
-    return true;
-  } else {
-    return false;
+
+
+
+    return nums;
   }
 };
 
-let s = ['a','b'];
- let goal = ['b','a']
- console.log(buddyStrings(s,goal))
-   console.log(s, goal);
+console.log(getNoZeroIntegers(10));
 

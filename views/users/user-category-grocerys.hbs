@@ -10,12 +10,14 @@
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
+      {{#each banner}}
       <img
         class="d-block w-100"
-        src="\images\tank.jpeg"
+              src="/banner/{{banner.images.[0]}}"
         style="height: 600px;"
         alt="First slide"
       />
+      {{/each}}
     </div>
   </div>
 
@@ -35,7 +37,7 @@
             onclick="window.location.href='/products/{{_id}}';"
           >
             <div class="card-header d-flex justify-content-end">
-              <i class="fas fa-heart wishlist-icon"></i>
+             <i onclick="window.location.href='/addwishlist/{{_id}}'" class="fas fa-heart wishlist-icon"></i>
             </div>
             <div class="card-img-top text-center">
               <img

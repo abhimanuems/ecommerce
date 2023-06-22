@@ -10,7 +10,7 @@
             <th scope="col" class="text-center">Mobile Number</th>
             <th scope="col" class="text-center">Payment Mode</th>
             <th scope="col" class="text-center">Coupon</th>
-            <th scope="col" class="text-center">status</th>
+            <th scope="col" class="text-center">Status</th>
             <th scope="col" class="text-center">Amount</th>
             <th scope="col" class="text-center">Address</th>
              <th scope="col" class="text-center">Details</th>
@@ -77,14 +77,14 @@ view Details
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content text-sm-start">
                 <div class="modal-body text-sm-start">
-                  <p>Product Ids :
-                    {{#each productId}}
-                    {{this}}
-                    {{/each}}</p>
+                  <p>product Name: {{productName}}</p>
+                   <p>product Brand: {{productBrand}}</p>
+                   <p>Category: {{category}}</p>
                    <p>Mobile Number :{{phone}}</p>
                   <p>Delivery Fee :{{deliveryFee}}</p>
                   <p>Payment Mode :{{paymentMode}}</p>
                   <p> Coupon :{{coupon}}</p>
+                <p>cancel or return :{{cancelReason}} {{returnReason}}</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -9,12 +9,9 @@ const adminRouter = require("./routes/admin");
 const db = require("./config/connection");
 const session = require("express-session");
 const router = require("./routes/user");
-const fileUpload = require("express-fileupload");
+// const fileUpload = require("express-fileupload");
 const handleBarHelpers = require('./handlebarHelpers/helper.js');
-require("dotenv").config({ path: "./ENVPORT/envfiles.env"});
-
-
-
+require("dotenv").config();
 
 
 db.connect();
@@ -42,7 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(fileUpload());
+// app.use(fileUpload());
 
 app.use((req, res, next) => {
   res.header(
@@ -53,13 +50,17 @@ app.use((req, res, next) => {
 });
 app.use(
   session({
-    secret: "my-secret-key",
+    secret: process.env.secret,
     resave: false,
     saveUninitialized: false,
   })
 );
 app.use("/admin", adminRouter);
 app.use("/", userRouter);
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -69,6 +70,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+  console.log("eneted ghere")
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 

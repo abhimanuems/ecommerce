@@ -17,7 +17,7 @@
   <tbody>
     {{#each user}}
     <tr>
-      <td scope="row" class="text-center">{{@key}}</td>
+      <td scope="row" class="text-center">{{#add @key 1}} {{/add}}</td>
       <td class="text-center">{{email}}</td>
       <td class="text-center">{{phone}}</td>
       <td class="text-center">{{name}}</td>

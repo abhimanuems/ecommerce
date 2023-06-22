@@ -5,11 +5,10 @@ const router = express.Router();
 const userLoginController = require("../controllers/userController/userLogin");
 const productController = require("../controllers/userController/productView");
 const orderController = require("../controllers/userController/order");
-const userHelpers = require("../helpers/userHelpers");
+// const userHelpers = require("../helpers/userHelpers");
 const order = require("../controllers/userController/order");
-const orderHelpers = require("../helpers/orderHelpers");
-const { route } = require("express/lib/application");
-
+// const orderHelpers = require("../helpers/orderHelpers");
+// const { route } = require("express/lib/application");
 
 router.post("/signup", userLoginController.userSignUp);
 
@@ -21,15 +20,25 @@ router.post("/verify", userLoginController.otpVerify);
 
 router.get("/",productController.home);
 
-router.get("/mobile", productController.mobile);
+router.get("/mobiles", productController.mobile);
 
 router.get("/electronics", productController.electronics);
 
 router.get("/books", productController.books);
 
-router.get("/health-wellness", productController.healthAndWellness);
+router.get("/Health", productController.healthAndWellness);
 
 router.get("/grocery", productController.grocery);
+
+router.get("/viewallproducts/:id?", productController.products);
+
+router.get("/product/latest",productController.latestProducts);
+
+router.get('/product/low-high',productController.lowToHigh)
+
+router.get('/product/high-low',productController.highToLow);
+
+router.post("/filter-products",productController.getFilterdProduct);
 
 router.get("/products/:id", productController.getProductDetails);
 
@@ -69,9 +78,13 @@ router.post("/verifypayment",orderController.verifyPayment);
 
 router.get("/myaccount", userLoginController.myAccount); 
 
-router.get("/userorders", orderController.myOrders);
+router.get("/orders", orderController.myOrders);
+
+router.get('/wallet',orderController.wallets)
 
 router.post("/userorderstatus", orderController.updateOrderStatus);
+
+router.post("/userorderstatusReturn", orderController.updateOrderStatusReturn);
 
 router.get("/myaccount/address", order.myAddress);
 

@@ -1,14 +1,19 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
-const { response } = require("express");
-const { mobile } = require("../controllers/userController/productView");
-const { parse } = require("handlebars");
+require("dotenv").config();
+// const { response } = require("express");
+// const { mobile } = require("../controllers/userController/productView");
+// const { parse } = require("handlebars");
 const ObjectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
-const async = require("hbs/lib/async");
+// const async = require("hbs/lib/async");
+// const { off } = require("process");
+// const { resolve } = require("path");
+// const { rejects } = require("assert");
+// const order = require("../controllers/userController/order");
 const instance = new Razorpay({
-  key_id: "rzp_test_bLt7yzzH20t8v9",
-  key_secret: "9f8327fvCnjWCAj0mpp8uNJB",
+  key_id: process.env.key_id,
+  key_secret: process.env.key_secret,
 });
 module.exports = {
   getCartLength: (mobileNumber) => {
@@ -25,6 +30,7 @@ module.exports = {
     });
   },
   getCartIds: (mobileNumber) => {
+    console.log("enetrd here ");
     return new Promise(async (resolve, reject) => {
       const ids = await db
         .get()
@@ -164,7 +170,6 @@ module.exports = {
         .collection(collection.CREDENTIALCOLLECTION)
         .find({ phone: mobileNumber })
         .toArray();
-      console.log(address);
       resolve(address);
     });
   },
@@ -191,7 +196,9 @@ module.exports = {
     totalprice,
     addressOrder,
     deliveryfee,
-    paymentMode
+    paymentMode,
+    voucher,
+    offer,
   ) => {
     const orderDetails = {
       phone: phoneNumber,
@@ -200,9 +207,12 @@ module.exports = {
       address: addressOrder,
       deliveryFee: deliveryfee,
       paymentMode,
-      coupon: " ",
+      coupon: voucher,
+      offer: offer,
       status: "orderplaced",
       Date: Date.now(),
+      receipt: null,
+      razorPayStatus:null
     };
 
     return new Promise(async (resolve, reject) => {
@@ -218,16 +228,78 @@ module.exports = {
     });
   },
 
+  // viewOrderDetails: () => {
+  //   return new Promise(async (resolve, reject) => {
+  //     const orderDetails = await db
+  //       .get()
+  //       .collection(collection.ORDERCOLLECTION)
+  //       .find()
+  //       .toArray();
+  //     resolve(orderDetails);
+  //   });
+  // },
+
   viewOrderDetails: () => {
     return new Promise(async (resolve, reject) => {
-      const orderDetails = await db
+      const order = await db
         .get()
         .collection(collection.ORDERCOLLECTION)
-        .find()
+        .aggregate([
+          {
+            $lookup: {
+              from: "product",
+              let: { productId: { $arrayElemAt: ["$productId", 0] } },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $eq: [
+                        "$_id",
+                        { $toObjectId: { $arrayElemAt: ["$$productId", 0] } },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "productDetails",
+            },
+          },
+          {
+            $unwind: "$productDetails",
+          },
+          {
+            $project: {
+              _id: 1,
+              orderId: "$_id",
+              phone: 1,
+              productId: { $arrayElemAt: ["$productId", 1] },
+              totalPrice: 1,
+              address: 1,
+              deliveryFee: 1,
+              paymentMode: 1,
+              coupon: 1,
+              status: 1,
+              Date: 1,
+              productName: "$productDetails.productName",
+              productBrand: "$productDetails.productBrand",
+              category: "$productDetails.category",
+              quantity: "$productDetails.quantity",
+              buyPrice: "$productDetails.buyPrice",
+              sellingPrice: "$productDetails.sellingPrice",
+              offeredPrice: "$productDetails.offeredPrice",
+              description: "$productDetails.description",
+              trendingProduct: "$productDetails.trendingProduct",
+              featuredProduct: "$productDetails.featuredProduct",
+              productId: "$productDetails.productId",
+              productCount: "$productDetails.productCount",
+            },
+          },
+        ])
         .toArray();
-      resolve(orderDetails);
+      resolve(order);
     });
   },
+
   deleteCart: (mobileNumber) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -241,11 +313,15 @@ module.exports = {
       const { orderId, status } = data;
       db.get()
         .collection(collection.ORDERCOLLECTION)
-        .updateOne({ _id: new ObjectId(orderId) }, { $set: { status: status } })
+        .updateOne({ _id: new ObjectId(orderId) }, { $set: { status: status,DOFS:new Date() } })
         .then((response) => {
           resolve(response);
+        })
+        .catch((err) => {
+          console.log("error in the update order status ", err);
+          reject(err);
         });
-    });
+    })
   },
   viewOrderDetailsUser: (mobile) => {
     return new Promise(async (resolve, reject) => {
@@ -306,55 +382,89 @@ module.exports = {
 
   aggreateProducts: (mobile) => {
     return new Promise(async (resolve, reject) => {
-      const orders = await db
+      const order = await db
         .get()
         .collection(collection.ORDERCOLLECTION)
         .aggregate([
-          { $match: { phone: mobile } },
-          { $unwind: "$productId" },
           {
-            $group: {
-              _id: {
-                _id: "$_id",
-                phone: "$phone",
-                totalPrice: "$totalPrice",
-                address: "$address",
-                deliveryFee: "$deliveryFee",
-                paymentMode: "$paymentMode",
-                coupon: "$coupon",
-                status: "$status",
-                Date: "$Date",
-              },
-              productId: { $push: "$productId" },
+            $match: {
+              phone: mobile,
             },
           },
           {
+            $lookup: {
+              from: "product",
+              let: { productId: { $arrayElemAt: ["$productId", 0] } },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $eq: [
+                        "$_id",
+                        { $toObjectId: { $arrayElemAt: ["$$productId", 0] } },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "productDetails",
+            },
+          },
+          {
+            $unwind: "$productDetails",
+          },
+          {
             $project: {
-              _id: "$_id._id",
-              phone: "$_id.phone",
-              totalPrice: "$_id.totalPrice",
-              address: "$_id.address",
-              deliveryFee: "$_id.deliveryFee",
-              paymentMode: "$_id.paymentMode",
-              coupon: "$_id.coupon",
-              status: "$_id.status",
-              Date: "$_id.Date",
-              productId: 1,
+              _id: 1,
+              orderId: "$_id",
+              phone: 1,
+              totalPrice: 1,
+              address: 1,
+              deliveryFee: 1,
+              paymentMode: 1,
+              coupon: 1,
+              status: 1,
+              Date: 1,
+              productId: "$productDetails._id",
+              productName: "$productDetails.productName",
+              productBrand: "$productDetails.productBrand",
+              category: "$productDetails.category",
+              quantity: "$productDetails.quantity",
+              buyPrice: "$productDetails.buyPrice",
+              sellingPrice: "$productDetails.sellingPrice",
+              offeredPrice: "$productDetails.offeredPrice",
+              description: "$productDetails.description",
+              trendingProduct: "$productDetails.trendingProduct",
+              featuredProduct: "$productDetails.featuredProduct",
+            },
+          },
+          {
+            $sort: {
+              Date: -1,
             },
           },
         ])
         .toArray();
-
-      resolve(orders);
+      resolve(order);
     });
   },
-  updateStatus: (value) => {
+  updateStatus: (value,reason) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.ORDERCOLLECTION)
         .updateOne(
           { _id: new ObjectId(value) },
-          { $set: { status: "cancelled" } }
+          { $set: { status: "cancelled",returnReason:reason } }
+        );
+    });
+  },
+  updateStatusReturn: (value) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.ORDERCOLLECTION)
+        .updateOne(
+          { _id: new ObjectId(value) },
+          { $set: { status: "returned" } }
         );
     });
   },
@@ -390,7 +500,7 @@ module.exports = {
     console.log("razpor pay is ", id, total);
     return new Promise((resolve, reject) => {
       var options = {
-        amount: total,
+        amount: total * 100,
         currency: "INR",
         receipt: id,
       };
@@ -417,11 +527,38 @@ module.exports = {
       }
     });
   },
-  changePaymentStatus:(id)=>{
-    return new Promise((resolve,reject)=>{
+  changePaymentStatus: (id, receiptOrder) => {
+ 
+    return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.ORDERCOLLECTION)
-        .updateOne({ _id: new ObjectId(id) }, { $set: { paymentMode :"razorpay"} });
-    })
-  }
+        .updateOne(
+          { _id: new ObjectId(id) },
+          {
+            $set: {
+              paymentMode: "razorpay",
+              receipt: receiptOrder,
+              razorPayStatus:true
+            },
+          }
+        )
+        .then((response) => {
+          resolve(response);
+        });
+    });
+  },
+  // getProductIdsMyorder: (mobile) => {
+  //   return new Promise(async (resolve, reject) => {
+  //     const productIds = await db
+  //       .get()
+  //       .collection(collection.ORDERCOLLECTION)
+  //       .aggregate([
+  //         { $match: { phone: mobile } },
+  //         { $project: { productId: 1, _id: 0 } },
+  //       ])
+  //       .toArray();
+  //     resolve(productIds);
+  //     console.log("product ids are all from getproductIDs ", productIds);
+  //   });
+  // },
 };

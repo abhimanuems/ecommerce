@@ -1,7 +1,18 @@
 <div class="card text-center">
-  <div class=" p-4 m-auto" style="width: 200px; height: 200px;">
+  <div class="p-4 m-auto" style="width: 200px; height: 200px;">
     <i class="checkmark" style="color: #9ABC66; font-size: 100px; line-height: 200px;"></i>
   </div>
   <h1 class="text-success font-weight-bold mt-4">Success</h1>
   <p class="text-dark">We received your purchase request;<br/>we'll be in touch shortly!</p>
+  <p class="text-dark" id="delivery"></p>
+  <p class="text-dark"><button class="btn btn-success" onclick="window.location='/orders'">View Order</button></p>
 </div>
+
+<script>
+  let num = Math.floor(Math.random() * 5);
+  if (num < 2) {
+    num = num + 3;
+  }
+  const delivery = document.getElementById('delivery'); // Corrected typo
+  delivery.innerHTML = "Delivered in " + num + " days";
+</script>

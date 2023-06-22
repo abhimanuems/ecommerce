@@ -25,7 +25,7 @@
       <!-- My Orders Card -->
       <div class="card mx-3 my-3">
         <div class="card-body">
-          <a href="/userorders">My orders</a>
+          <a href="/orders">My orders</a>
         </div>
       </div>
     </div>
@@ -39,25 +39,105 @@
         <li class="list-group-item">
           <div class="card">
             <div class="row g-0">
-              <div class="col-md-4 text-center mt-3">
-                <img src="/productImages/{{productId.[0]}}.jpeg" alt="Product Image" class="card-img" style="width: 100px; height: 100px;" />
-              </div>
+              {{!-- <div class="col-md-4 text-center mt-3" onclick="window.location.href='/products/{{productId}}';">
+                <img src="/productImages/{{productId.[0]}}.jpeg" alt="Product Image" class="card-img"
+                  style="width: 100px; height: 100px;" />
+              </div> --}}
               <div class="col-md-8">
                 <div class="card-body">
+
+                  <p class="card-text">{{productName}}</p>
                   <p class="card-text">₹{{totalPrice}}</p>
                   <div class="card-text text-truncate" style="max-width: 300px;">
                     {{address.name}} {{address.mobile}} {{address.pincode}} {{address.locality}}
                   </div>
-                  <p class="card-text">{{formatDate Date}}</p>
+                  <p class="card-text" >{{formatDate Date}}</p>
+                  <button type="button" class="btn btn-outline ml-2 mr-2" data-toggle="modal"
+                    data-target="#orderDetials">
+                    View Details
+                  </button>
                   {{#ifEqual status 'delivered'}}
                   <span class="badge badge-pill badge-success">{{status}}</span>
-                    {{else ifEqual status 'cancelled'}}
+
+                  {{#if (isDateWithin7Days Date)}}
+                  <button type="button" class="btn btn-secondary ml-2 returnBtn" data-order-id="{{_id}}">Return</button>
+                  <select id="returnReason" style="display: none;" class="mt-3">
+                    <option value="">Select a reason</option>
+                    <option value="wrong_product">Wrong product</option>
+                    <option value="damaged_defective">Damaged or defective</option>
+                    <option value="arrived_late">Arrived too late</option>
+                    <option value="no_longer_needed">No longer need the product</option>
+                    <option value="found_better_price">Found better price</option>
+               
+                  </select>
+  
+                  {{else}}
+                 <span class="badge badge-info">Return date exceeded</span>
+                  {{/if}}
+                  
+
+                  {{else ifEqual status 'cancelled'}}
                   <span class="badge badge-pill badge-danger">Cancelled</span>
+                  {{else ifEqual status 'returned'}}
+                  <span class="badge badge-pill badge-warning">returned</span>
 
                   {{else}}
                   <span class="badge badge-pill badge-info">{{status}}</span>
-                 <button type="button" class="btn btn-outline-danger ml-2 cancelBtn" data-order-id="{{_id}}">Cancel</button>
+                  {{!-- <button type="button" class="btn btn-outline-danger ml-2 cancelBtn"
+                    data-order-id="{{_id}}">Cancel</button> --}}
+                  <button type="button" class="btn btn-outline-danger ml-2 cancelBtn"
+                    data-order-id="{{_id}}">Cancel</button>
+                   
+                  <select id="cancelReason" style="display: none;" class="mt-3">
+                    <option value="">Select a reason</option>
+                    <option value="item_not_available">I want to change the delivery address</option>
+                    <option value="wrong_item_shipped">I was hoping for a shorter delivery address</option>
+                    <option value="price changed">Price of the product has now decreased</option>
+                    <option value="want different payment opption">I want to change the payment option</option>
+                    <option value="change conatct details">I want to change the conatct details</option>
+                    <option value="other reasons">Other reasons</option>
+                    <!-- Add more cancellation reasons as needed -->
+                  </select>
+
                   {{/ifEqual}}
+
+                  <div class="modal fade" id="orderDetials" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle" style="color:blue ;">Order Details</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="card-body">
+                            <p class="card-text"><span class="mr-2">Order Id:</span>{{orderId}}</p>
+                            <p class="card-text">{{productName}}</p>
+                            <p class="card-text">{{productBrand}}</p>
+                            <p class="card-text">₹{{totalPrice}}</p>
+                            <div class="card-text text-truncate" style="max-width: 500px;">
+                              {{address.name}} {{address.mobile}} {{address.pincode}} {{address.locality}}
+                            </div>
+                            <p class="card-text">{{formatDate Date}}</p>
+
+                            <button class="btn btn-outline-success"
+                              onclick="window.location.href='/products/{{productId}}';">View Product</button>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
                 </div>
               </div>
             </div>
@@ -75,27 +155,82 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-   
-    $('.cancelBtn').click(function() {
-      var orderId = $(this).data('order-id'); 
+  $(document).ready(function () {
+    $('.cancelBtn').click(function () {
+      var orderId = $(this).data('order-id');
+       $('#cancelReason').show();
+       $('#cancelReason').change(function () {
+        var cancelReason = $(this).val();
 
-     
-      $.ajax({
-        url: 'userorderstatus',  
-        type: 'POST',
-        data: {
-          order_id: orderId,
-          new_status: 'cancelled' 
-        },
-        success: function(response) {
-       location.reload();
-        },
-        error: function(xhr, status, error) {
       
-          console.log(xhr.responseText);
-          alert('Error updating order status');
+
+        if (cancelReason === '') {
+          alert('Please select a cancellation reason.');
+          return;
         }
+
+        $.ajax({
+          url: 'userorderstatus',
+          type: 'POST',
+          data: {
+            order_id: orderId,
+            new_status: 'cancelled',
+            reason: cancelReason
+          },
+          success: function (response) {
+            location.reload();
+          },
+          error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+            alert('Error updating order status');
+          }
+        });
+      } );
+    });
+  });
+
+</script>
+
+<script>
+ $(document).ready(function () {
+  
+    $('.returnBtn').click(function () {
+      var orderId = $(this).data('order-id');
+      
+      $('#returnReason').show();
+
+      $('#returnReason').change(function () {
+        var cancelReason = $(this).val();
+
+        if (cancelReason === '') {
+          alert('Please select a reason for the return.');
+          return;
+        }
+        $.ajax({
+          url: 'userorderstatusReturn',
+          type: 'POST',
+          data: {
+            order_id: orderId,
+            new_status: 'returned',
+            reason: cancelReason,
+          },
+          success: function (response) {
+            if(response.status)
+            {
+              location.reload();
+            }
+            else{
+               location.reload();
+              alert("date exceeded");
+
+            }
+            
+          },
+          error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+            alert('Error updating order status');
+          }
+        });
       });
     });
   });

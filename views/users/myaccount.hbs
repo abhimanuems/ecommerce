@@ -26,11 +26,19 @@
       </div>
       <div class="card mx-3 my-3">
         <div class="card-body">
-          <a href="/userorders">My orders</a>
+          <a href="/orders">My orders</a>
 
         </div>
 
       </div>
+      <div class="card mx-3 my-3">
+        <div class="card-body">
+          <a href="/wallet">Wallets</a>
+
+        </div>
+
+      </div>
+      
 
     </div>
 <div class="col-7">
@@ -51,6 +59,11 @@
       </li>
       <li class="list-group-item text-center">
         <input style="width:500px" type="tel" class="text-center editable" placeholder="{{phone}}" value="{{phone}}" readonly>
+      </li>
+      <li class="list-group-item text-center">
+      
+       
+        <p>{{referalCode}} <button class="btn btn-success float-right" onclick="function clickedReferal({{referalCode}})">Share</button></p>
       </li>
       <li class="list-group-item">
         <h6>FAQs</h6>

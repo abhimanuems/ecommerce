@@ -20,7 +20,7 @@
       </div>
       <div class="card">
         <div class="card-body">
-          <a href="/userorders">My orders</a>
+          <a href="/orders">My orders</a>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
       <div class="modal-body">
         <div class="container mt-5">
           <h2 style="color: #2874f0;">Edit Address</h2>
-   <form action="/addaddress" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+   <form action="/addaddress" method="POST" enctype="multipart/form-data" >
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" class="form-control" name="name"  value ="{{this.name}}"id="name"/>
@@ -203,36 +203,36 @@
       <div class="modal-body">
         <div class="container mt-5">
           <h2 style="color: #2874f0;">Add Address</h2>
-   <form action="/addaddress" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control" name="name" id="name" required/>
-    </div>
-    <div class="form-group">
-      <label for="mobile">Mobile Number:</label>
-      <input type="tel" class="form-control" id="mobile" name="mobile" pattern="[0-9]{10}" required />
-      <small class="form-text text-muted">Please enter a 10-digit mobile number.</small>
-    </div>
-    <div class="form-group">
-      <label for="pincode">Pincode:</label>
-      <input type="text" class="form-control" id="pincode" name="pincode" pattern="[0-9]{6}" required />
-      <small class="form-text text-muted">Please enter a 6-digit pincode.</small>
-    </div>
-    <div class="form-group">
-      <label for="locality">Locality:</label>
-      <input type="text" class="form-control" name="locality" id="locality" required />
-    </div>
-    <div class="form-group">
-      <label for="address">Address:</label>
-      <textarea class="form-control" id="address" rows="3" name="address" required></textarea>
-    </div>
-    <div class="form-group">
-      <label for="city">City/District/Town:</label>
-      <input type="text" class="form-control" id="city" name="city" required />
-    </div>
-    <div class="form-group">
-      <label for="state">State:</label>
-      <select class="form-control" id="state" name="state" required>
+  <form id="addressForm" action="/addaddress" method="post" >
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" name="name" id="name" required/>
+  </div>
+  <div class="form-group">
+    <label for="mobile">Mobile Number:</label>
+    <input type="tel" class="form-control" id="mobile" name="mobile" pattern="[0-9]{10}" required />
+    <small class="form-text text-muted">Please enter a 10-digit mobile number.</small>
+  </div>
+  <div class="form-group">
+    <label for="pincode">Pincode:</label>
+    <input type="text" class="form-control" id="pincode" name="pincode" pattern="[0-9]{6}" required />
+    <small class="form-text text-muted">Please enter a 6-digit pincode.</small>
+  </div>
+  <div class="form-group">
+    <label for="locality">Locality:</label>
+    <input type="text" class="form-control" name="locality" id="locality" required />
+  </div>
+  <div class="form-group">
+    <label for="address">Address:</label>
+    <textarea class="form-control" id="address" rows="3" name="address" required></textarea>
+  </div>
+  <div class="form-group">
+    <label for="city">City/District/Town:</label>
+    <input type="text" class="form-control" id="city" name="city" required />
+  </div>
+  <div class="form-group">
+    <label for="state">State:</label>
+    <select class="form-control" id="state" name="state" required>
         <option disabled selected>Select State</option>
         <option>Andhra Pradesh</option>
         <option>Arunachal Pradesh</option>
@@ -269,17 +269,18 @@
         <option>Lakshadweep</option>
         <option>Puducherry</option>
       </select>
-    </div>
-    <div class="form-group">
-      <label for="landmark">Landmark:</label>
-      <input type="text" class="form-control" name="landmark" id="landmark" placeholder="optional" />
-    </div>
-    <div class="form-group">
-      <label for="alternatePhone">Alternate Phone:</label>
-      <input type="tel" class="form-control" id="alternatePhone" name="alternatePhone" placeholder="optional" />
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </div>
+  <div class="form-group">
+    <label for="landmark">Landmark:</label>
+    <input type="text" class="form-control" name="landmark" id="landmark" placeholder="optional" />
+  </div>
+  <div class="form-group">
+    <label for="alternatePhone">Alternate Phone:</label>
+    <input type="tel" class="form-control" id="alternatePhone" name="alternatePhone" placeholder="optional" />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
         </div>
       </div>
       <div class="modal-footer">
@@ -292,7 +293,7 @@
     </div>
   </div>
 </div>
-
+{{!-- 
 <script>
   function validateForm() {
   var name = document.getElementById('name').value.trim();
@@ -338,4 +339,4 @@
   return true;
 }
 
-</script>
+</script> --}}

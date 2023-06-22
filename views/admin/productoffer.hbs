@@ -1,0 +1,146 @@
+<section>
+    <div class="container mt-3">
+        <h3 style="color: #27374D;">Product offers </h3>
+        <br />
+        {{#if products}}
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-3">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr style="font-size: .8rem;">
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Product Brand</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Offer Price</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                {{#each products}}
+                <tbody>
+                    <tr style="font-size: .8rem;">
+                        <td class=" text-truncate">
+                            <div class="text-truncate" style="max-width :100px">{{productName}}</div>
+                        </td>
+                        <td class=" text-truncate">
+                            <div class="text-truncate" style="max-width :100px">{{productBrand}}</div>
+                        </td>
+                        <td class=" text-truncate">{{category}}</td>
+                        <td class=" text-truncate">{{offer.offer_price}}</td>
+                        <td class=" text-truncate">{{offer.startDate}}</td>
+                        <td class=" text-truncate">{{offer.endDate}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button btn-primary" style="font-size: 7px;" class="btn"
+                                    data-toggle="collapse" data-target="#toggleButtons{{_id}}">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path
+                                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                    </svg>
+
+                                </button>
+                            </div>
+
+                            <div id="toggleButtons{{_id}}" class="collapse">
+
+                                <button type="submit" class="btn-xs btn-primary" data-toggle="modal"
+                                    data-target="#exampleModalCenterOffer{{_id}}">&nbspEdit&nbsp</button>
+                                <div class="modal fade" id="exampleModalCenterOffer{{_id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Edit Product Offer
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/admin/editproductoffer/{{_id}}" method="POST">
+                                                    <div class="form-group">
+                                                        <label for="product_name">Title:</label>
+                                                        <input type="text" class="form-control" id="product_name"
+                                                            value="{{productName}}" name="product_name" required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="offer_price">Offer Price:</label>
+                                                        <input type="number" class="form-control" id="offer_price"
+                                                            value="{{offer.offer_price}}" name="offer_price" min="0"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="offer_price">Start Date</label>
+                                                        <input type="date" class="form-control" id="startDate"
+                                                            name="startDate" value="{{offer.startDate}}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="offer_price">End Date</label>
+                                                        <input type="date" class="form-control" id="endDate"
+                                                            name="endDate" value="{{offer.endDate}}" required>
+                                                    </div>
+
+
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </form>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn-xs btn-danger" data-toggle="modal"
+                                    data-target="#exampleModal{{_id}}">
+                                    Delete
+                                </button>
+
+                                <div class="modal fade" id="exampleModal{{_id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete offer</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h6> Are you want to delete?</h6>
+                                                <form method="post" action="/admin/productofferdelete/{{_id}}"
+                                                    class="d-inline">
+                                                    <input type="hidden" name="_method" value="DELETE" />
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn-xs btn-danger">Delete</button>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                </tbody>
+                {{/each}}
+            </table>
+        </div>
+        {{else}}
+        <div>
+            <h5 style="color: #27374D;">No added any product Offer</h5>
+        </div>
+        {{/if}}
+    </div>
+</section>

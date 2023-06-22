@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Sales Report</title>
+</head>
+
+<body>
+  <header class="text-center py-4">
+    <h1>Sales Report</h1>
+  </header>
+
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-md-4">
+        <label for="dateRange">Select Date Range:</label>
+        <select id="dateRange" class="form-control">
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Summary Statistics
+          </div>
+          <div class="card-body">
+            <p>Total Sales: $10,000</p>
+            <p>Total Orders: 50</p>
+            <p>Average Order Value: $200</p>
+            <p>Total Revenue: $15,000</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Sales Graph
+          </div>
+          <div class="card-body">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            Detailed Sales
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer Name</th>
+                  <th>Date/Time</th>
+                  <th>Product Details</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Total Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1001</td>
+                  <td>John Doe</td>
+                  <td>2023-06-01 10:30 AM</td>
+                  <td>Product A</td>
+                  <td>2</td>
+                  <td>$50</td>
+                  <td>$100</td>
+                </tr>
+                <tr>
+                  <td>1002</td>
+                  <td>Jane Smith</td>
+                  <td>2023-06-01 2:15 PM</td>
+                  <td>Product B</td>
+                  <td>1</td>
+                  <td>$80</td>
+                  <td>$80</td>
+                </tr>
+                <tr>
+                  <td>1003</td>
+                  <td>Mike Johnson</td>
+                  <td>2023-06-02 9:45 AM</td>
+                  <td>Product C</td>
+                  <td>3</td>
+                  <td>$30</td>
+                  <td>$90</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Top Selling Products
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Quantity Sold</th>
+                  <th>Revenue Generated</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Product A</td>
+                  <td>10</td>
+                  <td>$500</td>
+                </tr>
+                <tr>
+                  <td>Product B</td>
+                  <td>8</td>
+                  <td>$640</td>
+                </tr>
+                <tr>
+                  <td>Product C</td>
+                  <td>5</td>
+                  <td>$150</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Customer Insights
+          </div>
+          <div class="card-body">
+            <p>New Customers Acquired: 15</p>
+            <p>Customer Retention Rate: 80%</p>
+            <p>Average Order Frequency: 2.5</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Chart.js code for sales graph
+    var ctx = document.getElementById('salesChart').getContext('2d');
+    var salesChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['June 1', 'June 2', 'June 3', 'June 4', 'June 5'],
+        datasets: [{
+          label: 'Sales',
+          data: [500, 700, 400, 600, 900],
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+          pointRadius: 3,
+          pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+          pointBorderColor: '#fff',
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: 'rgba(54, 162, 235, 1)',
+          pointHoverBorderColor: '#fff',
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 200
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

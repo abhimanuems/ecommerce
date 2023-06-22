@@ -12,12 +12,17 @@ module.exports = {
     }
   },
   updateStatus: (req, res) => {
-    if (req.session.isAdmin) {
+    try{
+      if (req.session.isAdmin) {
+      console.log(req.body,'is from the admin status')
       orderHelpers.updateOrderStatus(req.body).then((response) => {
         res.json(response);
       });
     } else {
       res.redirect("/admin/login");
+    }
+    }catch(err){
+      console.log(err)
     }
   },
 };

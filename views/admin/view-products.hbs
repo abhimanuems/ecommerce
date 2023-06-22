@@ -3,267 +3,246 @@
     <div class="row mt-3">
       {{! <a href="/admin/addproduct" class="btn btn-success btn-md">Add Product</a> }}
       <!-- Button trigger modal -->
-      <button
-        type="button"
-        class="btn btn-primary mb-3"
-        data-toggle="modal"
-        data-target="#exampleModalCenter"
-      >
+      <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModalCenter">
         Add Product
       </button>
 
       <!-- Modal -->
-      <div
-        class="modal fade"
-        id="exampleModalCenter"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLongTitle">Add new
                 products</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
 
-              <form
-                action="/admin/addproduct"
-                method="POST"
-                enctype="multipart/form-data"
-              >
+              <form action="/admin/addproduct" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="productName">Product Name:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="productName"
-                    name="productName"
-                    required
-                  />
+                  <input type="text" class="form-control" id="productName" name="productName" required />
                 </div>
                 <div class="form-group">
                   <label for="productBrand">Product Brand:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="productBrand"
-                    name="productBrand"
-                    required
-                  />
+                  <input type="text" class="form-control" id="productBrand" name="productBrand" required />
                 </div>
                 <div class="form-group">
                   <label for="category">Category:</label>
-                  <select
-                    class="form-control"
-                    id="category"
-                    name="category"
-                    required
-                  >
+                  <select class="form-control" id="category" name="category" required>
                     <option value="">Select Category</option>
                     {{#each category}}
-                      <option value="{{categoryName}}">{{categoryName}}</option>
+                    <option value="{{categoryName}}">{{categoryName}}</option>
                     {{/each}}
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="quantity">Quantity:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="quantity"
-                    name="quantity"
-                    required
-                  />
+                  <input type="number" class="form-control" id="quantity" name="quantity" required />
                 </div>
                 <div class="form-group">
                   <label for="buyPrice">Buyed Price:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="buyPrice"
-                    name="buyPrice"
-                    required
-                  />
+                  <input type="number" class="form-control" id="buyPrice" name="buyPrice" required />
                 </div>
                 <div class="form-group">
                   <label for="sellingPrice">Selling Price:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="sellingPrice"
-                    name="sellingPrice"
-                    required
-                  />
+                  <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" required />
                 </div>
                 <div class="form-group">
                   <label for="sellingPrice">Offered Price:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="offeredprice"
-                    name="offeredprice"
-                    required
-                  />
+                  <input type="number" class="form-control" id="offeredprice" name="offeredprice" required />
+                </div>
+                <div class="form-group">
+                  <label for="highlights">highlights:</label>
+                  <textarea class="form-control" id="highlights" name="highlights" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
                   <label for="description">Description:</label>
-                  <textarea
-                    class="form-control"
-                    id="description"
-                    name="description"
-                    rows="4"
-                    required
-                  ></textarea>
+                  <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
                   <label for="description">Upload image:</label>
                   <br />
-                  <input type="file" name="image" accept="image/*" required />
+                  <input type="file" name="image" accept="image/*" multiple required />
                 </div>
                 <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckDefault"
-                    name="trendingProduct"
-                  />
-                  <label
-                    class="form-check-label"
-                    for="flexSwitchCheckDefault"
-                  >Add to trending Products</label>
+                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="trendingProduct" />
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Add to trending Products</label>
                 </div>
                 <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckChecked"
-                    name="featuredProduct"
-                  />
-                  <label
-                    class="form-check-label"
-                    for="flexSwitchCheckChecked"
-                  >Add to featured product</label>
+                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="featuredProduct" />
+                  <label class="form-check-label" for="flexSwitchCheckChecked">Add to featured product</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
 
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >Close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
     </div>
- 
-  {{#if product}}
-   <div  class="table-wrapper-scroll-y my-custom-scrollbar ">
 
-     <table class=" table table-striped mt-2 table-bordered table-sm ">
-      <thead>
-        <tr style="font-size: 12px;">
-          <th scope="col" class="text-center">Product Name</th>
-          <th scope="col" class="text-center">Brand</th>
-          <th scope="col" class="text-center">Category</th>
-          <th scope="col" class="text-center">Quantity</th>
-          <th scope="col" class="text-center">Buy price</th>
-          <th scope="col" class="text-center">Selling price</th>
-          <th scope="col" class="text-center">Offered Price</th>
-          <th scope="col" class="text-center">Trending</th>
-          <th scope="col" class="text-center">Featured</th>
-          <th scope="col" class="text-center">Description</th>
-          <th scope="col" class="text-center">Image</th>
-          <th scope="col" class="text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each product}}
+    {{#if product}}
+    <div class="table-wrapper-scroll-y my-custom-scrollbar ">
+
+      <table class=" table table-striped mt-2 table-bordered table-sm ">
+        <thead>
           <tr style="font-size: 12px;">
-            <td class="text-center"><div class ="text-truncate" style="max-width :100px">{{productName}}</div></td>
-            <td class="text-center "> <div class ="text-truncate" style="max-width :100px">{{productBrand}}</div></td>
-            <td class="text-center"> <div class ="text-truncate" style="max-width :100px">{{category}}</div></td>
+            <th scope="col" class="text-center">Product Name</th>
+            <th scope="col" class="text-center">Brand</th>
+            <th scope="col" class="text-center">Category</th>
+            <th scope="col" class="text-center">Quantity</th>
+            <th scope="col" class="text-center">Buy price</th>
+            <th scope="col" class="text-center">Selling price</th>
+            <th scope="col" class="text-center">Offered Price</th>
+            <th scope="col" class="text-center">Trending</th>
+            <th scope="col" class="text-center">Featured</th>
+            <th scope="col" class="text-center">Highlights</th>
+            <th scope="col" class="text-center">Description</th>
+            <th scope="col" class="text-center">offer</th>
+            <th scope="col" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each product}}
+          <tr style="font-size: 12px;">
+            <td class="text-center">
+              <div class="text-truncate" style="max-width :100px">{{productName}}</div>
+            </td>
+            <td class="text-center ">
+              <div class="text-truncate" style="max-width :100px">{{productBrand}}</div>
+            </td>
+            <td class="text-center">
+              <div class="text-truncate" style="max-width :100px">{{category}}</div>
+            </td>
             <td class="text-center">{{quantity}}</td>
             <td class="text-center">{{buyPrice}}</td>
             <td class="text-center">{{sellingPrice}}</td>
             <td class="text-center">{{offeredprice}}</td>
             <td class="text-center">{{trendingProduct}}</td>
             <td class="text-center">{{featuredProduct}}</td>
-            <td class="text-center"><div class ="text-truncate" style="max-width :100px">{{description}}</td>
-            <td class="text-center"><img
-                src="/productImages/{{_id}}.jpeg"
-                style="width: 50px; height:40px;"
-                alt="Product Image"
-              /></td>
+            <td class="text-center">
+              <div class="text-truncate" style="max-width :100px">{{highlights}}
+            </td>
+            <td class="text-center">
+              <div class="text-truncate" style="max-width :100px">{{description}}
+            </td>
+            <td class="text-center">{{offer.offer_price}}</td>
             <td>
               <div class="btn-group">
-                <button
-                  type="button btn-primary"
-                  style="font-size: 7px;"
-                  class="btn"
-                  data-toggle="collapse"
-                  data-target="#toggleButtons{{_id}}"
-                >
-                 
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-  <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-</svg>
+                <button type="button btn-primary" style="font-size: 7px;" class="btn" data-toggle="collapse"
+                  data-target="#toggleButtons{{_id}}">
 
-
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-three-dots" viewBox="0 0 16 16">
+                    <path
+                      d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                  </svg>
                 </button>
               </div>
-
               <div id="toggleButtons{{_id}}" class="collapse">
+                <button type="button" class="btn-xs btn-primary" data-toggle="modal"
+                  data-target="#exampleModalCenterOffer{{_id}}">Offer</button>
+                <div class="modal fade" id="exampleModalCenterOffer{{_id}}" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add Offer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/admin/productoffer/{{_id}}" method="POST">
+                          <div class="form-group">
+                            <label for="product_name">Title:</label>
+                            <input type="text" class="form-control" id="product_name" name="product_name" required>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="offer_price">Offer Price:</label>
+                            <input type="number" class="form-control" id="offer_price" name="offer_price" min="0"
+                              required>
+                          </div>
+                          <div class="form-group">
+                            <label for="offer_price">Start Date</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="offer_price">End Date</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate" required>
+                          </div>
+
+
+                          <button type="submit" class="btn btn-primary">Add Offer</button>
+                        </form>
+
+
+
+
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <form action="/admin/editproducts/{{_id}}" method="get">
-                  <button
-                    type="submit"
-                    class="btn-xs btn-primary"
-                  >&nbspEdit&nbsp</button>
+                  <button type="submit" class="btn-xs btn-primary">&nbspEdit&nbsp</button>
                 </form>
-                <form
-                  method="POST"
-                  action="/admin/deleteproduct/{{_id}}?_method=DELETE"
-                  class="d-inline"
-                >
-                  <input type="hidden" name="_method" value="DELETE" />
-                  <button
-                    type="submit"
-                    class="btn-xs btn-danger"
-                    onclick="return confirm('Are you sure you want to delete?')"
-                  >Delete</button>
-                </form>
+                <button type="button" class="btn-xs btn-danger" data-toggle="modal"
+                  data-target="#exampleModalDeleteProduct">
+                  Delete
+                </button>
+                <div class="modal fade" id="exampleModalDeleteProduct" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete this product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h6> Are you sure? this can't be undone</h6>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <form method="POST" action="/admin/deleteproduct/{{_id}}?_method=DELETE" class="d-inline">
+                          <input type="hidden" name="_method" value="DELETE" />
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
 
           </tr>
-        {{/each}}
-      </tbody>
-    </table>
+          {{/each}}
+        </tbody>
+      </table>
 
-   </div>
+    </div>
   </div>
   {{else}}
   <h2>Oops Product list is empty!</h2>
   {{/if}}
 </section>
 
+
 <script>
-  function validateForm()
-  {
+  function validateForm() {
     alert("enetred here!")
     console.log("enetred herr")
   }

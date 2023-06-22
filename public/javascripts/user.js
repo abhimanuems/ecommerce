@@ -1,4 +1,4 @@
-// ajax for increase and decrease the cart items in the cart
+
 
 function updateCartQuantity(productId, quantity, mobile) {
   $.ajax({
@@ -97,24 +97,24 @@ document.querySelectorAll(".selectaddress").forEach(function (input) {
 //for payment
 
 $(document).ready(function () {
-      // Handle address selection
+    
       $(".address-checkbox").change(function () {
         var selectedAddressIndex = $(this).val();
         $("#selectedAddressIndex").val(selectedAddressIndex);
       });
 
-      // Handle place order button click
+   
       $("#placeOrderButton").click(function () {
-        // Open the place order modal
+       
         $('#exampleModalCenterPlaceOrder').modal('show');
       });
 
-      // Handle proceed to payment button click
+      
       $("#proceedToPaymentButton").click(function () {
         var selectedAddressIndex = $("#selectedAddressIndex").val();
         var paymentMethod = $("input[name='paymentMethod']:checked").val();
 
-        // Combine the data into an object
+        
         var orderData = {
           selectedAddressIndex: selectedAddressIndex,
           paymentMethod: paymentMethod
@@ -137,7 +137,7 @@ $(document).ready(function () {
            
           },
           error: function (xhr, status, error) {
-            // Handle errors
+          
             console.error(error);
           }
         }); 
@@ -202,6 +202,216 @@ var rzp1 = new Razorpay(options);
     }
 
 
+//otp verification
 
-    //apply coupoun
+   function validateFormLogin(event) {
+     event.preventDefault();
+     const phoneNumber = document.getElementById("phone").value;
+     const errorMessage = document.getElementById("errorMessage");
+     const phoneRegex = /^[0-9]{10}$/;
+
+     if (!phoneRegex.test(phoneNumber)) {
+       errorMessage.textContent = "Invalid phone number";
+       return false;
+     }
+
+     $("#exampleModalCenter").hide();
+      $("#otpModal").modal("show");
+     $.ajax({
+       url: "/otp",
+       method: "POST",
+       data: {
+         phone: phoneNumber,
+       },
+       success: function (response) {
+         if (response.status) {
+           $("#otpModal").modal("show");
+         } else {
+           errorMessage.textContent = "Failed to generate OTP.";
+         }
+       },
+       error: function (xhr, status, error) {
+         errorMessage.textContent =
+           "An error occurred while processing the form.";
+       },
+     });
+   }
+
+   //for verifying otp
+
+    $(document).ready(function () {
+      $("#verificationForm").submit(function (event) {
+        event.preventDefault();
+
+        const otpValue = $("#otpLogin").val().trim();
+         const errorMessageOTP = document.getElementById("errorMessageForLogin");
+
+        if (otpValue === "") {
+          errorMessageOTP.textContent = "Enter a valid otp";
+          return;
+        }
+        $.ajax({
+          url: "/verify",
+          method: "POST",
+          data: {
+            otp: otpValue,
+          },
+          success: function (response) {
+        
+            if(response.status)
+            {
+              location.href='/';
+            }
+            else
+            {
+               errorMessageOTP.textContent = "Invalid OTP";
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("Request failed. Status:", status);
+          },
+        });
+      });
+    });
+
+    //signup validation
+
+    $(document).ready(function () {
+      
+      $("#signupForm").submit(function (event) {
+        event.preventDefault();
+        const name = $("#name").val().trim();
+        const phone = $("#phonesignup").val().trim();
+        const email = $("#email").val().trim();
+        const referal = $("#referal").val().trim();
+        const errorMessageOTP = document.getElementById("signUpVerifyId");
+        if (name === "") {
+           errorMessageOTP.textContent = "Enter a valid name";
+         
+          return;
+        }
+        if (phone === "" ) {
+          errorMessageOTP.textContent = "Enter a valid phone number";
+          return;
+        }
+
+        if (email === "") {
+          errorMessageOTP.textContent = "Enter a valid email";
+          return;
+        }
+        $.ajax({
+          url: "/signup",
+          method: "POST",
+          data: $(this).serialize(),
+          success: function (response) {
+            $("#signupModal").hide();
+            $("#otpModalsignup").modal("show");
+            console.log(response);
+          },
+          error: function (xhr, status, error) {
+            console.error("An error occurred while processing the form.");
+          },
+        });
+      });
+    });
+
+
+    //signupotpverificcation
+
+    $(document).ready(function () {
+      $("#otpForm").submit(function (event) {
+        event.preventDefault();
+        const otp = $("#otp").val().trim();
+         const errorMessageOTP = document.getElementById(
+           "otpSignUpVerification"
+         );
+        if (otp === "") {
+          errorMessageOTP.textContent = "Enter a valid otp";
+          return;
+        }
+        $.ajax({
+          url: "/signupverify",
+          method: "POST",
+          data: $(this).serialize(),
+          success: function (response) {
+          if(response.status)
+          {
+           location.href = "/";
+          }
+          else if(response.status == false){
+            errorMessageOTP.textContent = "Invalid otp";
+          }
+          },
+          error: function (xhr, status, error) {
+            console.error("An error occurred while processing the form.");
+          },
+        });
+      });
+    });
+
+
+    //zoom
+ $('#coupounButton').click(function () {
+    event.preventDefault();
+    const couponCode = $('#coupounTextBox').val();
+    if (couponCode.trim().length === 0) {
+      $("#messageId").text("Invalid coupon");
+      return
+    }
+    const totalPrice = $('#totalPrice').text();
+
+    $(this).prop('disabled', true);
+
+    $.ajax({
+      url: "/coupon",
+      method: "post",
+      data: { coupon: couponCode, total: totalPrice },
+      success: function (response) {
+        if (response.status) {
+          $("#messageId").css("display", "inline-block");
+          $("#deleteButton").css("display", "inline-block");
+          $("#coupounId").css("display", "block");
+
+          $("#messageId").text("coupon applied");
+          $("#totalPrice").text('₹' + response.price);
+          // { { !--$("#totalprice").text('₹' + response.price); --} }
+          $("#coupounId").text('₹' + response.voucher);
+
+          if (response.price < 500) {
+            $("#deliveryFee").text("60");
+
+          }
+
+        } else {
+          $("#messageId").css("display", "block");
+          $("#messageId").css('color', 'red');
+
+          $("#messageId").text(response.message);
+          setTimeout(() => {
+            location.reload();
+          }, 2000)
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("An error occurred: " + error);
+      },
+      complete: function () {
+        // Enable the submit button after the request is complete
+        // { { !--$('#coupounButton').prop('disabled', false); --} }
+      }
+
+    });
+  });
+
+
+
+ //checkbox for filtering
+document.addEventListener("DOMContentLoaded", function () {
+  var categoryCheckboxes = document.querySelectorAll(".category-checkbox");
+  categoryCheckboxes.forEach(function (checkbox) {
+    checkbox.addEventListener("change", function () {
+      document.getElementById("categoryForm").submit();
+    });
+  });
+});
 

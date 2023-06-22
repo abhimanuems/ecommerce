@@ -35,126 +35,83 @@
           <div class="modal-body">
 
             <div class="container">
-              <form id="voucherId" action="/admin/addoffer" method="post">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="title" class="ml-2">Title:</label>
-                      <input
-                        type="text"
-                        class="form-control ml-2"
-                        name="title"
-                        id="title"
-                        placeholder="Title"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="price" class="ml-2">Max Discount:</label>
-                      <input
-                        type="text"
-                        class="form-control ml-2"
-                        id="price"
-                        name="MaxPrice"
-                        placeholder="Price"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="priceType">Price Type:</label>
-                      <select
-                        class="form-control"
-                        id="priceType"
-                        name="priceType"
-                        style="width: 100px;"
-                      >
-                        <option value="flat">Flat</option>
-                        <option value="percentage">Percentage</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="priceType">Select Category:</label>
-                      <select
-                        class="form-control"
-                        id="priceType"
-                        name="Category"
-                        style="width: 150px;"
-                      >
-                      {{#each category}}
-                        <option value="{{_id}}">{{categoryName}}</option>
-                      {{/each}}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="minSpent">Min Spent:</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="minSpent"
-                        name="minSpent"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="limitPerOrder">Limit Per Order:</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="limitPerOrder"
-                        name="limitPerOrder"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label for="startTime">Start Time:</label>
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="startTime"
-                        name="startTime"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label for="endTime">End Time:</label>
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="endTime"
-                        name="endTime"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <button
-                      type="submit"
-                      class="btn btn-primary float-right"
-                      id="submitButton"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </form>
+     <form id="voucherId" action="/admin/addoffer" method="post">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="title" class="ml-2">Title:</label>
+            <input type="text" class="form-control ml-2" name="title" id="title" placeholder="Title">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="priceType">Price Type:</label>
+            <select class="form-control" id="priceType" name="priceType" style="width: 100px;">
+              <option value="flat">Flat</option>
+              <option value="percentage">Percentage</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="maxPercentage" class="ml-2">Max Percentage:</label>
+            <input type="number" class="form-control ml-2" id="maxPercentage" name="maxPercentage" placeholder="Price if percentage">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="maxDiscount" class="ml-2">Max Discount:</label>
+            <input type="number" class="form-control ml-2" id="maxDiscount" name="maxDiscount" placeholder="Price if flat">
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="category">Select Category:</label>
+            <select class="form-control" id="category" name="category" style="width: 150px;">
+              {{#each category}}
+              <option value="{{_id}}">{{categoryName}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="minSpent">Min Spent:</label>
+            <input type="number" class="form-control" id="minSpent" name="minSpent">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="limitPerOrder">Limit Per Order:</label>
+            <input type="number" class="form-control" id="limitPerOrder" name="limitPerOrder">
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="startTime">Start Time:</label>
+            <input type="date" class="form-control" id="startTime" name="startTime">
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="endTime">End Time:</label>
+            <input type="date" class="form-control" id="endTime" name="endTime">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary float-right" id="submitButton">Save</button>
+        </div>
+      </div>
+    </form>
+        
             </div>
 
           </div>
@@ -169,39 +126,43 @@
       </div>
     </div>
     <br />
-    {{#if vouchers}}
+    {{#if offer}}
       <div class="table-wrapper-scroll-y my-custom-scrollbar mt-3">
 
         <table class="table table-striped">
           <thead>
             <tr style="font-size: .8rem;">
               <th scope="col">Title</th>
-              <th scope="col">Price</th>
-              <th scope="col">Price Type</th>
-              <th scope="col">Capped Price</th>
-              <th scope="col">Minumum</th>
-              <th scope="col">Usage Limit</th>
+              <th scope="col">priceType</th>
+              <th scope="col">Max percentage</th>
+              <th scope="col">Max Discount</th>
+              <th scope="col">Category</th>
+              <th scope="col">Min Spent</th>
               <th scope="col">Limit Per Order</th>
-              <th scope="col">Voucher code</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
+              <th scope="col">Status</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {{#each vouchers}}
+            {{#each offer}}
               <tr style="font-size: .8rem;">
-                <td>{{voucher.title}}</td>
-                <td>{{voucher.price}}</td>
-                <td>{{voucher.priceType}}</td>
-                <td>{{voucher.cappedPrice}}</td>
-                <td>{{voucher.minSpent}}</td>
-                <td>{{voucher.usageLimit}}</td>
-                <td>{{voucher.limitPerOrder}}</td>
-                <td>{{voucher.voucherCode}}</td>
-                <td>{{voucher.startTime}}</td>
-                <td>{{voucher.endTime}}</td>
+                <td>{{offer.title}}</td>
+                <td>{{offer.priceType}}</td>
+                <td>{{offer.maxPercentage}}</td>
+                <td>{{offer.maxDiscount}}</td>
+                <td>{{offer.category}}</td>
+                <td>{{offer.minspent}}</td>
+                <td>{{offer.limitPerOrder}}</td>
+                <td>{{offer.startTime}}</td>
+                <td>{{offer.endTime}}</td>
+                {{#if offer.status}}
+                    <td style="color: green;">  Active</td>
+                    {{else}}
+                        <td style="color: red;">Inactive</td>
+                        {{/if}}
 
                 <td>
                   <div class="btn-group">
@@ -240,7 +201,7 @@
 
                     <form
                       method="POST"
-                      action="/admin/deletevoucher/{{_id}}"
+                      action="/admin/deleteOffer/{{_id}}"
                       method="get"
                       class="d-inline"
                     >
@@ -248,7 +209,6 @@
                       <button
                         type="submit"
                         class="btn-xs btn-danger"
-                        onclick="return confirm('Are you sure you want to delete?')"
                       >Delete</button>
                     </form>
                   </div>
@@ -266,8 +226,8 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Add
-                        Voucher</h5>
+                      <h5 class="modal-title" id="exampleModalLongTitle">Edit
+                        Offers</h5>
                       <button
                         type="button"
                         class="close"
@@ -282,154 +242,85 @@
                       <div class="container">
                         <form
                           method="POST"
-                          action="/admin/offers/editcoupon/{{_id}}"
+                          action="/admin/offers/editoffer/{{_id}}"
                         >
-                          <div class="row">
-                            <div class="col-12">
-                              <div class="form-group">
-                                <label for="title" class="ml-2">Title:</label>
-                                <input
-                                  type="text"
-                                  class="form-control ml-2"
-                                  name="title"
-                                  id="title"
-                                  value="{{voucher.title}}"
-                                  placeholder="Title"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-12 col-md-4">
-                              <div class="form-group">
-                                <label for="price" class="ml-2">Price:</label>
-                                <input
-                                  type="text"
-                                  class="form-control ml-2"
-                                  id="price"
-                                  name="price"
-                                  value="{{voucher.price}}"
-                                  placeholder="Price"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                              <div class="form-group">
-                                <label for="priceType">Price Type:</label>
-                                <select
-                                  class="form-control"
-                                  id="priceType"
-                                  value="{{voucher.priceType}}"
-                                  name="priceType"
-                                >
-                                  <option value="flat">Flat</option>
-                                  <option value="percentage">Percentage</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-12 col-md-4">
-                              <div class="form-group">
-                                <label for="cappedPrice" class="ml-2">Capped
-                                  Price:</label>
-                                <input
-                                  type="text"
-                                  class="form-control ml-2"
-                                  id="cappedPrice"
-                                  name="cappedPrice"
-                                  value="{{voucher.cappedPrice}}"
-                                  placeholder="Enter the capped value"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                              <div class="form-group">
-                                <label for="minSpent">Min Spent:</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="minSpent"
-                                  value="{{voucher.minSpent}}"
-                                  name="minSpent"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                              <div class="form-group">
-                                <label for="usageLimit">Usage Limit:</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="usageLimit"
-                                  name="usageLimit"
-                                  value="{{voucher.usageLimit}}"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-12 col-md-4">
-                              <div class="form-group">
-                                <label for="limitPerOrder">Limit Per Order:</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="limitPerOrder"
-                                  name="limitPerOrder"
-                                  value="{{voucher.limitPerOrder}}"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-12 col-md-8">
-                              <div class="form-group">
-                                <label for="voucherCode" class="ml-2">Voucher
-                                  Code:</label>
-                                <input
-                                  type="text"
-                                  class="form-control ml-2"
-                                  id="voucherCode"
-                                  name="voucherCode"
-                                  value="{{voucher.voucherCode}}"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-12 col-md-6">
-                              <div class="form-group">
-                                <label for="startTime">Start Time:</label>
-                                <input
-                                  type="date"
-                                  class="form-control"
-                                  id="startTime"
-                                  name="startTime"
-                                  value="{{voucher.startTime}}"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                              <div class="form-group">
-                                <label for="endTime">End Time:</label>
-                                <input
-                                  type="date"
-                                  class="form-control"
-                                  id="endTime"
-                                  name="endTime"
-                                  value="{{voucher.endTime}}"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-12">
-                              <button
-                                type="submit"
-                                class="btn btn-primary float-right"
-                                id="submitButton"
-                              >Save</button>
-                            </div>
-                          </div>
+                        <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="title" class="ml-2">Title:</label>
+            <input type="text" class="form-control ml-2" name="title"  value="{{offer.title}}"  id="title" placeholder="Title">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="priceType">Price Type:</label>
+            <select class="form-control" id="priceType" name="priceType" value="{{offer.priceType}}" style="width: 100px;">
+              <option value="flat">Flat</option>
+              <option value="percentage">Percentage</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="maxPercentage" class="ml-2">Max Percentage:</label>
+            <input type="text" class="form-control ml-2" id="maxPercentage" value="{{offer.maxPercentage}}" name="maxPercentage" placeholder="Price if percentage">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="maxDiscount" class="ml-2">Max Discount:</label>
+            <input type="text" class="form-control ml-2" id="maxDiscount" name="maxDiscount" value="{{offer.maxDiscount}}" placeholder="Price if flat">
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="category">Select Category:</label>
+            <select class="form-control" name="category" style="width: 150px;">
+            
+              <option value="64857153bb980dc78fda4262">Electronics</option>
+                 <option value="64857165bb980dc78fda4263">Grocery</option>
+                  <option value="64857175bb980dc78fda4264">Books</option>
+                   <option value="6485718abb980dc78fda4265">Health & Wellness</option>
+                    <option value="64887c2374ab0d07b66671ac">Mobiles</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="minSpent">Min Spent:</label>
+            <input type="text" class="form-control" id="minSpent" name="minSpent" value="{{offer.minSpent}}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label for="limitPerOrder">Limit Per Order:</label>
+            <input type="text" class="form-control" id="limitPerOrder" name="limitPerOrder" value="{{offer.limitPerOrder}}">
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="startTime">Start Time:</label>
+            <input type="date" class="form-control" id="startTime" name="startTime" value="{{offer.startTime}}">
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="endTime">End Time:</label>
+            <input type="date" class="form-control" id="endTime" name="endTime" value="{{offer.endTime}}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary float-right">Save</button>
+        </div>
+      </div>
                         </form>
 
                       </div>
@@ -457,3 +348,73 @@
     {{/if}}
   </div>
 </section>
+
+<script>
+  $(document).ready(function() {
+    $('#voucherId').submit(function(e) {
+      e.preventDefault(); // Prevent form submission
+      
+      // Perform form validation
+      if (validateForm()) {
+        // If form is valid, submit the form
+        this.submit();
+        {{!-- setTimeout(()=>{
+          location.reload();
+        },1000) --}}
+        
+      }
+    });
+
+    function validateForm() {
+      var title = $('#title').val();
+      var maxPercentage = $('#maxPercentage').val();
+      var maxDiscount = $('#maxDiscount').val();
+      var category = $('#category').val();
+      var minSpent = $('#minSpent').val();
+      var limitPerOrder = $('#limitPerOrder').val();
+      var startTime = $('#startTime').val();
+      var endTime = $('#endTime').val();
+      
+      if (title.trim() === '') {
+        alert('Please enter a title.');
+        return false;
+      }
+
+      if (maxPercentage.trim() === '' && maxDiscount.trim() === '' ) {
+        alert('Please enter');
+        return false;
+      }
+
+    
+
+      if (category === '') {
+        alert('Please select a category.');
+        return false;
+      }
+
+      if (minSpent.trim() === '') {
+        alert('Please enter the minimum amount spent.');
+        return false;
+      }
+
+      if (limitPerOrder.trim() === '') {
+        alert('Please enter the limit per order.');
+        return false;
+      }
+
+      if (startTime.trim() === '') {
+        alert('Please select the start time.');
+        return false;
+      }
+
+      if (endTime.trim() === '') {
+        alert('Please select the end time.');
+        return false;
+      }
+
+   
+
+      return true; 
+    }
+  });
+</script>

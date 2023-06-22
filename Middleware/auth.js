@@ -16,7 +16,7 @@ exports.userLogout = (req, res) => {
 
 exports.adminLoggedIn = (req, res, next) => {
   if (req.session.admin) {
-    next();
+    next();   
   } else {
     res.redirect("/admin");
   }

@@ -132,3 +132,52 @@ function showError(fieldId, errorMessage) {
 $(document).ready(function () {
   $("#myTable").DataTable();
 });
+
+//data table 
+$(function (){
+  $("#productTable").DataTable();
+});
+
+//for user table
+
+$(function(){
+  $("#userDataTable").DataTable();
+})
+
+//order table
+
+$(function () {
+  $("#OrderTable").DataTable();
+});
+
+//coupoun table
+
+$(function () {
+  $("#voucherTable").DataTable();
+});
+
+
+//productOfferTable
+
+$(function () {
+  $("#productOfferTable").DataTable();
+});
+
+
+//referalTable
+
+$(function () {
+  $("#referalTable").DataTable();
+});
+
+//categoryoffers
+
+$(function () {
+  $("#categoryOffers").DataTable();
+});
+
+//banner
+
+$(function () {
+  $("#bannerId").DataTable();
+});

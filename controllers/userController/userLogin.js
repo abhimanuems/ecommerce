@@ -3,6 +3,9 @@ const productHelper = require("../../helpers/productHelpers");
 const orderHelpers = require("../../helpers/orderHelpers");
 const categoryHelpers = require("../../helpers/categoryHelpers");
 require("dotenv").config();
+
+// const accountSid ="AC4ef830ccb0c57b3561a7385f8bc15f3b";
+// const authToken = "8e0b2d20444703ef11974a37852cdbdb";
 const accountSid = process.env.accountSid;
 const authToken = process.env.authToken;
 

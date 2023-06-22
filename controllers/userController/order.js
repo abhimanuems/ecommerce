@@ -355,7 +355,7 @@ module.exports = {
   },
 
   getWishlist: (req, res) => {
-    if (req.session.user) {
+    // if (req.session.user) {
       userHelpers.getWishlist(req.session.mobileNumber).then((wishlist) => {
         if (wishlist.length != 0) {
           const productIdArray = wishlist[0].wishlist;
@@ -377,7 +377,7 @@ module.exports = {
           });
         }
       });
-    }
+    // }
   },
   getSuccessPage: (req, res) => {
     if (req.session.user) {

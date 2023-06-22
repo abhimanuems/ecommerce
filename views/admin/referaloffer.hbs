@@ -2,14 +2,14 @@
     <div class="container mt-3">
         <h3 style="color: #27374D;">Referal </h3>
         <br />
-        <button type="button" class="btn btn-outline-success float-right my-2"
+        <button type="button" class="btn btn-outline-success my-2"
             onclick="window.location.href='/admin/verifyReferals'">Approve Referals</button>
         <br>
         <br>
         {{#if referals}}
         <div class="table-wrapper-scroll-y my-custom-scrollbar mt-3">
 
-            <table class="table table-striped">
+            <table class="table table-striped" id="referalTable">
                 <thead>
                     <tr style="font-size: .8rem;">
                         <th scope="col">Name</th>

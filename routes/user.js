@@ -9,6 +9,7 @@ const orderController = require("../controllers/userController/order");
 const order = require("../controllers/userController/order");
 // const orderHelpers = require("../helpers/orderHelpers");
 // const { route } = require("express/lib/application");
+const auth = require("../Middleware/auth");
 
 router.post("/signup", userLoginController.userSignUp);
 
@@ -46,7 +47,7 @@ router.post("/search",productController.searchItems)
 
 router.get("/cart", orderController.getCart);
 
-router.get('/wishlist',orderController.getWishlist);
+router.get('/wishlist',auth.userLoggedIn,orderController.getWishlist);
 
 router.post("/coupon", orderController.applyCoupoun);
 

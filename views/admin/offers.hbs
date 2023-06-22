@@ -2,366 +2,317 @@
   <div class="container mt-3">
     <h3 style="color: #27374D;">Offers </h3>
     <br />
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#exampleModalCenterVocher"
-    >
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterVocher">
       Add Offers
     </button>
-    <div
-      class="modal fade"
-      id="exampleModalCenterVocher"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModalCenterVocher" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       {{! modal for Vouchers }}
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Add Offers</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
 
             <div class="container">
-     <form id="voucherId" action="/admin/addoffer" method="post">
-      <div class="row">
-        <div class="col-12">
-          <div class="form-group">
-            <label for="title" class="ml-2">Title:</label>
-            <input type="text" class="form-control ml-2" name="title" id="title" placeholder="Title">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="priceType">Price Type:</label>
-            <select class="form-control" id="priceType" name="priceType" style="width: 100px;">
-              <option value="flat">Flat</option>
-              <option value="percentage">Percentage</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="maxPercentage" class="ml-2">Max Percentage:</label>
-            <input type="number" class="form-control ml-2" id="maxPercentage" name="maxPercentage" placeholder="Price if percentage">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="maxDiscount" class="ml-2">Max Discount:</label>
-            <input type="number" class="form-control ml-2" id="maxDiscount" name="maxDiscount" placeholder="Price if flat">
-          </div>
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="category">Select Category:</label>
-            <select class="form-control" id="category" name="category" style="width: 150px;">
-              {{#each category}}
-              <option value="{{_id}}">{{categoryName}}</option>
-              {{/each}}
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="minSpent">Min Spent:</label>
-            <input type="number" class="form-control" id="minSpent" name="minSpent">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="limitPerOrder">Limit Per Order:</label>
-            <input type="number" class="form-control" id="limitPerOrder" name="limitPerOrder">
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group">
-            <label for="startTime">Start Time:</label>
-            <input type="date" class="form-control" id="startTime" name="startTime">
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group">
-            <label for="endTime">End Time:</label>
-            <input type="date" class="form-control" id="endTime" name="endTime">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary float-right" id="submitButton">Save</button>
-        </div>
-      </div>
-    </form>
-        
+              <form id="voucherId" action="/admin/addoffer" method="post">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="title" class="ml-2">Title:</label>
+                      <input type="text" class="form-control ml-2" name="title" id="title" placeholder="Title">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-4">
+                    <div class="form-group">
+                      <label for="priceType">Price Type:</label>
+                      <select class="form-control" id="priceType" name="priceType" style="width: 100px;">
+                        <option value="flat">Flat</option>
+                        <option value="percentage">Percentage</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="maxPercentage" class="ml-2">Max Percentage:</label>
+                      <input type="number" class="form-control ml-2" id="maxPercentage" name="maxPercentage"
+                        placeholder="Price if percentage">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-4">
+                    <div class="form-group">
+                      <label for="maxDiscount" class="ml-2">Max Discount:</label>
+                      <input type="number" class="form-control ml-2" id="maxDiscount" name="maxDiscount"
+                        placeholder="Price if flat">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="form-group">
+                      <label for="category">Select Category:</label>
+                      <select class="form-control" id="category" name="category" style="width: 150px;">
+                        {{#each category}}
+                        <option value="{{_id}}">{{categoryName}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-4">
+                    <div class="form-group">
+                      <label for="minSpent">Min Spent:</label>
+                      <input type="number" class="form-control" id="minSpent" name="minSpent">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-4">
+                    <div class="form-group">
+                      <label for="limitPerOrder">Limit Per Order:</label>
+                      <input type="number" class="form-control" id="limitPerOrder" name="limitPerOrder">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label for="startTime">Start Time:</label>
+                      <input type="date" class="form-control" id="startTime" name="startTime">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label for="endTime">End Time:</label>
+                      <input type="date" class="form-control" id="endTime" name="endTime">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary float-right" id="submitButton">Save</button>
+                  </div>
+                </div>
+              </form>
+
             </div>
 
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary f"
-              data-dismiss="modal"
-            >Close</button>
+            <button type="button" class="btn btn-secondary f" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
     <br />
     {{#if offer}}
-      <div class="table-wrapper-scroll-y my-custom-scrollbar mt-3">
+    <div>
 
-        <table class="table table-striped">
-          <thead>
-            <tr style="font-size: .8rem;">
-              <th scope="col">Title</th>
-              <th scope="col">priceType</th>
-              <th scope="col">Max percentage</th>
-              <th scope="col">Max Discount</th>
-              <th scope="col">Category</th>
-              <th scope="col">Min Spent</th>
-              <th scope="col">Limit Per Order</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
-              <th scope="col">Status</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
+      <table class="table table-striped" id="categoryOffers">
+        <thead>
+          <tr style="font-size: .8rem;">
+            <th scope="col">Title</th>
+            <th scope="col">priceType</th>
+            <th scope="col">Max percentage</th>
+            <th scope="col">Max Discount</th>
+            <th scope="col">Category</th>
+            <th scope="col">Min Spent</th>
+            <th scope="col">Limit Per Order</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            {{#each offer}}
-              <tr style="font-size: .8rem;">
-                <td>{{offer.title}}</td>
-                <td>{{offer.priceType}}</td>
-                <td>{{offer.maxPercentage}}</td>
-                <td>{{offer.maxDiscount}}</td>
-                <td>{{offer.category}}</td>
-                <td>{{offer.minspent}}</td>
-                <td>{{offer.limitPerOrder}}</td>
-                <td>{{offer.startTime}}</td>
-                <td>{{offer.endTime}}</td>
-                {{#if offer.status}}
-                    <td style="color: green;">  Active</td>
-                    {{else}}
-                        <td style="color: red;">Inactive</td>
-                        {{/if}}
+        <tbody>
+          {{#each offer}}
+          <tr style="font-size: .8rem;">
+            <td>{{offer.title}}</td>
+            <td>{{offer.priceType}}</td>
+            <td>{{offer.maxPercentage}}</td>
+            <td>{{offer.maxDiscount}}</td>
+            <td>{{offer.category}}</td>
+            <td>{{offer.minspent}}</td>
+            <td>{{offer.limitPerOrder}}</td>
+            <td>{{offer.startTime}}</td>
+            <td>{{offer.endTime}}</td>
+            {{#if offer.status}}
+            <td style="color: green;"> Active</td>
+            {{else}}
+            <td style="color: red;">Inactive</td>
+            {{/if}}
 
-                <td>
-                  <div class="btn-group">
-                    <button
-                      type="button btn-primary"
-                      style="font-size: 7px;"
-                      class="btn"
-                      data-toggle="collapse"
-                      data-target="#toggleButtons{{_id}}"
-                    >
+            <td>
+              <div class="btn-group">
+                <button type="button btn-primary" style="font-size: 7px;" class="btn" data-toggle="collapse"
+                  data-target="#toggleButtons{{_id}}">
 
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        class="bi bi-three-dots"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-                        />
-                      </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-three-dots" viewBox="0 0 16 16">
+                    <path
+                      d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                  </svg>
 
-                    </button>
-                  </div>
-
-                  <div id="toggleButtons{{_id}}" class="collapse">
-
-                    <button
-                      type="submit"
-                      class="btn-xs btn-primary"
-                      data-toggle="modal"
-                      data-target="#exampleModalCenterEdit"
-                    >&nbspEdit&nbsp</button>
-
-                    <form
-                      method="POST"
-                      action="/admin/deleteOffer/{{_id}}"
-                      method="get"
-                      class="d-inline"
-                    >
-                      <input type="hidden" name="_method" value="DELETE" />
-                      <button
-                        type="submit"
-                        class="btn-xs btn-danger"
-                      >Delete</button>
-                    </form>
-                  </div>
-                </td>
-              </tr>
-
-              <div
-                class="modal fade"
-                id="exampleModalCenterEdit"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalCenterTitle"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Edit
-                        Offers</h5>
-                      <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-
-                      <div class="container">
-                        <form
-                          method="POST"
-                          action="/admin/offers/editoffer/{{_id}}"
-                        >
-                        <div class="row">
-        <div class="col-12">
-          <div class="form-group">
-            <label for="title" class="ml-2">Title:</label>
-            <input type="text" class="form-control ml-2" name="title"  value="{{offer.title}}"  id="title" placeholder="Title">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="priceType">Price Type:</label>
-            <select class="form-control" id="priceType" name="priceType" value="{{offer.priceType}}" style="width: 100px;">
-              <option value="flat">Flat</option>
-              <option value="percentage">Percentage</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="maxPercentage" class="ml-2">Max Percentage:</label>
-            <input type="text" class="form-control ml-2" id="maxPercentage" value="{{offer.maxPercentage}}" name="maxPercentage" placeholder="Price if percentage">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="maxDiscount" class="ml-2">Max Discount:</label>
-            <input type="text" class="form-control ml-2" id="maxDiscount" name="maxDiscount" value="{{offer.maxDiscount}}" placeholder="Price if flat">
-          </div>
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="category">Select Category:</label>
-            <select class="form-control" name="category" style="width: 150px;">
-            
-              <option value="64857153bb980dc78fda4262">Electronics</option>
-                 <option value="64857165bb980dc78fda4263">Grocery</option>
-                  <option value="64857175bb980dc78fda4264">Books</option>
-                   <option value="6485718abb980dc78fda4265">Health & Wellness</option>
-                    <option value="64887c2374ab0d07b66671ac">Mobiles</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="minSpent">Min Spent:</label>
-            <input type="text" class="form-control" id="minSpent" name="minSpent" value="{{offer.minSpent}}">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label for="limitPerOrder">Limit Per Order:</label>
-            <input type="text" class="form-control" id="limitPerOrder" name="limitPerOrder" value="{{offer.limitPerOrder}}">
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group">
-            <label for="startTime">Start Time:</label>
-            <input type="date" class="form-control" id="startTime" name="startTime" value="{{offer.startTime}}">
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group">
-            <label for="endTime">End Time:</label>
-            <input type="date" class="form-control" id="endTime" name="endTime" value="{{offer.endTime}}">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary float-right">Save</button>
-        </div>
-      </div>
-                        </form>
-
-                      </div>
-
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary f"
-                        data-dismiss="modal"
-                      >Close</button>
-                    </div>
-                  </div>
-                </div>
+                </button>
               </div>
 
-            {{/each}}
-          </tbody>
-        </table>
-      </div>
+              <div id="toggleButtons{{_id}}" class="collapse">
+
+                <button type="submit" class="btn-xs btn-primary" data-toggle="modal"
+                  data-target="#exampleModalCenterEdit">&nbspEdit&nbsp</button>
+
+                <form method="POST" action="/admin/deleteOffer/{{_id}}" method="get" class="d-inline">
+                  <input type="hidden" name="_method" value="DELETE" />
+                  <button type="submit" class="btn-xs btn-danger">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+
+          <div class="modal fade" id="exampleModalCenterEdit" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Edit
+                    Offers</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <div class="container">
+                    <form method="POST" action="/admin/offers/editoffer/{{_id}}">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label for="title" class="ml-2">Title:</label>
+                            <input type="text" class="form-control ml-2" name="title" value="{{offer.title}}" id="title"
+                              placeholder="Title">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-4">
+                          <div class="form-group">
+                            <label for="priceType">Price Type:</label>
+                            <select class="form-control" id="priceType" name="priceType" value="{{offer.priceType}}"
+                              style="width: 100px;">
+                              <option value="flat">Flat</option>
+                              <option value="percentage">Percentage</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="maxPercentage" class="ml-2">Max Percentage:</label>
+                            <input type="text" class="form-control ml-2" id="maxPercentage"
+                              value="{{offer.maxPercentage}}" name="maxPercentage" placeholder="Price if percentage">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-4">
+                          <div class="form-group">
+                            <label for="maxDiscount" class="ml-2">Max Discount:</label>
+                            <input type="text" class="form-control ml-2" id="maxDiscount" name="maxDiscount"
+                              value="{{offer.maxDiscount}}" placeholder="Price if flat">
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                          <div class="form-group">
+                            <label for="category">Select Category:</label>
+                            <select class="form-control" name="category" style="width: 150px;">
+
+                              <option value="64857153bb980dc78fda4262">Electronics</option>
+                              <option value="64857165bb980dc78fda4263">Grocery</option>
+                              <option value="64857175bb980dc78fda4264">Books</option>
+                              <option value="6485718abb980dc78fda4265">Health & Wellness</option>
+                              <option value="64887c2374ab0d07b66671ac">Mobiles</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-4">
+                          <div class="form-group">
+                            <label for="minSpent">Min Spent:</label>
+                            <input type="text" class="form-control" id="minSpent" name="minSpent"
+                              value="{{offer.minSpent}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-4">
+                          <div class="form-group">
+                            <label for="limitPerOrder">Limit Per Order:</label>
+                            <input type="text" class="form-control" id="limitPerOrder" name="limitPerOrder"
+                              value="{{offer.limitPerOrder}}">
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <div class="form-group">
+                            <label for="startTime">Start Time:</label>
+                            <input type="date" class="form-control" id="startTime" name="startTime"
+                              value="{{offer.startTime}}">
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <div class="form-group">
+                            <label for="endTime">End Time:</label>
+                            <input type="date" class="form-control" id="endTime" name="endTime"
+                              value="{{offer.endTime}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-primary float-right">Save</button>
+                        </div>
+                      </div>
+                    </form>
+
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary f" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
     {{else}}
-      <div class="mt-3">
-        <h5 style="color: #27374D;">No Offers found!</h5>
-      </div>
+    <div class="mt-3">
+      <h5 style="color: #27374D;">No Offers found!</h5>
+    </div>
     {{/if}}
   </div>
 </section>
 
 <script>
-  $(document).ready(function() {
-    $('#voucherId').submit(function(e) {
+  $(document).ready(function () {
+    $('#voucherId').submit(function (e) {
       e.preventDefault(); // Prevent form submission
-      
+
       // Perform form validation
       if (validateForm()) {
         // If form is valid, submit the form
         this.submit();
-        {{!-- setTimeout(()=>{
-          location.reload();
-        },1000) --}}
-        
+        {
+          {
+            !--setTimeout(() => {
+              location.reload();
+            }, 1000) --}
+        }
+
       }
     });
 
@@ -374,18 +325,18 @@
       var limitPerOrder = $('#limitPerOrder').val();
       var startTime = $('#startTime').val();
       var endTime = $('#endTime').val();
-      
+
       if (title.trim() === '') {
         alert('Please enter a title.');
         return false;
       }
 
-      if (maxPercentage.trim() === '' && maxDiscount.trim() === '' ) {
+      if (maxPercentage.trim() === '' && maxDiscount.trim() === '') {
         alert('Please enter');
         return false;
       }
 
-    
+
 
       if (category === '') {
         alert('Please select a category.');
@@ -412,9 +363,9 @@
         return false;
       }
 
-   
 
-      return true; 
+
+      return true;
     }
   });
 </script>

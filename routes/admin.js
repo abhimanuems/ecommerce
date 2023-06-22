@@ -8,6 +8,7 @@ const adminUserController = require("../controllers/adminControllers/adminUser")
 const adminLoginController = require("../controllers/adminControllers/adminLogin");
 const adminOrderController = require("../controllers/adminControllers/adminOrders");
 const adminOfferController = require("../controllers/adminControllers/adminOffer");
+const auth = require("../Middleware/auth");
 // const { route } = require("express/lib/application");
 const multer = require("multer");
 const { route } = require("./user");

@@ -3,6 +3,8 @@ const productHelper = require("../../helpers/productHelpers");
 // const userHelpers = require("../../helpers/userHelpers");
 const categoryHelpers = require("../../helpers/categoryHelpers");
 const bannerHelper = require("../../helpers/bannerHelper");
+const auth = require("../../Middleware/auth");
+
 
 module.exports = {
   home: function (req, res) {

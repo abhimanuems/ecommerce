@@ -3,8 +3,8 @@
     <h3 style="color: #5C8984">Orders</h3>
     {{#if order}}
     
-    <div  class="table-wrapper-scroll-y my-custom-scrollbar ">
-      <table id="myTable" class="table table-striped mt-2 table-bordered table-sm display"  >
+    <div>
+      <table id="OrderTable" class="mt-2 table-sm table-bordered  display">
         <thead>
           <tr>
             <th scope="col" class="text-center">Mobile Number</th>
@@ -95,12 +95,6 @@ view Details
 
         
           {{/each}}
-          
-          <tr>
-            <td colspan="8">
-              <div></div>
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>

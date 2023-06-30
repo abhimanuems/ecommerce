@@ -17,26 +17,26 @@
 
 
             <div class="container mx-2 my-3">
-              {{#ifOr productOffer result}}
+              {{#ifOr result productOffer }}
+               {{#if result }}
+              <h6 style="color: green;">Category Offers</h6>
+              {{#each result}}
+              <p>{{offer.priceType}} off {{offer.maxDiscount}} on {{offer.title}}</p>
+              {{/each}}
+              {{/if}}
               {{#if productOffer}}
               <h6 style="color: green;">Product Offer applied</h6>
               {{#each productOffer}}
               <p> <span style="color: forestgreen;">₹{{offer.offer_price}} </span> flat off for {{productName}} </p>
               {{/each}}
               {{/if}}
-              {{#if result }}
-              <h6 style="color: green;">Category Offers</h6>
-              {{#each result}}
-              <p>{{offer.priceType}} off {{offer.maxDiscount}} on {{offer.title}}</p>
-              {{/each}}
-              {{/if}}
+             
            
              {{#if offers}}
               <h6 style="color: green;">Applied Offers</h6>
               <p><span class="badge badge-warning">{{offers.offer.priceType}} off {{offers.offer.maxDiscount}} on
                   {{offers.offer.title}}</span></p>
                   {{/if}}
-                
  
 {{else}}
  <h6>No offers found!</h6>

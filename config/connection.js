@@ -1,11 +1,11 @@
 const { MongoClient } = require("mongodb");
-
+require("dotenv").config();
 const state = {
   db: null,
 };
 
 module.exports.connect = async function () {
-  const url = "mongodb://127.0.0.1:27017";
+  const url = process.env.mongoUrl;
   const dbname = "Melocia";
 
   try {

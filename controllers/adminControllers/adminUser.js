@@ -1,6 +1,7 @@
 const productHelper = require("../../helpers/productHelpers");
 const userHelpers = require("../../helpers/userHelpers");
 module.exports = {
+  //admin view users list
   viewUser: (req, res) => {
     if (req.session.isAdmin) {
       userHelpers.getusers().then((user) => {
@@ -10,6 +11,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  //admin block users 
   userBlock: (req, res) => {
     if (req.session.isAdmin) {
       if (req.body.status) {

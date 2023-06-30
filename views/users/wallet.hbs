@@ -40,7 +40,7 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title" style="color: blue;">Wallet Balance <span class="float-right" style="font-size: 1rem;">Refer More Earn More</span></h5>
-        <p class="card-text" style="color: green;">₹100</p>
+        <p class="card-text" style="color: green;">₹ <span>{{walletBalance}}</span></p>
       </div>
     </div>
     <br>
@@ -48,32 +48,21 @@
     
     <h5>List of Referrals:</h5>
     <br>
-    <table class="table table-striped">
+    <table class="table">
       <thead>
         <tr>
           <th>Name</th>
           <th>Mobile Number</th>
-          <th>Order Date</th>
-          <th>Credited Amount</th>
-          <th>Wallet Credit</th>
         </tr>
       </thead>
       <tbody>
+        {{#each details}}
         <tr>
-          <td>John Doe</td>
-          <td>john@example.com</td>
-          <td>ABC123</td>
-          <td>2023-06-10</td>
-          <td>$10</td>
+          <td>{{matchingDocuments.name}}</td>
+          <td>{{matchingDocuments.phone}}</td>
+          
         </tr>
-        <tr>
-          <td>Jane Smith</td>
-          <td>jane@example.com</td>
-          <td>DEF456</td>
-          <td>2023-06-15</td>
-          <td>$15</td>
-        </tr>
-        <!-- Add more referral rows here -->
+        {{/each}}
       </tbody>
     </table>
       </div>

@@ -1,13 +1,13 @@
 <section class="mt-1">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-auto">
+            <div class="col-12 col-md-auto col-sm-auto">
                 <ul class="list-inline menu justify-content-center justify-content-md-start align-items-center">
                     {{#if limitedCategory}}
                     {{#each limitedCategory}}
                   
-                    <li class="list-inline-item mx-3 mx-sm-5"><a class="link-offset-2 link-underline link-underline-opacity-0 text-decoration-none" href="/{{categoryName}}">
-                      <img class="mb-2" src="/CategoryIcons/{{images}}" alt="" style="width: 40px;height:40px; ">
+                    <li class="list-inline-item mx-3 mx-sm-5"><a class="link-offset-2 link-underline link-underline-opacity-0 text-decoration-none mediaquey" href="/{{categoryName}}">
+                      <img class="mb-2" src="{{images}}" alt="" style="width: 40px;height:40px; ">
                       <br>
                    <span style="margin-left: -4px;"> {{categoryName}} </span></a></li>
                     {{/each}}

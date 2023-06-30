@@ -45,13 +45,12 @@
               </div> --}}
               <div class="col-md-8">
                 <div class="card-body">
-
-                  <p class="card-text">{{productName}}</p>
                   <p class="card-text">₹{{totalPrice}}</p>
-                  <div class="card-text text-truncate" style="max-width: 300px;">
+                  <p class="card-text"><span class="mr-2">Mode of payment:</span>{{paymentMode}}</p>
+                  <div class="card-text text-truncate" style="max-width: 500px;">
                     {{address.name}} {{address.mobile}} {{address.pincode}} {{address.locality}}
                   </div>
-                  <p class="card-text" >{{formatDate Date}}</p>
+                  <p class="card-text" ><span class="mr-2">Ordered date:</span>{{formatDate Date}}</p>
                   <button type="button" class="btn btn-outline ml-2 mr-2" data-toggle="modal"
                     data-target="#orderDetials">
                     View Details
@@ -82,13 +81,17 @@
                   <span class="badge badge-pill badge-warning">returned</span>
 
                   {{else}}
+                
                   <span class="badge badge-pill badge-info">{{status}}</span>
+
                   {{!-- <button type="button" class="btn btn-outline-danger ml-2 cancelBtn"
                     data-order-id="{{_id}}">Cancel</button> --}}
+                    
                   <button type="button" class="btn btn-outline-danger ml-2 cancelBtn"
                     data-order-id="{{_id}}">Cancel</button>
-                   
-                  <select id="cancelReason" style="display: none;" class="mt-3">
+                    
+                 
+                  <select id="cancelReason{{_id}}" style="display: none;" class="mt-3">
                     <option value="">Select a reason</option>
                     <option value="item_not_available">I want to change the delivery address</option>
                     <option value="wrong_item_shipped">I was hoping for a shorter delivery address</option>
@@ -96,7 +99,7 @@
                     <option value="want different payment opption">I want to change the payment option</option>
                     <option value="change conatct details">I want to change the conatct details</option>
                     <option value="other reasons">Other reasons</option>
-                    <!-- Add more cancellation reasons as needed -->
+                    
                   </select>
 
                   {{/ifEqual}}
@@ -113,17 +116,23 @@
                         </div>
                         <div class="modal-body">
                           <div class="card-body">
-                            <p class="card-text"><span class="mr-2">Order Id:</span>{{orderId}}</p>
-                            <p class="card-text">{{productName}}</p>
-                            <p class="card-text">{{productBrand}}</p>
-                            <p class="card-text">₹{{totalPrice}}</p>
+                            <p class="card-text"><span class="mr-2">Date</span>{{Date}}</p>
+                            <p class="card-text"><span class="mr-2">Order Id:</span>{{_id}}</p>
+                            <p class="card-text"><span class="mr-2">Total Price:</span>₹{{totalPrice}}</p>
+                            <p class="card-text"><span class="mr-2">Qunatity:</span>{{productId.[1].[0]}}</p>
                             <div class="card-text text-truncate" style="max-width: 500px;">
                               {{address.name}} {{address.mobile}} {{address.pincode}} {{address.locality}}
                             </div>
                             <p class="card-text">{{formatDate Date}}</p>
 
-                            <button class="btn btn-outline-success"
-                              onclick="window.location.href='/products/{{productId}}';">View Product</button>
+                            
+                              {{#each products}}
+                              <img src="/productImages/{{images.[0]}}" style="height: 100px; width: 100px;">
+                              <p> <button class="btn btn-outline-success"
+                              onclick="window.location.href='/products/{{_id}}';">View Product</button></p>
+                             <p> {{productName}}</p>
+                             <p></p>
+                              {{/each}}
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -147,7 +156,23 @@
         {{else}}
         <br>
         <br>
-        <h1 style="color: darkgray;">No orders!</h1>
+        
+        
+           <div class="container">
+            <div class="row">
+              <div class="col-md-12 d-flex justify-content-center align-items-center">
+                <img class="img-fluid" src="/images/emptyOrders_f13d28.png" alt="Empty Wishlist">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center mt-3">
+                <h6>You have no orders</h6>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/';">
+                  Shop now
+                </button>
+              </div>
+            </div>
+          </div>
         {{/if}}
       </ul>
     </div>
@@ -158,12 +183,9 @@
   $(document).ready(function () {
     $('.cancelBtn').click(function () {
       var orderId = $(this).data('order-id');
-       $('#cancelReason').show();
-       $('#cancelReason').change(function () {
+       $('#cancelReason'+orderId).show();
+       $('#cancelReason'+orderId).change(function () {
         var cancelReason = $(this).val();
-
-      
-
         if (cancelReason === '') {
           alert('Please select a cancellation reason.');
           return;
@@ -197,7 +219,7 @@
     $('.returnBtn').click(function () {
       var orderId = $(this).data('order-id');
       
-      $('#returnReason').show();
+      $('.returnReason').show();
 
       $('#returnReason').change(function () {
         var cancelReason = $(this).val();

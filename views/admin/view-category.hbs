@@ -1,12 +1,10 @@
 <section>
   <div class="container">
     <div class="row my-3">
-      {{!-- <a href="/admin/addcategory" class="btn btn-success btn-md mt-3">Add Category</a> --}}
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
         Add Category
       </button>
     </div>
-    <!-- Button trigger modal -->
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -19,11 +17,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="/admin/addcategory" method="POST" enctype="multipart/form-data">
+            <form action="/admin/addcategory" method="POST" enctype="multipart/form-data" id="categoryFormSubmit">
               <div class="form-group">
                 <label for="productName">Category Name:</label>
                 <input type="text" class="form-control" id="categoryName" name="categoryName" required />
+                <small class="error-message" id="categoryNameError" style="color:red
+                  ;"></small>
               </div>
+                
               <div class="form-group">
                 <label for="description">Upload Icon:</label>
                 <br />
@@ -57,7 +58,7 @@
             <td class="text-center">{{#add @key 1}} {{/add}} </td>
             <td class="text-center">{{categoryName}}</td>
 
-            <td class="text-center"><img src="/CategoryIcons/{{images}}" style="width: 50px; height:40px;"
+            <td class="text-center"><img src="{{images}}" style="width: 50px; height:40px;"
                 alt="Product Image" /></td>
             <td class="text-center">
               <!-- Button trigger modal -->
@@ -82,7 +83,7 @@
                         <div class="row">
                           <div class="col-md-3">
                             <div class="text-center ml-6">
-                              <img src="/CategoryIcons/{{images}}" class="avatar img-circle" alt="avatar">
+                              <img src="{{images}}" class="avatar img-circle" alt="avatar">
                             </div>
                           </div>
                           <div class="col-md-9">
@@ -105,18 +106,13 @@
                   </div>
                 </div>
               </div>
-
-
-              {{!-- <button class="btn btn-primary mb-6">Edit</button> --}}
               <form method="POST" action="/admin/delete-category/{{_id}}?_method=DELETE" class="d-inline">
                 <input type="hidden" name="_method" value="DELETE" />
-                {{!-- <button type="submit" class="btn btn-danger"
-                  onclick="return confirm('Are you sure you want to delete?')">Delete</button> --}}
                 <button type="button" class="btn btn-danger" data-toggle="modal"
-                  data-target="#exampleModalDeleteCategory">
+                  data-target="#exampleModalDeleteCategory{{_id}}">
                   Delete
                 </button>
-                <div class="modal fade" id="exampleModalDeleteCategory" tabindex="-1" role="dialog"
+                <div class="modal fade" id="exampleModalDeleteCategory{{_id}}" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -151,3 +147,27 @@
     </div>
   </div>
 </section>
+<script>
+  const categoryForm = document.getElementById("categoryFormSubmit");
+
+categoryForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  if (validateCategory()) {
+   
+    categoryForm.submit();
+  }
+});
+function validateCategory(){
+
+  const catgorName = document.getElementById("categoryName").value.trim();
+    const specialCharsRegex =
+      /^[a-zA-Z0-9\s\-\.,\!@#$%^&*()_+=[\]{}|\\?/~`"':;<>]+$/;
+        if (!catgorName.match(specialCharsRegex)) {
+          document.getElementById("categoryNameError").textContent =
+            "Invalid category name";
+          return false;
+        }
+        return true
+}
+</script>

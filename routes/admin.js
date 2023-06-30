@@ -1,17 +1,13 @@
 const express = require("express");
 const router = express.Router();
-// const productHelper = require("../helpers/productHelpers");
-// const categoryHelper = require("../helpers/categoryHelpers");
-
 const adminProductController = require("../controllers/adminControllers/adminProduct");
 const adminUserController = require("../controllers/adminControllers/adminUser");
 const adminLoginController = require("../controllers/adminControllers/adminLogin");
 const adminOrderController = require("../controllers/adminControllers/adminOrders");
 const adminOfferController = require("../controllers/adminControllers/adminOffer");
 const auth = require("../Middleware/auth");
-// const { route } = require("express/lib/application");
+
 const multer = require("multer");
-const { route } = require("./user");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/productImages/");
@@ -48,87 +44,222 @@ const uploadBanner = multer({
   storage: storageBanner,
 }).array("image", 5);
 
+router.get(
+  "/login", 
+  adminLoginController.login
+  );
+
+router.post(
+  "/login",
+   adminLoginController.loginPost
+   );
+
+router.get("/",
+ auth.adminLoggedIn, adminProductController.adminDashboard
+ );
+
+router.get(
+  "/report/:id",
+   auth.adminLoggedIn,
+    adminOrderController.report
+    );
+
+router.post(
+  "/chartData",
+   auth.adminLoggedIn, adminOrderController.chartData
+   );
+
+router.get(
+  "/viewproducts",
+  auth.adminLoggedIn,
+  adminProductController.viewProducts
+);
 
 
-router.get("/login", adminLoginController.login);
 
-router.post("/login", adminLoginController.loginPost);
+router.post(
+  "/addproduct",
+  upload,
+  auth.adminLoggedIn,
+  adminProductController.addProductPost
+);
 
-router.get("/", adminProductController.adminDashboard);
+router.get(
+  "/editproducts/:id",
+  auth.adminLoggedIn,
+  adminProductController.editProductsGet
+);
 
-router.get("/viewproducts", adminProductController.viewProducts);
+router.post(
+  "/editproducts/:id",
+  auth.adminLoggedIn,
+  upload,
+  adminProductController.editProductsPost
+);
 
-// router.get("/addproduct", adminProductController.addProductGet);
+router.post(
+  "/deleteproduct/:id",
+  auth.adminLoggedIn,
+  adminProductController.deleteProduct
+);
 
-router.post("/addproduct",upload, adminProductController.addProductPost);
+router.get(
+  "/viewcategory",
+  auth.adminLoggedIn,
+  adminProductController.viewCategory
+);
 
-router.get("/editproducts/:id", adminProductController.editProductsGet);
+router.get(
+  "/addcategory",
+  auth.adminLoggedIn,
+  adminProductController.addCategory
+);
 
-router.post("/editproducts/:id",upload, adminProductController.editProductsPost);
+router.post(
+  "/addcategory",
+  auth.adminLoggedIn,
+  uploadSingle,
+  adminProductController.addCategoryPost
+);
 
-router.post("/deleteproduct/:id", adminProductController.deleteProduct);
+router.post(
+  "/editcategory/:id",
+  auth.adminLoggedIn,
+  uploadSingle,
+  adminProductController.editcategory
+);
 
-router.get("/viewcategory", adminProductController.viewCategory);
+router.post(
+  "/delete-category/:id",
+  auth.adminLoggedIn,
+  adminProductController.deleteCategory
+);
 
-router.get("/addcategory", adminProductController.addCategory);
+router.get(
+  "/viewusers", 
+  auth.adminLoggedIn, adminUserController.viewUser
+  );
 
-router.post("/addcategory",uploadSingle, adminProductController.addCategoryPost);
+router.post(
+  "/viewusers/:id",
+  auth.adminLoggedIn,
+  adminUserController.userBlock
+);
 
-router.post("/editcategory/:id",uploadSingle, adminProductController.editcategory);
+router.get(
+  "/vieworders",
+   auth.adminLoggedIn, adminOrderController.viewOrders
+   );
 
-router.post("/delete-category/:id", adminProductController.deleteCategory);
+router.post(
+  "/updateorderstatus",
+  auth.adminLoggedIn,
+  adminOrderController.updateStatus
+);
 
-router.get("/subcategory", adminProductController.subcategory);
+router.post(
+  "/productoffer/:id",
+  auth.adminLoggedIn,
+  adminOfferController.addProductOffer
+);
 
-router.get("/addsubcategory", adminProductController.addsubcategory);
+router.post(
+  "/editproductoffer/:id",
+  auth.adminLoggedIn,
+  adminOfferController.editProductOffer
+);
 
-router.post("/addsubcategory", adminProductController.addSubCategoryPost);
+router.post(
+  "/productofferdelete/:id",
+  auth.adminLoggedIn,
+  adminOfferController.deleteProductOffer
+);
 
-router.post("/deletesubcategory", adminProductController.deleteSubCategory);
+router.get(
+  "/offers/coupon",
+  auth.adminLoggedIn,
+  adminOfferController.couponPage
+);
 
-router.get("/viewusers", adminUserController.viewUser);
+router.post(
+  "/offers/coupon",
+  auth.adminLoggedIn,
+  adminOfferController.addVouchers
+);
 
-router.post("/viewusers/:id", adminUserController.userBlock);
+router.get(
+  "/offers/referaloffer",
 
-router.get("/vieworders", adminOrderController.viewOrders);
+  adminOfferController.referalOffer
+);
 
-router.post("/updateorderstatus", adminOrderController.updateStatus);
+router.get(
+  "/verifyReferals",
 
-router.post("/productoffer/:id",adminOfferController.addProductOffer);
+  adminOfferController.approveReferals
+);
 
-router.post("/editproductoffer/:id", adminOfferController.editProductOffer);
+router.post(
+  "/deletevoucher/:id",
+  auth.adminLoggedIn,
+  adminOfferController.deleteVouchers
+);
 
-router.post("/productofferdelete/:id", adminOfferController.deleteProductOffer);
+router.post(
+  "/offers/editcoupon/:id",
+  auth.adminLoggedIn,
+  adminOfferController.editVoucher
+);
 
-router.get("/offers/coupon",adminOfferController.couponPage);
+router.get(
+  "/offers/offer",
+   auth.adminLoggedIn, adminOfferController.offerPage
+   );
 
-router.post('/offers/coupon',adminOfferController.addVouchers);
+router.get(
+  "/offers/productoffer",
+  auth.adminLoggedIn,
+  adminOfferController.getProductOffers
+);
 
-router.get('/offers/referaloffer',adminOfferController.referalOffer);
+router.post(
+  "/addoffer", 
+  auth.adminLoggedIn, adminOfferController.addOffer
+  );
 
-router.get("/verifyReferals",adminOfferController.approveReferals);
+router.post(
+  "/offers/editoffer/:id",
+  auth.adminLoggedIn,
+  adminOfferController.editOffer
+);
 
-router.post('/deletevoucher/:id',adminOfferController.deleteVouchers);
+router.post(
+  "/deleteOffer/:id",
+  auth.adminLoggedIn,
+  adminOfferController.changeStatus
+);
 
-router.post("/offers/editcoupon/:id", adminOfferController.editVoucher);
+router.get(
+  "/banner",
+   auth.adminLoggedIn, adminOfferController.viewBanner
+   );
 
-router.get("/offers/offer", adminOfferController.offerPage);
+router.post(
+  "/banner",
+  auth.adminLoggedIn,
+  uploadBanner,
+  adminOfferController.addBanner
+);
 
-router.get("/offers/productoffer",adminOfferController.getProductOffers);
+router.post(
+  "/editbanner/:id",
+  auth.adminLoggedIn,
+  uploadBanner,
+  adminOfferController.editBanner
+);
 
-router.post('/addoffer',adminOfferController.addOffer);
-
-router.post("/offers/editoffer/:id", adminOfferController.editOffer);
-
-router.post("/deleteOffer/:id",adminOfferController.changeStatus);
-
-router.get("/banner", adminOfferController.viewBanner);
-
-router.post("/banner", uploadBanner, adminOfferController.addBanner);
-
-router.post('/editbanner/:id',uploadBanner,adminOfferController.editBanner)
-
-  
-
-router.get("/logout", adminLoginController.logOut);
+router.get(
+  "/logout", 
+  adminLoginController.logOut
+  );
 module.exports = router;

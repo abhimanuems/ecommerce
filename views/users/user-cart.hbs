@@ -1,4 +1,12 @@
+
+
+{{#if messages}}
+  <div id="flash-message" class="alert alert-success fixed-bottom text-center" style="display: none;">{{messages.success}}</div>
+{{/if}}
+
+
 <section class="bg-light my-5">
+ 
   <div class="container">
     <div class="row">
       {{#if product}}
@@ -15,12 +23,12 @@
                         src="/productImages/{{product.images.[0]}}" alt="Card image cap"
                         style="width: 96px; height: 96px;" />
                       <div class="">
-                        <a class="nav-link">
+                        <a class="nav-link" style="font-size: 1.1rem;">
                           <div class="text-truncate" style="max-width: 200px">{{product.productName}}</div>
                         </a>
-                        <p class="text-muted nav-link">
+                        <a class="text-muted nav-link" style="font-size: 0.9rem;">
                         <div class="text-truncate ml-3" style="max-width: 200px">{{product.productBrand}}</div>
-                        </p>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -48,7 +56,7 @@
                   </div>
                   {{#notLessThan product.quantity 1}}
                   <div class="ml-2">
-                    <p class="h6">₹{{multiply product.offeredprice count}}</p>
+                    <p class="h6" style="padding-top: 10px;">₹{{multiply product.offeredprice count}}</p>
                     <br />
                   </div>
                   {{else}}
@@ -61,7 +69,7 @@
                 <div
                   class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                   <div class="float-md-end">
-                    <a href="#!" class="btn btn-light border px-2 icon-hover-primary">
+                    <a href="/addwishlist/{{product._id}}" class="btn btn-light border px-2 icon-hover-primary">
                       <i class="fas fa-heart fa-lg px-1 text-secondary"></i>
                     </a>
                     <button class="btn btn-light border text-danger icon-hover-danger"
@@ -182,7 +190,7 @@
         <div class="container-fluid bg-light d-flex justify-content-center align-items-center">
           <div class="card text-center" style="margin-left: 130px;">
             <div class="card-body">
-              <img style="width: 50rem; height: 20rem;" src="\images\cartempty.webp" alt="">
+              <img style="width: 50rem; height: 20rem;" src="https://drive.google.com/uc?export=view&id=1Y3eCAIz9rKMPIKEL5bDKIodsz8rDjiyb" alt="">
               <h3>Your Cart is empty! </h3>
               <p>Add items to it now</p>
               <button type="button" class="btn btn-primary" onclick="window.location.href='/';">
@@ -196,7 +204,8 @@
         <div class="container-fluid bg-light d-flex justify-content-center align-items-center">
           <div class="card text-center" style="margin-left: 150px;">
             <div class="card-body">
-              <img style="width: 50rem; height: 20rem;" src="\images\cartempty.webp" alt="">
+            <img style="width: 50rem; height: 20rem;" src="https://drive.google.com/uc?export=view&id=1Y3eCAIz9rKMPIKEL5bDKIodsz8rDjiyb" alt="Image Description">
+
               <h2>Missing Cart items? </h2>
               <p>Login to view items</p>
               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
@@ -215,5 +224,13 @@
 </section>
 
 <script>
- 
+  $(document).ready(function () {
+    const flashMessage = '{{ messages.success }}';
+    if (flashMessage) {
+      $('#flash-message').text(flashMessage).fadeIn('slow');
+      setTimeout(() => {
+        $('#flash-message').fadeOut('slow');
+      }, 3000);
+    }
+  });
 </script>

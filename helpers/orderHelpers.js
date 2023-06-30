@@ -1,21 +1,15 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
 require("dotenv").config();
-// const { response } = require("express");
-// const { mobile } = require("../controllers/userController/productView");
-// const { parse } = require("handlebars");
 const ObjectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
-// const async = require("hbs/lib/async");
-// const { off } = require("process");
-// const { resolve } = require("path");
-// const { rejects } = require("assert");
-// const order = require("../controllers/userController/order");
 const instance = new Razorpay({
   key_id: process.env.key_id,
   key_secret: process.env.key_secret,
 });
+
 module.exports = {
+  //for finding the cart length
   getCartLength: (mobileNumber) => {
     return new Promise(async (resolve, reject) => {
       const cartLength = await db
@@ -29,8 +23,8 @@ module.exports = {
       }
     });
   },
+  //finding the cart ids
   getCartIds: (mobileNumber) => {
-    console.log("enetrd here ");
     return new Promise(async (resolve, reject) => {
       const ids = await db
         .get()
@@ -45,17 +39,14 @@ module.exports = {
         resolve([], []);
         return;
       }
-
       const ItemCounts = ids[0].cartItems.productId.map((item) => item.count);
-
       const objectIds = ids[0].cartItems.productId.map(
         (item) => new ObjectId(item.id)
       );
-
       resolve([objectIds, ItemCounts]);
     });
   },
-
+  // remove from the cart
   removeFromCart: (mobileNumber, Id) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -69,6 +60,7 @@ module.exports = {
         });
     });
   },
+  //finding the tootal amounts
   getTotalAmount: (data) => {
     return new Promise(async (resolve, reject) => {
       const amount = await db
@@ -85,12 +77,11 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log(amount);
       resolve(amount);
     });
   },
+  //update the cart quantity
   updateCartQuantity: (id, quantity, mobileNumber) => {
-    console.log(new ObjectId(id));
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CREDENTIALCOLLECTION)
@@ -106,6 +97,7 @@ module.exports = {
         });
     });
   },
+  // for finding the total amounts
   getTotalAmounts: (mobileNumber) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -135,11 +127,6 @@ module.exports = {
                 if (quantity > 0) {
                   const itemTotal = sellingPrice * count;
                   const itemTotals = offeredPrice * count;
-                  console.log(
-                    "itemTotal selling and offered are",
-                    itemTotal,
-                    itemTotals
-                  );
 
                   totalAmountSellingPrice += itemTotal;
                   totalAmountOfferedPrice += itemTotals;
@@ -151,7 +138,6 @@ module.exports = {
 
           Promise.all(promises)
             .then(() => {
-              console.log("Total Amount:", totalAmountSellingPrice);
               resolve({ totalAmountSellingPrice, totalAmountOfferedPrice });
             })
             .catch((error) => {
@@ -163,9 +149,10 @@ module.exports = {
         });
     });
   },
+  //finding the address
   findAddress: (mobileNumber) => {
     return new Promise(async (resolve, reject) => {
-      let address = await db
+      const address = await db
         .get()
         .collection(collection.CREDENTIALCOLLECTION)
         .find({ phone: mobileNumber })
@@ -173,6 +160,7 @@ module.exports = {
       resolve(address);
     });
   },
+  //find the address by index
   findAdressByindex: (mobile, id) => {
     const arrayId = parseInt(id);
     return new Promise(async (resolve, reject) => {
@@ -199,7 +187,9 @@ module.exports = {
     paymentMode,
     voucher,
     offer,
+    walletUsed
   ) => {
+    // totalprice+=walletUsed;
     const orderDetails = {
       phone: phoneNumber,
       productId: proId,
@@ -210,35 +200,22 @@ module.exports = {
       coupon: voucher,
       offer: offer,
       status: "orderplaced",
-      Date: Date.now(),
+      Date: new Date(),
       receipt: null,
-      razorPayStatus:null
+      razorPayStatus: null,
+      walletUsed: walletUsed,
     };
-
     return new Promise(async (resolve, reject) => {
       await db
         .get()
         .collection(collection.ORDERCOLLECTION)
         .insertOne(orderDetails)
         .then((response) => {
-          console.log("response is ", response.insertedId);
           const orderId = response.insertedId.toString();
           resolve(orderId);
         });
     });
   },
-
-  // viewOrderDetails: () => {
-  //   return new Promise(async (resolve, reject) => {
-  //     const orderDetails = await db
-  //       .get()
-  //       .collection(collection.ORDERCOLLECTION)
-  //       .find()
-  //       .toArray();
-  //     resolve(orderDetails);
-  //   });
-  // },
-
   viewOrderDetails: () => {
     return new Promise(async (resolve, reject) => {
       const order = await db
@@ -268,30 +245,8 @@ module.exports = {
             $unwind: "$productDetails",
           },
           {
-            $project: {
-              _id: 1,
-              orderId: "$_id",
-              phone: 1,
-              productId: { $arrayElemAt: ["$productId", 1] },
-              totalPrice: 1,
-              address: 1,
-              deliveryFee: 1,
-              paymentMode: 1,
-              coupon: 1,
-              status: 1,
-              Date: 1,
-              productName: "$productDetails.productName",
-              productBrand: "$productDetails.productBrand",
-              category: "$productDetails.category",
-              quantity: "$productDetails.quantity",
-              buyPrice: "$productDetails.buyPrice",
-              sellingPrice: "$productDetails.sellingPrice",
-              offeredPrice: "$productDetails.offeredPrice",
-              description: "$productDetails.description",
-              trendingProduct: "$productDetails.trendingProduct",
-              featuredProduct: "$productDetails.featuredProduct",
-              productId: "$productDetails.productId",
-              productCount: "$productDetails.productCount",
+            $sort: {
+              Date: -1,
             },
           },
         ])
@@ -299,21 +254,25 @@ module.exports = {
       resolve(order);
     });
   },
-
+  //for deleting the cart
   deleteCart: (mobileNumber) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CREDENTIALCOLLECTION)
         .updateOne({ phone: mobileNumber }, { $unset: { cartItems: "" } })
-        .then((response) => {});
+        .then((response) => { });
     });
   },
+  //for updating the order status
   updateOrderStatus: (data) => {
     return new Promise((resolve, reject) => {
       const { orderId, status } = data;
       db.get()
         .collection(collection.ORDERCOLLECTION)
-        .updateOne({ _id: new ObjectId(orderId) }, { $set: { status: status,DOFS:new Date() } })
+        .updateOne(
+          { _id: new ObjectId(orderId) },
+          { $set: { status: status, DOFS: new Date() } }
+        )
         .then((response) => {
           resolve(response);
         })
@@ -321,8 +280,9 @@ module.exports = {
           console.log("error in the update order status ", err);
           reject(err);
         });
-    })
+    });
   },
+  //for viewing the order detials user 
   viewOrderDetailsUser: (mobile) => {
     return new Promise(async (resolve, reject) => {
       const orderDetails = await db
@@ -333,6 +293,7 @@ module.exports = {
       resolve(orderDetails);
     });
   },
+  //finding the  order detials
   getOrderIds: (mobileNumber) => {
     return new Promise(async (resolve, reject) => {
       const details = await db
@@ -351,19 +312,16 @@ module.exports = {
       resolve(details[0].productId);
     });
   },
-
+  //delete address
   deleteAddress: async (index, mobile) => {
-    console.log("index at delete", index);
     return new Promise(async (resolve, reject) => {
       const parsedIndex = parseInt(index);
       const collections = db.get().collection(collection.CREDENTIALCOLLECTION);
-
       const document = await collections.findOne({ phone: mobile });
       if (!document) {
         reject("Document not found.");
         return;
       }
-
       const addressArray = document.address;
       if (parsedIndex < 0 || parsedIndex >= addressArray.length) {
         reject("Invalid index.");
@@ -375,11 +333,11 @@ module.exports = {
         { phone: mobile },
         { $set: { address: addressArray } }
       );
-
       resolve();
     });
   },
 
+  //finding orders and products for user side -orders
   aggreateProducts: (mobile) => {
     return new Promise(async (resolve, reject) => {
       const order = await db
@@ -414,50 +372,30 @@ module.exports = {
             $unwind: "$productDetails",
           },
           {
-            $project: {
-              _id: 1,
-              orderId: "$_id",
-              phone: 1,
-              totalPrice: 1,
-              address: 1,
-              deliveryFee: 1,
-              paymentMode: 1,
-              coupon: 1,
-              status: 1,
-              Date: 1,
-              productId: "$productDetails._id",
-              productName: "$productDetails.productName",
-              productBrand: "$productDetails.productBrand",
-              category: "$productDetails.category",
-              quantity: "$productDetails.quantity",
-              buyPrice: "$productDetails.buyPrice",
-              sellingPrice: "$productDetails.sellingPrice",
-              offeredPrice: "$productDetails.offeredPrice",
-              description: "$productDetails.description",
-              trendingProduct: "$productDetails.trendingProduct",
-              featuredProduct: "$productDetails.featuredProduct",
-            },
-          },
-          {
             $sort: {
               Date: -1,
             },
           },
         ])
         .toArray();
+      console.log("order details are ", order)
       resolve(order);
+
     });
   },
-  updateStatus: (value,reason) => {
+
+  //updating the status order for cancellation
+  updateStatus: (value, reason) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.ORDERCOLLECTION)
         .updateOne(
           { _id: new ObjectId(value) },
-          { $set: { status: "cancelled",returnReason:reason } }
+          { $set: { status: "cancelled", returnReason: reason } }
         );
     });
   },
+  // udpating the status of the return status
   updateStatusReturn: (value) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -468,8 +406,8 @@ module.exports = {
         );
     });
   },
+  //updating the address
   updateAddress: async (index, mobile, updatedAddress) => {
-    console.log("index at update", index);
     return new Promise(async (resolve, reject) => {
       const parsedIndex = parseInt(index);
       const collections = db.get().collection(collection.CREDENTIALCOLLECTION);
@@ -496,8 +434,8 @@ module.exports = {
     });
   },
 
+  // razpor pay
   razorPay: (id, total) => {
-    console.log("razpor pay is ", id, total);
     return new Promise((resolve, reject) => {
       var options = {
         amount: total * 100,
@@ -505,7 +443,6 @@ module.exports = {
         receipt: id,
       };
       instance.orders.create(options, function (err, order) {
-        console.log(order, "is the order");
         resolve(order);
       });
     });
@@ -516,8 +453,8 @@ module.exports = {
       let hmac = crypto.createHmac("sha256", "9f8327fvCnjWCAj0mpp8uNJB");
       hmac.update(
         data["payment[razorpay_order_id]"] +
-          "|" +
-          data["payment[razorpay_payment_id]"]
+        "|" +
+        data["payment[razorpay_payment_id]"]
       );
       hmac = hmac.digest("hex");
       if (hmac == data["payment[razorpay_signature]"]) {
@@ -527,8 +464,8 @@ module.exports = {
       }
     });
   },
+  //changing the payment status
   changePaymentStatus: (id, receiptOrder) => {
- 
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.ORDERCOLLECTION)
@@ -538,7 +475,7 @@ module.exports = {
             $set: {
               paymentMode: "razorpay",
               receipt: receiptOrder,
-              razorPayStatus:true
+              razorPayStatus: true,
             },
           }
         )
@@ -547,18 +484,261 @@ module.exports = {
         });
     });
   },
-  // getProductIdsMyorder: (mobile) => {
-  //   return new Promise(async (resolve, reject) => {
-  //     const productIds = await db
-  //       .get()
-  //       .collection(collection.ORDERCOLLECTION)
-  //       .aggregate([
-  //         { $match: { phone: mobile } },
-  //         { $project: { productId: 1, _id: 0 } },
-  //       ])
-  //       .toArray();
-  //     resolve(productIds);
-  //     console.log("product ids are all from getproductIDs ", productIds);
-  //   });
-  // },
+  //finding the chart data
+  chartData: () => {
+    const currentDate = new Date();
+
+    const endOfDay = currentDate.getTime();
+
+    currentDate.setDate(currentDate.getDate() - 8);
+    const startOfDay = currentDate.getTime();
+    return new Promise(async (resolve, reject) => {
+      const order = await db
+        .get()
+        .collection(collection.ORDERCOLLECTION)
+        .aggregate([
+          {
+            $match: {
+              Date: {
+                $gte: new Date(startOfDay),
+                $lt: new Date(endOfDay),
+              },
+            },
+          },
+          {
+            $unwind: {
+              path: "$productId",
+              includeArrayIndex: "index",
+            },
+          },
+          {
+            $match: {
+              index: 0,
+            },
+          },
+
+          {
+            $unwind: "$productId",
+          },
+          {
+            $lookup: {
+              from: collection.PRODUCTCOLLECTION,
+              let: { productId: { $toObjectId: "$productId" } },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $eq: ["$_id", "$$productId"],
+                    },
+                  },
+                },
+              ],
+              as: "productDetails",
+            },
+          },
+          {
+            $unwind: "$productDetails",
+          },
+          {
+            $group: {
+              _id: "$_id",
+              orderId: { $first: "$_id" },
+              phone: { $first: "$phone" },
+              quantity: { $first: "$productId" },
+              totalPrice: { $first: "$totalPrice" },
+              address: { $first: "$address" },
+              deliveryFee: { $first: "$deliveryFee" },
+              paymentMode: { $first: "$paymentMode" },
+              coupon: { $first: "$coupon" },
+              status: { $first: "$status" },
+              Date: { $first: "$Date" },
+              products: {
+                $push: {
+                  _id: "$productDetails._id",
+                  productName: "$productDetails.productName",
+                  productBrand: "$productDetails.productBrand",
+                  category: "$productDetails.category",
+                  quantity: "$productDetails.quantity",
+                  buyPrice: "$productDetails.buyPrice",
+                  sellingPrice: "$productDetails.sellingPrice",
+                  offeredPrice: "$productDetails.offeredprice",
+                  description: "$productDetails.description",
+                  trendingProduct: "$productDetails.trendingProduct",
+                  featuredProduct: "$productDetails.featuredProduct",
+                  images: "$productDetails.images",
+                },
+              },
+            },
+          },
+
+          {
+            $limit: 5,
+          },
+          {
+            $sort: {
+              Date: -1,
+            },
+          },
+        ])
+        .toArray();
+      resolve(order);
+    });
+  },
+  //finding the total sales for admin dashboard
+  getTotalSales: () => {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    const startOfDay = currentDate.getTime();
+    const endOfDay = startOfDay + 24 * 60 * 60 * 1000;
+    return new Promise(async (resolve, reject) => {
+      const data = await db
+        .get()
+        .collection(collection.ORDERCOLLECTION)
+        .aggregate([
+          {
+            $match: {
+              Date: {
+                $gte: startOfDay,
+                $lt: endOfDay,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalSum: { $sum: "$totalPrice" },
+              averageSale: { $avg: "$totalPrice" },
+              totalCount: { $sum: 1 },
+            },
+          },
+        ])
+        .toArray();
+      resolve(data);
+    });
+  },
+  // data for admin dashboard
+  findDataDashBoard: (id) => {
+    if (id == "daily") {
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0);
+      const startOfDay = currentDate.getTime();
+      const endOfDay = startOfDay + 24 * 60 * 60 * 1000;
+      return new Promise(async (resolve, reject) => {
+        const data = await db
+          .get()
+          .collection(collection.ORDERCOLLECTION)
+          .aggregate([
+            {
+              $match: {
+                Date: {
+                  $gte: new Date(startOfDay),
+                  $lt: new Date(endOfDay),
+                },
+              },
+            },
+            {
+              $group: {
+                _id: null,
+                totalSum: { $sum: "$totalPrice" },
+                averageSale: { $avg: "$totalPrice" },
+                totalCount: { $sum: 1 },
+              },
+            },
+          ])
+          .toArray();
+        resolve(data);
+      });
+    } else if (id == "weekly") {
+
+      const currentDate = new Date();
+      const endOfDay = currentDate.getTime();
+      currentDate.setDate(currentDate.getDate() - 8);
+      const startOfDay = currentDate.getTime();
+
+      return new Promise(async (resolve, reject) => {
+        const data = await db
+          .get()
+          .collection(collection.ORDERCOLLECTION)
+          .aggregate([
+            {
+              $match: {
+                Date: {
+                  $gte: new Date(startOfDay),
+                  $lte: new Date(endOfDay),
+                },
+              },
+            },
+            {
+              $group: {
+                _id: null,
+                totalSum: { $sum: "$totalPrice" },
+                averageSale: { $avg: "$totalPrice" },
+                totalCount: { $sum: 1 },
+              },
+            },
+          ])
+          .toArray();
+        resolve(data);
+      });
+    } else if (id == "monthly") {
+      const currentDate = new Date();
+      const endOfMonth = currentDate.getTime();
+      currentDate.setDate(currentDate.getDate() - 8);
+      const startOfMonth = currentDate.getTime();
+      return new Promise(async (resolve, reject) => {
+        const data = await db
+          .get()
+          .collection(collection.ORDERCOLLECTION)
+          .aggregate([
+            {
+              $match: {
+                Date: {
+                  $gte: new Date(startOfMonth),
+                  $lt: new Date(endOfMonth),
+                },
+              },
+            },
+            {
+              $group: {
+                _id: null,
+                totalSum: { $sum: "$totalPrice" },
+                averageSale: { $avg: "$totalPrice" },
+                totalCount: { $sum: 1 },
+              },
+            },
+          ])
+          .toArray();
+        resolve(data);
+      });
+    }
+  },
+  // finnding the date for table in the admin dashbaord
+  findDataForTable: (start, end) => {
+    return new Promise(async (resolve, reject) => {
+      const order = await db
+        .get()
+        .collection(collection.ORDERCOLLECTION)
+        .aggregate([
+          {
+            $match: {
+              Date: {
+                $gte: new Date(start),
+                $lt: new Date(end),
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalSum: { $sum: "$totalPrice" },
+              averageSale: { $avg: "$totalPrice" },
+              totalCount: { $sum: 1 },
+            },
+          },
+        ])
+        .toArray();
+      resolve(order);
+    });
+  },
+
 };

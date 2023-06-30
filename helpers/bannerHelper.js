@@ -1,8 +1,8 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
 const { ObjectId } = require("mongodb");
-const async = require("hbs/lib/async");
 module.exports = {
+  //for getting all banner details
   getBannerDetails: () => {
     return new Promise((resolve, reject) => {
       const banners = db
@@ -13,6 +13,7 @@ module.exports = {
       resolve(banners);
     });
   },
+  //adding new banner
   addBannerDetails: (banner, images) => {
     return new Promise((resolve, reject) => {
       banner.images = images;
@@ -20,7 +21,7 @@ module.exports = {
         .collection(collection.BANNERCOLLECTION)
         .insertOne({ banner })
         .then((response) => {
-          console.log("response from the add abnner detail are ", response);
+      resolve(response);
         })
         .catch((err) => {
           console.log("reject err is add banner details are ", err);
@@ -28,22 +29,22 @@ module.exports = {
         });
     });
   },
+  // banner details home
   getBannerDetailsHome: (categorys) => {
-    console.log("category us ", typeof categorys);
+    console.log("category is ",categorys)
     return new Promise(async (resolve, reject) => {
       const banners = await db
         .get()
         .collection(collection.BANNERCOLLECTION)
         .find({ "banner.category": categorys })
         .toArray();
-
-      console.log("banner at the home us ", banners);
       resolve(banners);
     }).catch((err) => {
       reject(err);
       console.log("error at get banner home is ");
     });
   },
+  //banner details based on the category
   getBannerDetailsCategory: (category) => {
     return new Promise(async (resolve, reject) => {
       const banner = await db
@@ -56,6 +57,7 @@ module.exports = {
       reject(err);
     });
   },
+  //edit banner details
   editBannerDetails:(banner,images,id)=>{
     banner.images=images;
    return new Promise((resolve,reject)=>{
@@ -69,7 +71,4 @@ module.exports = {
    })
 
   },
-  createReferalOffer:()=>{
-    db.get().collection(collection.REFERALCOLLECTION).insertOne()
-  }
 }

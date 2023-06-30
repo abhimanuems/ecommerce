@@ -30,105 +30,6 @@ $(document).ready(function () {
 
 
 
-function validateForm() {
-  let isValidForm = true;
-  event.preventDefault(); 
-
-  
-  resetForm();
-
-
-  let title = document.getElementById("title").value;
-  let price = document.getElementById("price").value;
-  let minSpent = document.getElementById("minSpent").value;
-  let usageLimit = document.getElementById("usageLimit").value;
-  let voucherCode = document.getElementById("voucherCode").value;
-  let startTime = document.getElementById("startTime").value;
-  let endTime = document.getElementById("endTime").value;
-
-  
-  var nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-  if (!title.match(nameRegex)) {
-    isValidForm = false;
-    showError("title", "Enter a proper title");
-  }
-
- 
-  if (parseInt(price) < 1) {
-    isValidForm = false;
-    showError("price", "Price should be greater than 0");
-  }
-
-
- 
-  if (parseInt(minSpent) < 1) {
-    isValidForm = false;
-    showError("minSpent", "Invalid");
-  }
-
- 
-  if (parseInt(usageLimit) < 1) {
-    isValidForm = false;
-    showError("usageLimit", "Invalid");
-  }
-
-
-  
-  if (voucherCode.trim() === "") {
-    isValidForm = false;
-    showError("voucherCode", "Voucher code is required");
-  }
-
-
-  var currentDateTime = new Date();
-  var selectedStartTime = new Date(startTime);
-  if (selectedStartTime < currentDateTime) {
-    isValidForm = false;
-    showError("startTime", "Start time should be in the future");
-  }
-
-  
-  var selectedEndTime = new Date(endTime);
-  if (selectedEndTime < currentDateTime) {
-    isValidForm = false;
-    showError("endTime", "End time should be in the future");
-  }
-
- 
-  if (isValidForm) {
-    jQuery.ajax({
-      url: "/admin/offers/coupon",
-      data: jQuery("#voucherId").serialize(),
-      method: "POST",
-      success: function (response) {
-        window.location.reload();
-        alert("Submitted");
-      },
-      error: function (err) {
-        alert("Something went wrong");
-      },
-    });
-  }
-
-  return false; 
-}
-
-function resetForm() {
-  let form = document.getElementById("voucherId");
-  let fields = form.getElementsByClassName("form-control");
-  for (let i = 0; i < fields.length; i++) {
-    fields[i].classList.remove("is-invalid");
-    fields[i].placeholder = fields[i].getAttribute("data-placeholder");
-  }
-}
-
-function showError(fieldId, errorMessage) {
-  let field = document.getElementById(fieldId);
-  field.classList.add("is-invalid");
-  field.placeholder = errorMessage;
-}
-
-
 $(document).ready(function () {
   $("#myTable").DataTable();
 });
@@ -181,3 +82,168 @@ $(function () {
 $(function () {
   $("#bannerId").DataTable();
 });
+$(function () {
+  $("#dashboardTable").DataTable();
+});
+
+
+
+window.addEventListener("DOMContentLoaded", function () {
+  var sidebar = document.querySelector(".sidebar");
+  var htmlHeight = document.documentElement.scrollHeight;
+  sidebar.style.height = htmlHeight + "px";
+});
+ 
+//    $(document).ready(function () {
+//   // Function to get the value of the select box
+//   function getSelectedValue() {
+//     let selectedValue = $("#dateRange").val();
+
+//     //write all the ajax for updating the here
+//     $.ajax({
+//       url: "/admin/report/" + selectedValue,
+//       method: "GET",
+
+//       success: function (response) {
+
+//         // Code to handle a successful response
+    
+
+//         $("#totalSales").text(response.data[0].totalSum);
+//         $("#totalOrders").text(response.data[0].totalCount);
+//         $("#averageOrder").text(response.data[0].averageSale);
+
+//         // Call the AJAX for chart data with the updated selected value
+//         $.ajax({
+//           url: "/admin/chartdata",
+//           method: "post",
+//           data: {
+//             selectedValue: selectedValue, // Pass the selected value as a parameter
+//           },
+//           success: function (response) {
+//             console.log("response is ",response)
+//       const lastFiveDays = getFiveDays(selectedValue);
+//       var ctx = document.getElementById("salesCharts").getContext("2d");
+//    var existingCharts = Chart.instances;
+
+//    // Loop through the existing charts and destroy them
+//    for (var chartId in existingCharts) {
+//      if (existingCharts.hasOwnProperty(chartId)) {
+//        existingCharts[chartId].destroy();
+//      }
+//    }
+
+//       var salesCharts = new Chart(ctx, {
+//         type: "line",
+//         data: {
+//           labels: lastFiveDays,
+//           datasets: [
+//             {
+//               label: "Sales",
+//               data: response.salesAmount.reverse(),
+//               backgroundColor: "rgba(52, 144, 220, 0.1)",
+//               borderColor: "rgba(52, 144, 220, 1)",
+//               borderWidth: 1,
+//               pointRadius: 3,
+//               pointBackgroundColor: "rgba(52, 144, 220, 1)",
+//               pointBorderColor: "#fff",
+//               pointHoverRadius: 5,
+//               pointHoverBackgroundColor: "rgba(52, 144, 220, 1)",
+//               pointHoverBorderColor: "#fff",
+//               fill: true,
+//             },
+//           ],
+//         },
+//         options: {
+//           responsive: true,
+//           maintainAspectRatio: false,
+//           scales: {
+//             y: {
+//               beginAtZero: true,
+//               ticks: {
+//                 stepSize: 200,
+//               },
+//             },
+//           },
+//         },
+//       });
+
+//           },
+//           error: function (xhr, status, error) {
+//             // Code to handle an error response
+//             console.log("Request failed: " + error);
+//           },
+//         });
+//       },
+//       error: function (xhr, status, error) {
+//         // Code to handle an error response
+//         console.log("Request failed: " + error);
+//       },
+//     });
+//   }
+
+//   // Call the function on page load
+//   getSelectedValue();
+
+//   // Trigger the function whenever the select box value changes
+//   $("#dateRange").change(function () {
+//     getSelectedValue();
+//   });
+// });
+
+// // Function to get the last five days for chart x-axis
+// function getFiveDays(selectedValue) {
+//   if (selectedValue == "daily") {
+//     const currentDate = new Date();
+//     const datesArray = [];
+
+//     // Loop through the last 5 days
+//     for (let i = 4; i >= 0; i--) {
+//       const date = new Date();
+//       date.setDate(currentDate.getDate() - i);
+//       const formattedDate = new Intl.DateTimeFormat("en-US", {
+//         month: "long",
+//         day: "numeric",
+//       }).format(date);
+//       datesArray.push(formattedDate);
+//     }
+//     console.log(datesArray, "is arraya");
+//     return datesArray;
+//   } else if (selectedValue == "weekly") {
+//     const currentDate = new Date();
+//     const datesArray = [];
+
+//     // Loop through the last 5 weeks
+//     for (let i = 4; i >= 0; i--) {
+//       const date = new Date();
+//       date.setDate(currentDate.getDate() - i * 7);
+//       const formattedDate = new Intl.DateTimeFormat("en-US", {
+//         month: "long",
+//         day: "numeric",
+//       }).format(date);
+//       datesArray.push(formattedDate);
+//     }
+//     console.log(datesArray, "is arraya");
+//     return datesArray;
+//   } else if (selectedValue == "monthly") {
+//     const currentDate = new Date();
+//     const datesArray = [];
+
+//     // Loop through the last 5 weeks
+//     for (let i = 4; i >= 0; i--) {
+//       const date = new Date();
+//       date.setDate(currentDate.getDate() - i * 30);
+//       const formattedDate = new Intl.DateTimeFormat("en-US", {
+//         month: "long",
+//         day: "numeric",
+//       }).format(date);
+//       datesArray.push(formattedDate);
+//     }
+//     console.log(datesArray, "is arraya");
+//     return datesArray;
+//   }
+// }
+
+
+
+

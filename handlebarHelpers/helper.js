@@ -1,114 +1,5 @@
-// // const Handlebars = require("handlebars");
-// // const moment = require("moment");
-
-// // Handlebars.registerHelper("notLessThan", function (a, b, options) {
-// //   if (!(a < b)) {
-// //     return options.fn(this);
-// //   } else {
-// //     return options.inverse(this);
-// //   }
-// // });
-
-// //   Handlebars.registerHelper("nestedEach", function (arr1, arr2, options) {
-// //     let result = "";
-// //     for (let i = 0; i < arr1.length; i++) {
-// //       result += options.fn({ product: arr1[i], count: arr2[i] });
-// //     }
-// //     return result;
-// //   });
-
-// //   Handlebars.registerHelper("nestedEach", function (arr1, arr2, options) {
-// //     let result = "";
-// //     for (let i = 0; i < arr1.length; i++) {
-// //       result += options.fn({ product: arr1[i], order: arr2[i] });
-// //     }
-// //     return result;
-// //   });
-// //   Handlebars.registerHelper("subtract", function (num1, num2) {
-// //     return num1 - num2;
-// //   });
-
-// // Handlebars.registerHelper('compareValues', function(value1, value2, options) {
-// //   if (value1 == value2) {
-// //     return options.fn(this);
-// //   }
-// //   return options.inverse(this);
-// // });
-
-// // Handlebars.registerHelper("formatDate", function (date) {
-
-// //   return moment(date).format("MMMM Do YYYY");
-// // });
-
-// const Handlebars = require("handlebars");
-// const moment = require("moment");
-
-// Handlebars.registerHelper("notLessThan", function (a, b, options) {
-//   if (!(a < b)) {
-//     return options.fn(this);
-//   } else {
-//     return options.inverse(this);
-//   }
-// });
-
-// Handlebars.registerHelper("nestedEach", function (arr1, arr2, options) {
-//   let result = "";
-//   for (let i = 0; i < arr1.length; i++) {
-//     result += options.fn({ product: arr1[i], count: arr2[i] });
-//   }
-//   return result;
-// });
-
-// Handlebars.registerHelper("subtract", function (num1, num2) {
-//   return num1 - num2;
-// });
-
-// Handlebars.registerHelper("compareValues", function (value1, value2, options) {
-//   if (value1 == value2) {
-//     return options.fn(this);
-//   }
-//   return options.inverse(this);
-// });
-
-// Handlebars.registerHelper("formatDate", function (date) {
-//   return moment(date).format("MMMM Do YYYY");
-// });
-
-// Handlebars.registerHelper("multiply", function (num1, num2) {
-//   return num1 * num2;
-// });
-
-// Handlebars.registerHelper("add", function (num1, num2) {
-//   return num1 + num2;
-// });
-
-// Handlebars.registerHelper("nestedEach", function (arr1, arr2, options) {
-//     let result = "";
-//     for (let i = 0; i < arr1.length; i++) {
-//       result += options.fn({ product: arr1[i], orders: arr2[i] });
-//     }
-//     return result;
-//   });
-
-//   Handlebars.registerHelper("ifEqual", function (arg1, arg2, options) {
-//     if (arg1 == arg2) {
-//       return options.fn(this);
-//     } else {
-//       return options.inverse(this);
-//     }
-//   });
-
-
-// Handlebars.registerHelper('greaterThan', function(a, b, options) {
-//   if (a >= b) {
-//     return options.fn(this);
-//   } else {
-//     return options.inverse(this);
-//   }
-// });
-
 const Handlebars = require("handlebars");
-const { handlebars } = require("hbs");
+
 const moment = require("moment");
 
 Handlebars.registerHelper("notLessThan", function (a, b, options) {
@@ -116,6 +7,13 @@ Handlebars.registerHelper("notLessThan", function (a, b, options) {
     return options.fn(this);
   } else {
     return options.inverse(this);
+  }
+});
+Handlebars.registerHelper("Razorpay", function (paymentMode, options) {
+  if (paymentMode === "Razorpay") {
+    return options.fn(this); 
+  } else {
+    return options.inverse(this); 
   }
 });
 
@@ -162,9 +60,6 @@ Handlebars.registerHelper("nestedEach", function (arr1, arr2, options) {
   return result;
 });
 
-
-
-
 Handlebars.registerHelper("ifEqual", function (arg1, arg2, options) {
   if (arg1 == arg2) {
     return options.fn(this);
@@ -181,13 +76,11 @@ Handlebars.registerHelper("greaterThan", function (a, b, options) {
   }
 });
 
-
 Handlebars.registerHelper("doubleEach", function (context, options) {
   let ret = "";
 
   if (context && context.length > 0) {
     for (let i = 0; i < context.length; i++) {
-
       ret += options.fn(context[i]);
     }
   } else {
@@ -219,18 +112,44 @@ Handlebars.registerHelper("isDateWithin7Days", function (date) {
   return daysDifference <= 7;
 });
 
-handlebars.registerHelper("inc", function (value) {
+Handlebars.registerHelper("inc", function (value) {
   return value + 1;
 });
 
-handlebars.registerHelper("equal", function (a, b) {
+Handlebars.registerHelper("equal", function (a, b) {
   return a === b;
 });
-console.log("eneter here")
-handlebars.registerHelper("range", function (start, end, options) {
+
+Handlebars.registerHelper("range", function (start, end, options) {
   const range = [];
   for (let i = start; i <= end; i++) {
     range.push(i);
   }
   return range;
+});
+Handlebars.registerHelper("isEqual", function (pageNo, i, options) {
+  if (pageNo === i) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+Handlebars.registerHelper("range", function (count, options) {
+  const start = 1;
+  const end = parseInt(count, 10);
+  const result = [];
+
+  for (let i = start; i <= end; i++) {
+    result.push(i);
+  }
+
+  return result;
+});
+
+Handlebars.registerHelper("ifOr", function (a, b, options) {
+  if (a || b) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
 });

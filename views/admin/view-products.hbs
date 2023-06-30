@@ -21,14 +21,18 @@
             </div>
             <div class="modal-body">
 
-              <form action="/admin/addproduct" method="POST" enctype="multipart/form-data">
+              <form action="/admin/addproduct" method="POST" enctype="multipart/form-data" id="productForm">
                 <div class="form-group">
                   <label for="productName">Product Name:</label>
                   <input type="text" class="form-control" id="productName" name="productName" required />
+                  <small class="error-message" id="productNameError" style="color:red
+                  ;"></small>
                 </div>
                 <div class="form-group">
                   <label for="productBrand">Product Brand:</label>
                   <input type="text" class="form-control" id="productBrand" name="productBrand" required />
+                   <small class="error-message" id="productBrandError" style="color:red
+                  ;"></small>
                 </div>
                 <div class="form-group">
                   <label for="category">Category:</label>
@@ -41,27 +45,31 @@
                 </div>
                 <div class="form-group">
                   <label for="quantity">Quantity:</label>
-                  <input type="number" class="form-control" id="quantity" name="quantity" required />
+                  <input type="number" class="form-control" id="quantity" name="quantity" min="1" required />
                 </div>
                 <div class="form-group">
                   <label for="buyPrice">Buyed Price:</label>
-                  <input type="number" class="form-control" id="buyPrice" name="buyPrice" required />
+                  <input type="number" class="form-control" id="buyPrice" name="buyPrice" min="1" required />
                 </div>
                 <div class="form-group">
                   <label for="sellingPrice">Selling Price:</label>
-                  <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" required />
+                  <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" min="1" required />
                 </div>
                 <div class="form-group">
                   <label for="sellingPrice">Offered Price:</label>
-                  <input type="number" class="form-control" id="offeredprice" name="offeredprice" required />
+                  <input type="number" class="form-control" id="offeredprice" name="offeredprice" min="1" required />
                 </div>
                 <div class="form-group">
                   <label for="highlights">highlights:</label>
                   <textarea class="form-control" id="highlights" name="highlights" rows="4" required></textarea>
+                    <small class="error-message" id="HightLightError" style="color:red
+                  ;"></small>
                 </div>
                 <div class="form-group">
                   <label for="description">Description:</label>
                   <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                   <small class="error-message" id="DescriptionError" style="color:red
+                  ;"></small>
                 </div>
                 <div class="form-group">
                   <label for="description">Upload image:</label>
@@ -199,10 +207,10 @@
                   <button type="submit" class="btn-xs btn-primary">&nbspEdit&nbsp</button>
                 </form>
                 <button type="button" class="btn-xs btn-danger" data-toggle="modal"
-                  data-target="#exampleModalDeleteProduct">
+                  data-target="#exampleModalDeleteProduct{{_id}}">
                   Delete
                 </button>
-                <div class="modal fade" id="exampleModalDeleteProduct" tabindex="-1" role="dialog"
+                <div class="modal fade" id="exampleModalDeleteProduct{{_id}}" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -240,10 +248,76 @@
   {{/if}}
 </section>
 
-
 <script>
-  function validateForm() {
-    alert("enetred here!")
-    console.log("enetred herr")
+  const productForm = document.getElementById('productForm');
+
+// Add event listener to form submission
+productForm.addEventListener('submit', function (event) {
+  // Prevent form submission
+  event.preventDefault();
+
+  // Perform form validations
+  if (validateForm()) {
+    // If the form is valid, submit it
+    productForm.submit();
   }
+});
+
+// Function to validate the form for product adding page 
+function validateForm() {
+
+  const productName = document.getElementById('productName').value.trim();
+  const productBrand = document.getElementById('productBrand').value.trim();
+  const category = document.getElementById('category').value;
+  const highlights = document.getElementById('highlights').value.trim();
+  const description = document.getElementById('description').value.trim();
+
+ 
+  const specialCharsRegex = /^[a-zA-Z0-9\s\-\.,\!@#$%^&*()_+=[\]{}|\\?/~`"':;<>]+$/;
+
+  
+  if (!productName.match(specialCharsRegex)) {
+      document.getElementById("productNameError").textContent =
+        "Invalid product name. Please enter a valid product name.";
+    return false;
+  }
+
+  if (!productBrand.match(specialCharsRegex)) {
+   document.getElementById("productBrandError").textContent =
+     "Invalid brand Name. Please enter a valid Brand Name.";
+    
+    return false;
+  }
+
+  if (category === '') {
+    alert('Please select a category.');
+    return false;
+  }
+
+  if (!highlights.match(specialCharsRegex)) {
+    document.getElementById("HightLightError").textContent =
+      "Invalid. Please enter a highlightdetails.";
+    return false;
+  } else if (highlights.length < 50) {
+    document.getElementById("HightLightError").textContent =
+      "minimum 50 words required";
+    return false;
+  }
+
+  if (!description.match(specialCharsRegex)) {
+    document.getElementById("DescriptionError").textContent =
+      "Invalid. Please enter a description details.";
+    return false;
+  } else if(description.length<100){
+    document.getElementById("DescriptionError").textContent =
+      "minimum 100 words required";
+    return false;
+  }
+
+ 
+  return true;
+}
+
+
+
 </script>

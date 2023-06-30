@@ -1,12 +1,12 @@
 const productHelpers = require("../../helpers/productHelpers");
 const productHelper = require("../../helpers/productHelpers");
-// const userHelpers = require("../../helpers/userHelpers");
 const categoryHelpers = require("../../helpers/categoryHelpers");
 const bannerHelper = require("../../helpers/bannerHelper");
 const auth = require("../../Middleware/auth");
-
+const pageNation = require("../../Middleware/pagenation");
 
 module.exports = {
+  // users home
   home: function (req, res) {
     productHelper.getFeaturedProduct().then((fProduct) => {
       const featuredProduct = fProduct.slice(0, 4);
@@ -14,7 +14,6 @@ module.exports = {
         categoryHelpers.viewCategory().then((category) => {
           const limitedCategory = category.slice(0, 6);
           bannerHelper.getBannerDetailsHome("home").then((banner) => {
-            console.log("banner at the home page is ", banner);
             if (req.session.user) {
               res.render("users/user-viewproducts", {
                 product,
@@ -38,12 +37,13 @@ module.exports = {
       });
     });
   },
+  // mobile catgeory 
   mobile: (req, res) => {
     productHelper.getMobiles().then((mobiles) => {
       categoryHelpers.viewCategory().then((category) => {
         const limitedCategory = category.slice(0, 6);
         bannerHelper
-          .getBannerDetailsCategory("648dc877fad082954e750ce3")
+          .getBannerDetailsCategory("Mobile")
           .then((banner) => {
             if (req.session.user) {
               res.render("users/user-category-mobile", {
@@ -65,67 +65,65 @@ module.exports = {
       });
     });
   },
+  // electronics category
   electronics: (req, res) => {
     productHelper.getElectronics().then((electronics) => {
-      console.log(electronics, "are electronics ");
       categoryHelpers.viewCategory().then((category) => {
         const limitedCategory = category.slice(0, 6);
-        bannerHelper
-          .getBannerDetailsCategory("6485718abb980dc78fda4265")
-          .then((banner) => {
-            if (req.session.user) {
-              res.render("users/user-category-electronics", {
-                admin: false,
-                electronics,
-                user: req.session.user,
-                limitedCategory,
-                banner,
-              });
-            } else {
-              res.render("users/user-category-electronics", {
-                admin: false,
-                electronics,
-                limitedCategory,
-                banner,
-              });
-            }
-          });
+        bannerHelper.getBannerDetailsCategory("Electronics").then((banner) => {
+          if (req.session.user) {
+            res.render("users/user-category-electronics", {
+              admin: false,
+              electronics,
+              user: req.session.user,
+              limitedCategory,
+              banner,
+            });
+          } else {
+            res.render("users/user-category-electronics", {
+              admin: false,
+              electronics,
+              limitedCategory,
+              banner,
+            });
+          }
+        });
       });
     });
   },
+  //books category
   books: (req, res) => {
     productHelper.getBooks().then((books) => {
       categoryHelpers.viewCategory().then((category) => {
         const limitedCategory = category.slice(0, 6);
-        bannerHelper
-          .getBannerDetailsCategory("648dd316a4526d88396a94eb")
-          .then((banner) => {
-            if (req.session.user) {
-              res.render("users/user-category-books", {
-                admin: false,
-                books,
-                user: req.session.user,
-                limitedCategory,
-                banner,
-              });
-            } else {
-              res.render("users/user-category-books", {
-                admin: false,
-                books,
-                limitedCategory,
-                banner,
-              });
-            }
-          });
+        bannerHelper.getBannerDetailsCategory("Books").then((banner) => {
+          if (req.session.user) {
+            res.render("users/user-category-books", {
+              admin: false,
+              books,
+              user: req.session.user,
+              limitedCategory,
+              banner,
+            });
+          } else {
+            res.render("users/user-category-books", {
+              admin: false,
+              books,
+              limitedCategory,
+              banner,
+            });
+          }
+        });
       });
     });
   },
+  // health and wellness category
   healthAndWellness: (req, res) => {
     productHelper.getHealthAndWellness().then((products) => {
       categoryHelpers.viewCategory().then((category) => {
         const limitedCategory = category.slice(0, 6);
         bannerHelper
-          .getBannerDetailsCategory("648dd33fa4526d88396a94ed")
+          .getBannerDetailsCategory("Health")
           .then((banner) => {
             if (req.session.user) {
               res.render("users/user-category-health&wellness", {
@@ -147,35 +145,36 @@ module.exports = {
       });
     });
   },
+  // grocery category
   grocery: (req, res) => {
     productHelper.getGrocery().then((products) => {
       categoryHelpers.viewCategory().then((category) => {
         const limitedCategory = category.slice(0, 6);
-        bannerHelper
-          .getBannerDetailsCategory("648dd32ea4526d88396a94ec")
-          .then((banner) => {
-            if (req.session.user) {
-              res.render("users/user-category-grocerys", {
-                admin: false,
-                products,
-                user: req.session.user,
-                limitedCategory,
-                banner,
-              });
-            } else {
-              res.render("users/user-category-grocerys", {
-                admin: false,
-                products,
-                banner,
-                limitedCategory,
-              });
-            }
-          });
+        bannerHelper.getBannerDetailsCategory("Grocery").then((banner) => {
+          if (req.session.user) {
+            res.render("users/user-category-grocerys", {
+              admin: false,
+              products,
+              user: req.session.user,
+              limitedCategory,
+              banner,
+            });
+          } else {
+            res.render("users/user-category-grocerys", {
+              admin: false,
+              products,
+              banner,
+              limitedCategory,
+            });
+          }
+        });
       });
     });
   },
+  //product detail page
   getProductDetails: (req, res) => {
-    productHelper.getproducts(req.params.id).then((products) => {
+   try{
+     productHelper.getproducts(req.params.id).then((products) => {
       if (req.session.user) {
         res.render("users/view-productdetails", {
           admin: false,
@@ -189,64 +188,165 @@ module.exports = {
         });
       }
     });
+   } catch(err){
+    console.log("error at viewing products",err)
+   }
   },
+ // view all product page
   products: (req, res) => {
-    const itemsPerPage = 6;
-    const currentPage = parseInt(req.params.id) || 1;
+    const pageNo = req.params.id || 1;
+    const aggrigateStages = [{ $match: { status: true } }];
+    const countPages = { $match: { status: true } };
 
-    productHelper.getAllProducts().then((product) => {
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const itemsToDisplay = product.slice(startIndex, endIndex);
-      const totalPages = Math.ceil(product.length / itemsPerPage);
-      categoryHelpers.viewCategory().then((category) => {
-        res.render("users/allproucts", {
-          admin: false,
-          user: req.session.user,
-          currentPage: currentPage,
-          products: itemsToDisplay,
-          category,
+    productHelper
+      .getProductsPagination(pageNo, 6, aggrigateStages)
+      .then((products) => {
+        productHelper.getCount(pageNo, 6, countPages).then((counts) => {
+          const pages = Math.floor(counts / 6);
+
+          categoryHelpers.viewCategory().then((category) => {
+            res.render("users/allproucts", {
+              admin: false,
+              user: req.session.user,
+              products,
+              pages: pages,
+              pageNo: pageNo,
+              category,
+            });
+          });
         });
       });
-    });
   },
+  // latest products
   latestProducts: (req, res) => {
-    productHelper.latestProduct().then((products) => {
-      categoryHelpers.viewCategory().then((category) => {
-        res.render("users/allproucts", { products, category });
+    const pageNo = req.params.id || 1;
+    const aggrigateStages = [
+      { $match: { status: true } },
+      {
+        $addFields: {
+          hasTimestamp: {
+            $cond: {
+              if: { $gt: ["$timestamp", null] },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+      {
+        $sort: {
+          hasTimestamp: 1,
+          timestamp: 1,
+        },
+      },
+      {
+        $project: {
+          hasTimestamp: 0,
+        },
+      },
+    ];
+    productHelper
+      .getProductsPagination(pageNo, 6, aggrigateStages)
+      .then((products) => {
+        productHelper.getCount(pageNo, 6, aggrigateStages).then((counts) => {
+          const pages = Math.floor(counts / 6);
+
+          categoryHelpers.viewCategory().then((category) => {
+            res.render("users/allproucts", {
+              admin: false,
+              user: req.session.user,
+              products,
+              pages: pages,
+              pageNo: pageNo,
+              category,
+            });
+          });
+        });
       });
-    });
   },
+  // sorting - low to high
   lowToHigh: (req, res) => {
-    productHelper.lowToHighProducts().then((products) => {
-      categoryHelpers.viewCategory().then((category) => {
-        res.render("users/allproucts", { products, category });
+    const pageNo = req.params.id || 1;
+    const aggrigateStages = [
+      { $match: { status: true } },
+      { $sort: { offeredprice: 1 } },
+    ];
+    productHelper
+      .getProductsPagination(pageNo, 6, aggrigateStages)
+      .then((products) => {
+        productHelper.getCount(pageNo, 6, aggrigateStages).then((counts) => {
+          const pages = Math.floor(counts / 6);
+
+          categoryHelpers.viewCategory().then((category) => {
+            res.render("users/allproucts", {
+              admin: false,
+              user: req.session.user,
+              products,
+              pages: pages,
+              pageNo: pageNo,
+              category,
+            });
+          });
+        });
       });
-    });
   },
+  // sorting - high to low
   highToLow: (req, res) => {
-    productHelper.highToLow().then((products) => {
-      categoryHelpers.viewCategory().then((category) => {
-        res.render("users/allproucts", { products, category });
+    const pageNo = req.params.id || 1;
+    const aggrigateStages = [
+      { $match: { status: true } },
+      { $sort: { offeredprice: -1 } },
+    ];
+    productHelper
+      .getProductsPagination(pageNo, 6, aggrigateStages)
+      .then((products) => {
+        productHelper.getCount(pageNo, 6, aggrigateStages).then((counts) => {
+          const pages = Math.floor(counts / 6);
+
+          categoryHelpers.viewCategory().then((category) => {
+            res.render("users/allproucts", {
+              admin: false,
+              user: req.session.user,
+              products,
+              pages: pages,
+              pageNo: pageNo,
+              category,
+            });
+          });
+        });
       });
-    });
   },
 
+  // search items 
   searchItems: (req, res) => {
-    console.log(req.body.searchTerm);
-
     productHelpers.searchItems(req.body.searchTerm).then((result) => {
       res.json({ products: result });
     });
   },
-  getFilterdProduct:(req,res)=>{
-    console.log(req.body)
-    productHelpers
-      .getFilteredProduct(req.body.categoryName)
+  // filter- categorys
+  getFilterdProduct: (req, res) => {
+    const pageNo = req.params.id || 1;
+    const aggrigateStages = [
+      { $match: { status: true } },
+      { $match: { category: req.body.categoryName } },
+    ];
+    productHelper
+      .getProductsPagination(pageNo, 6, aggrigateStages)
       .then((products) => {
-        categoryHelpers.viewCategory().then((category) => {
-          res.render("users/allproucts", { products, category });
+        productHelper.getCount(pageNo, 6, aggrigateStages).then((counts) => {
+          const pages = Math.floor(counts / 6);
+
+          categoryHelpers.viewCategory().then((category) => {
+            res.render("users/allproucts", {
+              admin: false,
+              user: req.session.user,
+              products,
+              pages: pages,
+              pageNo: pageNo,
+              category,
+            });
+          });
         });
       });
-  }
+  },
 };

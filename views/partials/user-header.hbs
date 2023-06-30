@@ -1,85 +1,52 @@
 <section>
   <header style="background-color: #1b1ec7;">
-    <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand" href="/" style="color: #FFF;">Melocia</a>
-        <div class="navbar-collapse">
-        <div class="search-bar">
-            <input type="text-sm" class="form-control" placeholder="Search for products,brands and more" id="searchbarStart">
-            <span class="search-icon">
-              <i class="fa fa-search"></i>
-            </span>
+   <nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="/" style="color: #FFF;">Melocia</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" > <i class="fa fa-ellipsis-v" aria-hidden="true"></i></i></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <div class="search-bar">
+        <input type="text" class="form-control" placeholder="Search for products, brands and more" id="searchbarStart">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+      <section id="suggestionsContainer" style="background-color: transparent;">
+      </section>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          {{#if user}}
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              My Account
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/myaccount">My Profile</a>
+              <a class="dropdown-item" href="/orders">My Orders</a>
+              <a class="dropdown-item" href="/logout">Log out</a>
+            </div>
           </div>
-          <section id="suggestionsContainer" style="background-color: transparent;">
-          </section>
-
-          <ul class="navbar-nav ml-auto">
-
-            <li class="nav-item">
-
-              
-              <!-- Button trigger modal -->
-              {{#if user}}
-
-                <div class="container">
-
-                  <div class="dropdown">
-                    <button
-                      class="btn dropdown-toggle"
-                      type="button"
-                      id="dropdownMenuButton"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      My Account
-                    </button>
-                    <!-- Dropdown Menu -->
-                    <div
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton"
-                    >
-                      <a class="dropdown-item" href="/myaccount">My Profile</a>
-                      <a class="dropdown-item" href="/orders">My Orders</a>
-                      <a class="dropdown-item" href="/logout">Log out</a>
-                    </div>
-                  </div>
-                </div>
-              {{else}}
-                <button
-                  style="background-color: #ffff; color: #1b1ec7;"
-                  type="button"
-                  class="btn mr-2"
-                  data-toggle="modal"
-                  data-target="#exampleModalCenter"
-                >
-                  Login
-                </button>
-              {{/if}}
+          {{else}}
+          <button style="background-color: #ffff; color: #1b1ec7;" type="button" class="btn mr-2"
+            data-toggle="modal" data-target="#exampleModalCenter">
+            Login
+          </button>
+          {{/if}}
+        </li>
 
               <!-- Modal -->
               <!-- First Modal -->
-              <div
-                class="modal fade"
-                id="exampleModalCenter"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalCenterTitle"
-                aria-hidden="true"
-              >
-                <div
-                  class="modal-dialog modal-dialog-centered modal-lg"
-                  role="document"
-                >
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                   <div class="modal-content">
-                    <div
-                      class="modal-body"
-                      style="display: flex; height: 600px;"
-                    >
-                      <div
-                        class="col-lg-4"
-                        style="background-color: #2874f0; color: #fff; padding: 20px;"
-                      >
+                    <div class="modal-body" style="display: flex; height: 600px;">
+                      <div class="col-lg-4" style="background-color: #2874f0; color: #fff; padding: 20px;">
                         <br />
                         <br />
                         <br />
@@ -91,7 +58,8 @@
                           <br />
                           Orders, Wishlist and
                           <br />
-                          Recommendations</h4>
+                          Recommendations
+                        </h4>
                       </div>
                       <div class="col-lg-8" style="padding: 20px;">
                         <form action="/otp" method="POST" onsubmit="return validateFormLogin(event);">
@@ -101,14 +69,8 @@
                               <br />
                               <br />
                               <label for="phone">Enter your phone number:</label>
-                              <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                class="form-control"
-                                placeholder="Enter phone Number"
-                                required
-                              />
+                              <input type="tel" id="phone" name="phone" class="form-control"
+                                placeholder="Enter phone Number" required />
                             </div>
                           </div>
                           <br />
@@ -120,11 +82,9 @@
                           </div>
                           <div class="row">
                             <div class="col">
-                              <button
-                                type="submit"
-                                class="btn btn-warning"
-                                {{!-- onclick="$('#exampleModalCenter').hide(); $('#otpModal').modal('show');" --}}
-                              >Get OTP</button>
+                              <button type="submit" class="btn btn-warning" {{!--
+                                onclick="$('#exampleModalCenter').hide(); $('#otpModal').modal('show');" --}}>Get
+                                OTP</button>
                               <br>
                               <br>
                               <div>
@@ -136,41 +96,22 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <a
-                        href="#"
-                        data-dismiss="modal"
-                        data-toggle="modal"
-                        data-target="#signupModal"
-                      >New to Melocia? Create an account</a>
+                      <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">New to Melocia?
+                        Create an account</a>
                     </div>
                   </div>
                 </div>
               </div>
 
-             
+
 
               <!-- Signup Modal -->
-              <div
-                class="modal fade"
-                id="signupModal"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalCenterTitle"
-                aria-hidden="true"
-              >
-                <div
-                  class="modal-dialog modal-dialog-centered modal-lg"
-                  role="document"
-                >
+              <div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                   <div class="modal-content">
-                    <div
-                      class="modal-body"
-                      style="display: flex; height: 600px;"
-                    >
-                      <div
-                        class="col-lg-4"
-                        style="background-color: #2874f0; color: #fff; padding: 20px;"
-                      >
+                    <div class="modal-body" style="display: flex; height: 600px;">
+                      <div class="col-lg-4" style="background-color: #2874f0; color: #fff; padding: 20px;">
                         <br />
                         <br />
                         <br />
@@ -180,122 +121,78 @@
                           <br />
                           Orders, Wishlist and
                           <br />
-                          Recommendations</h4>
+                          Recommendations
+                        </h4>
                       </div>
                       <div class="col-lg-8" style="padding: 20px;">
-                 <form id="signupForm" action="/signup" method="POST">
-  <div class="row">
-    <div class="col">
-      <label for="name">Name:</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        class="form-control"
-        placeholder="Enter name"
-        required
-      />
-    </div>
-  </div>
-  
-  <div class="row">
-    <div class="col">
-      <br />
-      <label for="phone">Enter your phone number:</label>
-      <input
-        type="number"
-        id="phonesignup"
-        name="phone"
-        class="form-control"
-        placeholder="Enter phone number"
-        required
-      />
-    </div>
-  </div>
-  <br>
-  
-  <div class="row">
-    <div class="col">
-      <label for="email">Email:</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        class="form-control"
-        placeholder="Enter your email"
-        required
-      />
-    </div>
-  </div>
-  <br>
-  
-  <div class="row">
-    <div class="col">
-      <label for="referal">Referal code:</label>
-      <input
-        type="text"
-        id="referal"
-        name="referal"
-        class="form-control"
-        placeholder="Enter your referal code"
-      />
-    </div>
-  </div>
-  <br>
+                        <form id="signupForm" action="/signup" method="POST">
+                          <div class="row">
+                            <div class="col">
+                              <label for="name">Name:</label>
+                              <input type="text" id="name" name="name" class="form-control" placeholder="Enter name"
+                                required />
+                            </div>
+                          </div>
 
-  <div class="row">
-    <div class="col">
-      <h6>By signing up, you agree to Melocia's Terms of Use and Privacy Policy</h6>
-    </div>
-  </div>
+                          <div class="row">
+                            <div class="col">
+                              <br />
+                              <label for="phone">Enter your phone number:</label>
+                              <input type="number" id="phonesignup" name="phone" class="form-control"
+                                placeholder="Enter phone number" required />
+                            </div>
+                          </div>
+                          <br>
 
-  <div class="row">
-    <div class="col">
-      <button
-        type="submit"
-        class="btn btn-warning"
-      >Sign Up</button>
-      <br>
-      <br>
-      <p id="signUpVerifyId" style="color: red;"></p>
-    </div>
-  </div>
-</form>
+                          <div class="row">
+                            <div class="col">
+                              <label for="email">Email:</label>
+                              <input type="email" id="email" name="email" class="form-control"
+                                placeholder="Enter your email" required />
+                            </div>
+                          </div>
+                          <br>
+
+                          <div class="row">
+                            <div class="col">
+                              <label for="referal">Referral code:</label>
+                              <input type="text" id="referal" name="referal" class="form-control"
+                                placeholder="Enter your referral code" />
+                            </div>
+                          </div>
+                          <br>
+
+                          <div class="row">
+                            <div class="col">
+                              <h6>By signing up, you agree to Melocia's Terms of Use and Privacy Policy</h6>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col">
+                              <button type="submit" class="btn btn-warning">Sign Up</button>
+                              <br>
+                              <br>
+                              <p id="signUpVerifyId" style="color: red;"></p>
+                            </div>
+                          </div>
+                        </form>
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <a
-                        href="#"
-                        data-dismiss="modal"
-                        data-toggle="modal"
-                        data-target="#exampleModalCenter"
-                      >Already have an account? Login</a>
+                      <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#exampleModalCenter">Already
+                        have an account? Login</a>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div
-                class="modal fade"
-                id="otpModalsignup"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalCenterTitle"
-                aria-hidden="true"
-              >
-                <div
-                  class="modal-dialog modal-dialog-centered modal-lg"
-                  role="document"
-                >
+              <div class="modal fade" id="otpModalsignup" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                   <div class="modal-content">
-                    <div
-                      class="modal-body"
-                      style="display: flex; height: 600px;"
-                    >
-                      <div
-                        class="col-lg-4"
-                        style="background-color: #2874f0; color: #fff; padding: 20px;"
-                      >
+                    <div class="modal-body" style="display: flex; height: 600px;">
+                      <div class="col-lg-4" style="background-color: #2874f0; color: #fff; padding: 20px;">
                         <br />
                         <br />
                         <br />
@@ -311,23 +208,14 @@
                               <br />
                               <br />
                               <label for="otp">Enter your OTP:</label>
-                              <input
-                                type="number"
-                                id="otp"
-                                name="otp"
-                                class="form-control"
-                                placeholder="Enter OTP"
-                                required
-                              />
+                              <input type="number" id="otp" name="otp" class="form-control" placeholder="Enter OTP"
+                                required />
                             </div>
                           </div>
                           <br />
                           <div class="row">
                             <div class="col">
-                              <button
-                                type="submit"
-                                class="btn btn-primary"
-                              >Verify OTP</button>
+                              <button type="submit" class="btn btn-primary">Verify OTP</button>
                               <br>
                               <br>
                               <p id="otpSignUpVerification" style="color: red;"></p>
@@ -340,27 +228,12 @@
                 </div>
               </div>
               {{! end of isgnupmodal }}
-              <div
-                class="modal fade"
-                id="otpModal"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalCenterTitle"
-                aria-hidden="true"
-              >
-                <div
-                  class="modal-dialog modal-dialog-centered modal-lg"
-                  role="document"
-                >
+              <div class="modal fade" id="otpModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                   <div class="modal-content">
-                    <div
-                      class="modal-body"
-                      style="display: flex; height: 600px;"
-                    >
-                      <div
-                        class="col-lg-4"
-                        style="background-color: #2874f0; color: #fff; padding: 20px;"
-                      >
+                    <div class="modal-body" style="display: flex; height: 600px;">
+                      <div class="col-lg-4" style="background-color: #2874f0; color: #fff; padding: 20px;">
                         <br />
                         <br />
                         <br />
@@ -373,7 +246,8 @@
                           <br />
                           Orders, Wishlist and
                           <br />
-                          Recommendations</h4>
+                          Recommendations
+                        </h4>
                       </div>
                       <div class="col-lg-8" style="padding: 20px;">
                         <form id="verificationForm" action="/verify" method="post">
@@ -383,31 +257,22 @@
                               <br />
                               <br />
                               <label for="phone">Enter your OTP:</label>
-                              <input
-                                type="tel"
-                                id="otpLogin"
-                                name="otpLogin"
-                                class="form-control"
-                                placeholder="Enter OTP"
-                                required
-                              />
+                              <input type="tel" id="otpLogin" name="otpLogin" class="form-control"
+                                placeholder="Enter OTP" required />
                             </div>
                           </div>
                           <br />
                           <div class="row">
                             <div class="col">
-                              <button
-                                type="submit"
-                                class="btn btn-warning"
-                              >Login</button>
+                              <button type="submit" class="btn btn-warning">Login</button>
                               <br>
                               <br>
-                               <p id="errorMessageForLogin" style="color: red;"></p>
+                              <p id="errorMessageForLogin" style="color: red;"></p>
                             </div>
-                             
+
                           </div>
                           <br>
-                         
+
                         </form>
                       </div>
                     </div>
@@ -416,45 +281,39 @@
                 </div>
               </div>
             </li>
-            <li class="nav-item">
-               {{#if user}}
-              <a class="nav-link ml-3" style="color: #ffff;" href="/wishlist">
-                <i class="fas fa-heart mr-2"></i>Wishlist</a>
-                {{else}}
-                <button  style="background-color:none; color: #FFF;"
-                  type="button"
-                  class="btn"
-                  data-toggle="modal"
-                  data-target="#exampleModalCenter"style="color: #ffff;">
-                <i class="fas fa-heart mr-2"></i>Wishlist</button>
-                {{/if}}
-            </li>
-            <li class="nav-item">
-              {{#if user}}
-              <a class="nav-link ml-3 float-right" style="color: #ffff;" href="/cart">
-                <i class="fas fa-shopping-cart mr-2"></i>Cart
-                <span
-                  class="ml-1 position-absolute top-0 start-100 translate-middle badge rounded-pill badge-danger"
-                >
-                {{cartLength}}
-                </span>
-              </a>
-              {{else}}
-               <a class="nav-link ml-3 float-right"  style="color: #ffff;" href="/cart">
-                <i class="fas fa-shopping-cart mr-2"></i>Cart
-              </a>
-              {{/if}}
-
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+             <li class="nav-item">
+          {{#if user}}
+          <a class="nav-link ml-3" style="color: #ffff;" href="/wishlist">
+            <i class="fas fa-heart mr-2"></i>Wishlist</a>
+          {{else}}
+          <button style="background-color: none; color: #FFF;" type="button" class="btn" data-toggle="modal"
+            data-target="#exampleModalCenter" style="color: #ffff;">
+            <i class="fas fa-heart mr-2"></i>Wishlist</button>
+          {{/if}}
+        </li>
+        <li class="nav-item">
+          {{#if user}}
+          <a class="nav-link ml-3 " style="color: #ffff;" href="/cart">
+            <i class="fas fa-shopping-cart mr-2"></i>Cart
+            {{!-- <span class="ml-1 position-absolute top-0 start-100 translate-middle badge rounded-pill badge-danger"> --}}
+              {{cartLength}}
+            </span>
+          </a>
+          {{else}}
+          <a class="nav-link ml-3 " style="color: #ffff;" href="/cart">
+            <i class="fas fa-shopping-cart mr-2"></i>Cart
+          </a>
+          {{/if}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
   </header>
 </section>
 <script>
-  $(document).ready(function() {
-    $('#search-icon').click(function() {
+  $(document).ready(function () {
+    $('#search-icon').click(function () {
       var searchTerm = $('#searchbarStart').val().trim().toLowerCase();
       if (/^[a-zA-Z]+$/.test(searchTerm)) {
         sendSearchRequest(searchTerm);
@@ -463,7 +322,7 @@
       }
     });
 
-    $('#searchbarStart').keyup(function() {
+    $('#searchbarStart').keyup(function () {
       var searchTerm = $(this).val().trim().toLowerCase();
       sendSearchRequest(searchTerm);
     });
@@ -473,59 +332,59 @@
         url: '/search',
         method: 'POST',
         data: { searchTerm: searchTerm },
-        success: function(response) {
+        success: function (response) {
           updateSearchResults(response.products);
           showSuggestions(response.products);
         },
-        error: function() {
+        error: function () {
           console.log('An error occurred while fetching search results.');
         }
       });
     }
 
     function updateSearchResults(results) {
-  var $searchResults = $('.search-results');
-  $searchResults.empty();
-  if (results.length > 0) {
-    $.each(results, function(index, result) {
-      $searchResults.append('<p>' + result + '</p>');
-    });
-  } else {
-    $searchResults.append('<p>No results found.</p>');
-  }
-}
+      var $searchResults = $('.search-results');
+      $searchResults.empty();
+      if (results.length > 0) {
+        $.each(results, function (index, result) {
+          $searchResults.append('<p>' + result + '</p>');
+        });
+      } else {
+        $searchResults.append('<p>No results found.</p>');
+      }
+    }
 
     //suggestions
-   function showSuggestions(suggestions) {
-  var suggestionsContainer = document.getElementById('suggestionsContainer');
-  suggestionsContainer.innerHTML = '';
+    function showSuggestions(suggestions) {
+      var suggestionsContainer = document.getElementById('suggestionsContainer');
+      suggestionsContainer.innerHTML = '';
 
-  if (suggestions.length > 0) {
-    var suggestionList = document.createElement('div'); 
-    suggestionList.classList.add('suggestion-list'); 
+      if (suggestions.length > 0) {
+        var suggestionList = document.createElement('div');
+        suggestionList.classList.add('suggestion-list');
 
-    suggestions.forEach(function(suggestion) {
-      var suggestionElement = document.createElement('p');
-      suggestionElement.textContent = suggestion.productName;
-      suggestionElement.classList.add('suggestion');
-      suggestionElement.addEventListener('click', function(event) {
-        var clickedProductName = event.target.textContent;
-        var clickedProduct = suggestions.find(function(suggestion) {
-          return suggestion.productName === clickedProductName;
+        suggestions.forEach(function (suggestion) {
+          var suggestionElement = document.createElement('p');
+          suggestionElement.textContent = suggestion.productName;
+          suggestionElement.classList.add('suggestion');
+          suggestionElement.addEventListener('click', function (event) {
+            var clickedProductName = event.target.textContent;
+            var clickedProduct = suggestions.find(function (suggestion) {
+              return suggestion.productName === clickedProductName;
+            });
+
+            if (clickedProduct) {
+              var productID = clickedProduct._id;
+              window.location.href = `/products/${productID}`;
+            }
+          });
+
+          suggestionList.appendChild(suggestionElement);
         });
 
-        if (clickedProduct) {
-          var productID = clickedProduct._id;
-          window.location.href = `/products/${productID}`;
-        }
-      });
-
-      suggestionList.appendChild(suggestionElement);
-    });
-
-    suggestionsContainer.appendChild(suggestionList);
-  }
-}
+        suggestionsContainer.appendChild(suggestionList);
+      }
+    }
 
   });
 </script>

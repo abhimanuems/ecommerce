@@ -233,27 +233,55 @@
 // };
 // console.log('count is ',numberOfSteps(14));
 
-var getNoZeroIntegers = function (n) {
-  let array = [];
-  let num = n;
-  let nums = [];
+// var getNoZeroIntegers = function (n) {
+//   let array = [];
+//   let num = n;
+//   let nums = [];
 
-  while (n > 0) {
-    array.push((n - 1).toString());
-    console.log(array);
-    if (array.includes("0")) {
-      nums.push(n - 2);
-    } else {
-      nums.push(n-3)
-      console.log(n-1)
+//   while (n > 0) {
+//     array.push((n - 1).toString());
+//     console.log(array);
+//     if (array.includes("0")) {
+//       nums.push(n - 2);
+//     } else {
+//       nums.push(n-3)
+//       console.log(n-1)
       
+//     }
+
+
+
+//     return nums;
+//   }
+// };
+
+// console.log(getNoZeroIntegers(10));
+
+const arr1 = [2, 3, 1, 3, 2, 4, 6, 7, 9, 2, 19] ;
+const arr2 = [2, 1, 4, 3, 9, 6]
+let resultArray=[] 
+const relativeSortArray = function (arr1, arr2) {
+
+  // arr1.sort((a, b) => a - b);
+  for(let i in arr2){
+  
+    if(arr1.includes(arr2[i])){
+      resultArray.push(arr1[i]);
+      arr1[i]=null;
     }
-
-
-
-    return nums;
+  
   }
+  console.log(resultArray)
+  for(let i in arr1){
+      if (arr1[i] != null) {
+        resultArray.push(arr1[i]);
+      }
+  }
+  
+  return resultArray
 };
 
-console.log(getNoZeroIntegers(10));
+
+console.log(relativeSortArray(arr1,arr2));
+console.log(resultArray)
 

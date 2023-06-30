@@ -1,14 +1,9 @@
 const express = require("express");
 const router = express.Router();
-// const productHelper = require("../helpers/productHelpers");
-// const userHelpers = require("../helpers/userHelpers");
 const userLoginController = require("../controllers/userController/userLogin");
 const productController = require("../controllers/userController/productView");
 const orderController = require("../controllers/userController/order");
-// const userHelpers = require("../helpers/userHelpers");
 const order = require("../controllers/userController/order");
-// const orderHelpers = require("../helpers/orderHelpers");
-// const { route } = require("express/lib/application");
 const auth = require("../Middleware/auth");
 
 router.post("/signup", userLoginController.userSignUp);
@@ -19,7 +14,7 @@ router.post("/otp", userLoginController.getOtp);
 
 router.post("/verify", userLoginController.otpVerify);
 
-router.get("/",productController.home);
+router.get("/", productController.home);
 
 router.get("/mobiles", productController.mobile);
 
@@ -33,27 +28,27 @@ router.get("/grocery", productController.grocery);
 
 router.get("/viewallproducts/:id?", productController.products);
 
-router.get("/product/latest",productController.latestProducts);
+router.get("/product/latest", productController.latestProducts);
 
-router.get('/product/low-high',productController.lowToHigh)
+router.get("/product/low-high", productController.lowToHigh);
 
-router.get('/product/high-low',productController.highToLow);
+router.get("/product/high-low", productController.highToLow);
 
-router.post("/filter-products",productController.getFilterdProduct);
+router.post("/filter-products", productController.getFilterdProduct);
 
 router.get("/products/:id", productController.getProductDetails);
 
-router.post("/search",productController.searchItems)
+router.post("/search", productController.searchItems);
 
 router.get("/cart", orderController.getCart);
 
-router.get('/wishlist',auth.userLoggedIn,orderController.getWishlist);
+router.get("/wishlist", auth.userLoggedIn, orderController.getWishlist);
 
 router.post("/coupon", orderController.applyCoupoun);
 
-router.get("/addwishlist/:id",userLoginController.addWishlist);
+router.get("/addwishlist/:id", userLoginController.addWishlist);
 
-router.get("/removewishlist/:id",userLoginController.removeWishlist);
+router.get("/removewishlist/:id", userLoginController.removeWishlist);
 
 router.get("/addtocart/:id", orderController.addToCart);
 
@@ -61,11 +56,13 @@ router.post("/quantityupdate", orderController.cartQuantity);
 
 router.get("/removecart/:id", orderController.removeCart);
 
+router.post("/walletupdate", orderController.walletBalance);
+
 router.get("/checkoutForOrder", orderController.checkOut);
 
 router.post("/paymentGate", orderController.placeOrder);
 
-router.get('/succeess',orderController.getSuccessPage);
+router.get("/succeess", orderController.getSuccessPage);
 
 router.post("/addaddress/:id", orderController.addAddress);
 
@@ -73,15 +70,14 @@ router.post("/addaddress", orderController.addAddressmyAccount);
 
 router.post("/editaddress/:id", orderController.editAddress);
 
-router.post("/paymentMode", orderController.paymentMode);
 
-router.post("/verifypayment",orderController.verifyPayment);
+router.post("/verifypayment", orderController.verifyPayment);
 
-router.get("/myaccount", userLoginController.myAccount); 
+router.get("/myaccount", userLoginController.myAccount);
 
 router.get("/orders", orderController.myOrders);
 
-router.get('/wallet',orderController.wallets)
+router.get("/wallet", orderController.wallets);
 
 router.post("/userorderstatus", orderController.updateOrderStatus);
 

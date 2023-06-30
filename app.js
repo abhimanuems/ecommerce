@@ -9,6 +9,7 @@ const adminRouter = require("./routes/admin");
 const db = require("./config/connection");
 const session = require("express-session");
 const router = require("./routes/user");
+const flash = require("express-flash");
 // const fileUpload = require("express-fileupload");
 const handleBarHelpers = require('./handlebarHelpers/helper.js');
 require("dotenv").config();
@@ -17,6 +18,7 @@ require("dotenv").config();
 db.connect();
 
 const app = express();
+app.use(flash());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -39,7 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(fileUpload());
+
 
 app.use((req, res, next) => {
   res.header(
@@ -55,8 +57,12 @@ app.use(
     saveUninitialized: false,
   })
 );
+
 app.use("/admin", adminRouter);
 app.use("/", userRouter);
+app.use((req, res, next) => {
+  res.redirect("/");
+});
 
 
 

@@ -4,12 +4,11 @@
     {{#if order}}
     
     <div>
-      <table id="OrderTable" class="mt-2 table-sm table-bordered  display">
+      <table id="OrderTable">
         <thead>
           <tr>
             <th scope="col" class="text-center">Mobile Number</th>
             <th scope="col" class="text-center">Payment Mode</th>
-            <th scope="col" class="text-center">Coupon</th>
             <th scope="col" class="text-center">Status</th>
             <th scope="col" class="text-center">Amount</th>
             <th scope="col" class="text-center">Address</th>
@@ -23,9 +22,8 @@
           <tr>
             <td class="text-center">{{phone}}</td>
             <td class="text-center">{{paymentMode}}</td>
-            <td class="text-center">{{coupon}}</td>
             <td class="text-center">{{status}}</td>
-            <td class="text-center">{{totalPrice}}</td>
+            <td class="text-center">{{totalPrice}}</td>   
             <td class="text-center">
               <button type="button" class="btn-outline-secondary view-address-btn" data-toggle="modal" data-target="#exampleModalCenter{{_id}}">
                 View Address
@@ -56,6 +54,7 @@ view Details
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content text-sm-start">
                 <div class="modal-body text-sm-start">
+                  
                   <p>{{address.name}}</p>
                   <p>{{address.address}}</p>
                   <p>{{address.pincode}}</p>
@@ -77,14 +76,14 @@ view Details
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content text-sm-start">
                 <div class="modal-body text-sm-start">
-                  <p>product Name: {{productName}}</p>
-                   <p>product Brand: {{productBrand}}</p>
-                   <p>Category: {{category}}</p>
-                   <p>Mobile Number :{{phone}}</p>
+                  <a   class="link-primary" href="/products/{{productDetails._id}}" target="_blank"> Click here to view product details </a>
+                  <p>product Name: {{productDetails.productName}}</p>
+                   <p>product Brand: {{productDetails.productBrand}}</p>
+                   <p>Quantity:{{productId.[1].[0]}}</p>
+                   <p>Category: {{productDetails.category}}</p>
                   <p>Delivery Fee :{{deliveryFee}}</p>
                   <p>Payment Mode :{{paymentMode}}</p>
                   <p> Coupon :{{coupon}}</p>
-                <p>cancel or return :{{cancelReason}} {{returnReason}}</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

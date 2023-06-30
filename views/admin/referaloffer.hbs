@@ -2,10 +2,10 @@
     <div class="container mt-3">
         <h3 style="color: #27374D;">Referal </h3>
         <br />
-        <button type="button" class="btn btn-outline-success my-2"
-            onclick="window.location.href='/admin/verifyReferals'">Approve Referals</button>
-        <br>
-        <br>
+        <form action="/admin/verifyReferals" method="get">
+            <button type="submit" class="btn btn-outline-success my-2">Approve Referrals</button>
+           
+        </form>
         {{#if referals}}
         <div class="table-wrapper-scroll-y my-custom-scrollbar mt-3">
 

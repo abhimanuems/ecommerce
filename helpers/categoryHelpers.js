@@ -1,11 +1,11 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
 const { ObjectId } = require("mongodb");
-const async = require("hbs/lib/async");
 module.exports = {
-  addCategory: (category,file) => {
-    category.images=file.filename;
-   category.status=true;
+  //add new category
+  addCategory: (category, file) => {
+    category.images = file;
+    category.status = true;
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CATEGORYCOLLECTION)
@@ -18,31 +18,23 @@ module.exports = {
         });
     });
   },
+  //view all category
   viewCategory: () => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       let product = await db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
-        .find({ categoryName: { $exists: true } ,status:true}, { _id: 1, categoryName: 1 })
+        .find(
+          { categoryName: { $exists: true }, status: true },
+          { _id: 1, categoryName: 1 }
+        )
         .toArray();
       resolve(product);
-      console.log("category from the admin side is ",product)
-    }).catch((err)=>{
-      reject(err);
-    })
-  },
-  viewSubCategory: () => {
-    return new Promise((resolve, reject) => {
-      let subCategory = db
-        .get()
-        .collection(collection.CATEGORYCOLLECTION)
-        .find()
-        .toArray();
-      resolve(subCategory);
     }).catch((err) => {
       reject(err);
     });
   },
+  //finding the category
   getCategoryId: (category) => {
     return new Promise((resolve, reject) => {
       let categoryId = db
@@ -55,8 +47,9 @@ module.exports = {
       reject(err);
     });
   },
-  updateCategory: (id, update,images) => {
-    update.images=images;
+  //updating the category
+  updateCategory: (id, update, images) => {
+    update.images = images;
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CATEGORYCOLLECTION)
@@ -69,12 +62,12 @@ module.exports = {
         });
     });
   },
-
+  //deleting the category
   deleteCategory: (id) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CATEGORYCOLLECTION)
-        .updateOne({ _id: new ObjectId(id) },{$set :{status:false}})
+        .updateOne({ _id: new ObjectId(id) }, { $set: { status: false } })
         .then(() => {
           resolve(true);
         });
@@ -82,39 +75,7 @@ module.exports = {
       console.log(err);
     });
   },
-  addSubCategory: (insertSubcategory) => {
-    return new Promise((resolve, reject) => {
-      const filter = { categoryName: insertSubcategory.category };
-      const update = { $push: { subcategory: insertSubcategory.subcategory } };
-
-      db.get()
-        .collection(collection.CATEGORYCOLLECTION)
-        .updateOne(filter, update)
-        .then(() => {
-          resolve(true);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-  deleteSubcategory: (categoryId, subCategoryId) => {
-    return new Promise((resolve, reject) => {
-      db.get()
-        .collection(collection.CATEGORYCOLLECTION)
-        .updateOne(
-          { _id: new ObjectId(categoryId) },
-          { $pull: { subcategory: subCategoryId } }
-        )
-        .then(() => {
-          resolve(true);
-        })
-        .catch((err) => {
-          console.log(err);
-          reject(err);
-        });
-    });
-  },
+  //add new vouchers
   addVouchers: (data) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -124,6 +85,7 @@ module.exports = {
       resolve(true);
     });
   },
+  //finding the existing vouchers
   getExistingVouchers: () => {
     return new Promise(async (resolve, reject) => {
       const vouchers = await db
@@ -134,19 +96,19 @@ module.exports = {
       resolve(vouchers);
     });
   },
-  getExistingVoucherCodes:()=>{
-    return new Promise(async(resolve,reject)=>{
+  //finding the voucher codes
+  getExistingVoucherCodes: () => {
+    return new Promise(async (resolve, reject) => {
       const voucherCode = await db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
-        .find(
-          { voucher: { $exists: true } },
-          
-        ).project({ "_id": 0, "voucher.voucherCode": 1 })
+        .find({ voucher: { $exists: true } })
+        .project({ _id: 0, "voucher.voucherCode": 1 })
         .toArray();
       resolve(voucherCode);
     });
   },
+  //deleting the voucher
   deleteVoucher: (id) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -157,6 +119,7 @@ module.exports = {
         });
     });
   },
+  //edit vouchers
   editVouchers: (id, data) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -169,6 +132,7 @@ module.exports = {
         );
     });
   },
+  // view all offers
   getOffers: () => {
     return new Promise((resolve, reject) => {
       const offers = db
@@ -179,12 +143,11 @@ module.exports = {
       resolve(offers);
     });
   },
+  // check the voucher is valid or not
   checkCoupon: (data) => {
     return new Promise(async (resolve, reject) => {
       const coupon = data.toString();
-      console.log("coupon at data base is ", coupon);
       const convertedDate = new Date().toISOString().split("T")[0];
-      console.log(convertedDate, "is ate check copoun");
       const coupons = await db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
@@ -213,6 +176,7 @@ module.exports = {
       console.log(err, "is at check coupoun");
     });
   },
+  // add new offes
   addOffer: (data) => {
     data["status"] = true;
     const id = data.category;
@@ -227,6 +191,7 @@ module.exports = {
         });
     });
   },
+  // edit offers
   editOffers: (data, id) => {
     data["status"] = true;
     return new Promise((resolve, reject) => {
@@ -243,6 +208,7 @@ module.exports = {
         });
     });
   },
+  //change the status of the offer
   changeStatus: (id) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -258,20 +224,22 @@ module.exports = {
         });
     });
   },
+  // offer and apply -- cart
   findOffersAndApply: (products, counts) => {
     const date = new Date().toISOString().split("T")[0];
-    console.log("datae is ", date);
+
     const amount = products[0].offeredprice * counts[0];
-    console.log(products, counts, "at find products and counts");
+
     return new Promise(async (resolve, reject) => {
-      console.log("category Name is ", products[0].category);
       const productOffer = await db
         .get()
         .collection(collection.CATEGORYCOLLECTION)
         .aggregate([
           {
             $match: {
-              categoryName: products[0].category,
+              categoryName: {
+                $in: products.map((product) => product.category),
+              },
               "offer.endTime": { $gte: date },
               "offer.startTime": { $lte: date },
               "offer.minSpent": { $lte: "amount" },
@@ -291,19 +259,68 @@ module.exports = {
         ])
         .toArray();
       resolve(productOffer);
+      console.log("categroy offers are", productOffer);
     });
   },
-  checkCouponValidity:(couponCode,mobile)=>{
-   return new Promise(async (resolve, reject) => {
-  const result = await db
-    .get()
-    .collection(collection.ORDERCOLLECTION)
-    .find({ phone: mobile, coupon: couponCode })
-    .project({ _id: 0, coupon: 1 })
-    .toArray();
+  // finding the validity of the coupoun
+  checkCouponValidity: (couponCode, mobile) => {
+    return new Promise(async (resolve, reject) => {
+      const result = await db
+        .get()
+        .collection(collection.ORDERCOLLECTION)
+        .find({ phone: mobile, coupon: couponCode })
+        .project({ _id: 0, coupon: 1 })
+        .toArray();
 
-  resolve(result);
-  console.log("Result from the checkcoupon validity:", result);
-});
-  }
+      resolve(result);
+    });
+  },
+  //updating the referral
+  UpdateRefferal: (mobile) => {
+    try {
+      return new Promise(async (resolve, reject) => {
+        const referal = await db
+          .get()
+          .collection(collection.CREDENTIALCOLLECTION)
+          .aggregate([
+            {
+              $match: { phone: mobile },
+            },
+            {
+              $project: { referal: 1 },
+            },
+            {
+              $lookup: {
+                from: collection.CREDENTIALCOLLECTION,
+                localField: "referal",
+                foreignField: "referalCode",
+                as: "referalDocuments",
+              },
+            },
+          ])
+          .toArray();
+
+        resolve(referal[0].referalDocuments);
+
+        const details = referal[0].referalDocuments;
+
+        if (details.length == 0) {
+          return;
+        }
+
+        const walletUpadte = [{ phone: mobile, status: "pending" }];
+        db.get()
+          .collection(collection.CREDENTIALCOLLECTION)
+          .updateOne(
+            { phone: details[0].phone },
+            { $push: { walletUpadte: walletUpadte } }
+          )
+          .then((res) => {
+            resolve(0);
+          });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

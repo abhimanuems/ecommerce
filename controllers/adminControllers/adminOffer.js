@@ -1,10 +1,12 @@
-const res = require("express/lib/response");
 const categoryHelpers = require("../../helpers/categoryHelpers");
 const productHelpers = require("../../helpers/productHelpers");
 const bannerHelper = require("../../helpers/bannerHelper");
 const userHelpers = require("../../helpers/userHelpers");
+const cloudinary = require("../../Middleware/cloudinary");
 
 module.exports = {
+
+  //admin - viewing coupoun page
   couponPage: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.getExistingVouchers().then((vouchers) => {
@@ -14,6 +16,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  //admin - adding add vouchers 
   addVouchers: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.addVouchers(req.body);
@@ -22,6 +25,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  // admin -deleting vouchers
   deleteVouchers: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.deleteVoucher(req.params.id);
@@ -30,6 +34,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  //admin - editing vouchers
   editVoucher: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.editVouchers(req.params.id, req.body);
@@ -38,6 +43,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  // admin - offer page viewing
   offerPage: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.getOffers().then((offer) => {
@@ -50,6 +56,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  //admin - add offer
   addOffer: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.addOffer(req.body).then((response) => {
@@ -59,6 +66,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  //admin -edit offer
   editOffer: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.editOffers(req.body, req.params.id).then((response) => {
@@ -68,6 +76,7 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  //admin change offer status / deleting 
   changeStatus: (req, res) => {
     if (req.session.isAdmin) {
       categoryHelpers.changeStatus(req.params.id).then((response) => {
@@ -77,28 +86,51 @@ module.exports = {
       res.redirect("/admin/login");
     }
   },
+  // admin view banner 
   viewBanner: (req, res) => {
     bannerHelper.getBannerDetails().then((banner) => {
       categoryHelpers.viewCategory().then((category) => {
-        console.log(banner, "from the banner details are");
         res.render("admin/banner", { admin: true, banner, category });
       });
     });
   },
-  addBanner: (req, res) => {
-    const filenames = req.files.map((file) => file.filename);
-    bannerHelper.addBannerDetails(req.body, filenames).then((response) => {
+  //admin add banner 
+  addBanner: async (req, res) => {
+     const uploadedUrls = [];
+        for (const imagePath of req.files) {
+          try {
+            const result = await cloudinary.uploader.upload(imagePath.path, {
+              folder: "banner",
+            });
+            uploadedUrls.push(result.secure_url);
+          } catch (error) {
+            console.log("Error uploading image:", error);
+          }
+        }
+    bannerHelper.addBannerDetails(req.body, uploadedUrls).then((response) => {
       res.redirect("/admin/banner");
     });
   },
-  editBanner: (req, res) => {
-    const filenames = req.files.map((file) => file.filename);
+  // admin edit banner 
+  editBanner: async(req, res) => {
+   const uploadedUrls = [];
+        for (const imagePath of req.files) {
+          try {
+            const result = await cloudinary.uploader.upload(imagePath.path, {
+              folder: "banner",
+            });
+            uploadedUrls.push(result.secure_url);
+          } catch (error) {
+            console.log("Error uploading image:", error);
+          }
+        }
     bannerHelper
-      .editBannerDetails(req.body, filenames, req.params.id)
+      .editBannerDetails(req.body, uploadedUrls, req.params.id)
       .then((response) => {
         res.redirect("/admin/banner");
       });
   },
+  //admin addProduct offer
   addProductOffer: (req, res) => {
     if (req.session.isAdmin) {
       productHelpers.addOffer(req.params.id, req.body).then((response) => {
@@ -106,34 +138,37 @@ module.exports = {
       });
     }
   },
+  //admin referal offer view page
   referalOffer: (req, res) => {
     userHelpers.getReferals().then((referals) => {
       res.render("admin/referaloffer", { admin: true, referals });
     });
   },
+  //admin approve referals
   approveReferals: (req, res) => {
-    userHelpers.approveReferal().then(() => {
-      res.redirect("/admin/offers/referaloffer");
-    });
+    userHelpers.approveReferal().then(() => {});
+    res.redirect("/admin/offers/referaloffer");
   },
+  //admin viewing product offer page
   getProductOffers: (req, res) => {
     productHelpers.getAllProductsWithOffer().then((products) => {
       res.render("admin/productOffer", { admin: true, products });
     });
   },
-  editProductOffer: (req,res) => {
+  //admin edit product offer page
+  editProductOffer: (req, res) => {
     if (req.session.isAdmin) {
       productHelpers.addOffer(req.params.id, req.body).then((response) => {
         res.redirect("/admin/offers/productoffer/");
       });
     }
   },
-  deleteProductOffer:(req,res)=>{
-    console.log("enetrf ate the dleetee offer",req.params.id)
-    if(req.session.isAdmin){
-      productHelpers.deleteProductOffer(req.params.id).then((response)=>{
+  //admin delete offer
+  deleteProductOffer: (req, res) => {
+    if (req.session.isAdmin) {
+      productHelpers.deleteProductOffer(req.params.id).then((response) => {
         res.redirect("/admin/offers/productoffer/");
-      })
+      });
     }
-  }
+  },
 };

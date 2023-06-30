@@ -17,23 +17,50 @@
 
 
             <div class="container mx-2 my-3">
+              {{#ifOr productOffer result}}
               {{#if productOffer}}
-               <h6 style="color: green;">Product Offer applied</h6>
+              <h6 style="color: green;">Product Offer applied</h6>
               {{#each productOffer}}
-              <p> <span style="color: forestgreen;">₹{{offer.offer_price}} </span>  flat off for {{productName}} </p>
+              <p> <span style="color: forestgreen;">₹{{offer.offer_price}} </span> flat off for {{productName}} </p>
               {{/each}}
-              {{#if offers}}
+              {{/if}}
+              {{#if result }}
+              <h6 style="color: green;">Category Offers</h6>
+              {{#each result}}
+              <p>{{offer.priceType}} off {{offer.maxDiscount}} on {{offer.title}}</p>
+              {{/each}}
+              {{/if}}
+           
+             {{#if offers}}
               <h6 style="color: green;">Applied Offers</h6>
-              <p>{{offers.offer.priceType}} off {{offers.offer.maxDiscount}} on {{offers.offer.title}}</p>
+              <p><span class="badge badge-warning">{{offers.offer.priceType}} off {{offers.offer.maxDiscount}} on
+                  {{offers.offer.title}}</span></p>
+                  {{/if}}
+                
+ 
+{{else}}
+ <h6>No offers found!</h6>
+{{/ifOr}}
+              {{!-- {{#if productOffer}}
+              <h6 style="color: green;">Product Offer applied</h6>
+              {{#each productOffer}}
+              <p> <span style="color: forestgreen;">₹{{offer.offer_price}} </span> flat off for {{productName}} </p>
+              {{/each}}
+              {{#if result}}
+              <h6 style="color: green;">Category Offers</h6>
+              {{#each result}}
+              <p>{{offer.priceType}} off {{offer.maxDiscount}} on {{offer.title}}</p>
+              {{/each}}
               {{/if}}
               {{else}}
               {{#if offers}}
               <h6 style="color: green;">Applied Offers</h6>
-              <p>{{offers.offer.priceType}} off {{offers.offer.maxDiscount}} on {{offers.offer.title}}</p>
+              <p><span class="badge badge-warning">{{offers.offer.priceType}} off {{offers.offer.maxDiscount}} on
+                  {{offers.offer.title}}</span></p>
               {{else}}
               <h6>No offers found!</h6>
               {{/if}}
-              {{/if}}
+              {{/if}} --}}
 
 
 
@@ -93,12 +120,21 @@
 
         <div class="container my-1">
           <div class="card-body border">
+            <div class="d-flex justify-content-between mb-2" >
+              <p class="mb-2 WalletBalanceId">Wallet Balance:</p>
+              <p class="mb-2 WalletBalanceId" id="walletBalance">₹{{wallet}}</p>
+            </div>
+            <div class="form-check">
+              <input type="radio" id="walletForcheckout" name="wallet" value="wallet">
+              <label for="wallet" id="walletForcheckoutText">Wallet</label>
+              <br>
+            </div>
             <div class="d-flex justify-content-between mb-2">
               <p class="mb-2">Total price:</p>
               <p class="mb-2">₹{{amounts.totalAmountSellingPrice}}</p>
             </div>
             <div class="d-flex justify-content-between mb-2">
-              <p class="mb-2">Discount:</p>
+              <p class="mb-2" id="discountId">Discount:</p>
               <p class="mb-2 text-success">{{subtract
                 amounts.totalAmountSellingPrice
                 amounts.totalAmountOfferedPrice
@@ -112,7 +148,7 @@
             <hr />
             <div class="d-flex justify-content-between">
               <p class="mb-2">Total price:</p>
-              <p class="mb-2 fw-bold">₹{{amounts.totalAmountOfferedPrice}}</p>
+              <p class="mb-2 fw-bold" id="totalAmountOffred"><span>₹</span>{{amounts.totalAmountOfferedPrice}}</p>
             </div>
             {{else}}
             <div class="d-flex justify-content-between mb-2">
@@ -257,118 +293,3 @@
                 </div>
               </div>
             </div>
-
-
-            {{!--
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-            <script>
-              {
-                {
-                  !--$(document).ready(function () {
-                    alert("enetere here ")
-                    // Handle address selection
-                    $(".address-checkbox").change(function () {
-                      var selectedAddressIndex = $(this).val();
-                      $("#selectedAddressIndex").val(selectedAddressIndex);
-                    });
-
-                    // Handle place order button click
-                    $("#placeOrderButton").click(function () {
-                      // Open the place order modal
-                      $('#exampleModalCenterPlaceOrder').modal('show');
-                    });
-
-                    // Handle proceed to payment button click
-                    $("#proceedToPaymentButton").click(function () {
-                      alert("eneter at the proocceed to payment ")
-                      var selectedAddressIndex = $("#selectedAddressIndex").val();
-                      var paymentMethod = $("input[name='paymentMethod']:checked").val();
-
-                      // Combine the data into an object
-                      var orderData = {
-                        selectedAddressIndex: selectedAddressIndex,
-                        paymentMethod: paymentMethod
-                      };
-
-
-                      $.ajax({
-                        url: "/paymentGate",
-                        type: "POST",
-                        data: orderData,
-                        success: function (response) {
-                          alert("enterf heere")
-
-                          if (response.COD) {
-                            location.href = "/succeess"
-                          } else {
-                            console.log(response.response)
-                            razorPayment(response.response)
-                          }
-
-                        },
-                        error: function (xhr, status, error) {
-                          // Handle errors
-                          console.error(error);
-                        }
-                      });
-
-
-                      $('#exampleModalCenterPlaceOrder').modal('hide');
-                    });
-                  });
-
-                  function razorPayment(order) {
-                    var options = {
-                      "key": "rzp_test_bLt7yzzH20t8v9",
-                      "amount": order.amount,
-                      "currency": "INR",
-                      "name": "Melocia",
-                      "description": "Your  Transaction Details",
-                      "image": "https://example.com/your_logo",
-                      "order_id": order.id,
-                      "handler": function (response) {
-                        alert(response.razorpay_payment_id);
-                        alert(response.razorpay_order_id);
-                        alert(response.razorpay_signature);
-                        verifyPayment(response, order);
-                      },
-                      "prefill": {
-                        "name": "Gaurav Kumar",
-                        "email": "gaurav.kumar@example.com",
-                        "contact": "9000090000"
-                      },
-                      "notes": {
-                        "address": "Melocia private Limited"
-                      },
-                      "theme": {
-                        "color": "#3399cc"
-                      }
-                    };
-                    var rzp1 = new Razorpay(options);
-                    rzp1.open();
-                  }
-                  function verifyPayment(payment, order) {
-                    $.ajax({
-                      url: '/verifypayment',
-                      method: "post",
-                      data: { payment, order },
-                      success: function (response) {
-                        alert(response)
-                        console.log(response)
-                        alert(response.status)
-                        if (response.status === true) {
-                          location.href = "/succeess"
-                        }
-                        else if (response.status == false) {
-                          alert(response.err)
-                          location.href = '/'
-                        }
-                        error: function (xhr, status, error) {
-                          // Handle errors
-                          console.error(error);
-                        }
-                      }
-                    })
-                  } --}
-              }
-            </script>

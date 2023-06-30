@@ -1,5 +1,3 @@
-
-
 function updateCartQuantity(productId, quantity, mobile) {
   $.ajax({
     url: "/quantityupdate",
@@ -71,17 +69,6 @@ checkboxes.forEach((checkbox) => {
   });
 });
 
-// document.getElementById("deliverButton").addEventListener("click", (event) => {
-//   event.preventDefault();
-//   document.getElementById("addressForm").submit();
-// });
-
-//for wishlist
-
-// document.getElementsByClassName("wishlist-icon").addEventListener("click", function () {
-//   this.classList.toggle("clicked");
-// });
-
 
 document.querySelectorAll(".selectaddress").forEach(function (input) {
   input.addEventListener("change", function () {
@@ -96,18 +83,13 @@ document.querySelectorAll(".selectaddress").forEach(function (input) {
 
 //for payment
 
-$(document).ready(function () {
-    
+$(document).ready(function () {    
       $(".address-checkbox").change(function () {
         var selectedAddressIndex = $(this).val();
         $("#selectedAddressIndex").val(selectedAddressIndex);
       });
 
    
-      $("#placeOrderButton").click(function () {
-       
-        $('#exampleModalCenterPlaceOrder').modal('show');
-      });
 
       
       $("#proceedToPaymentButton").click(function () {
@@ -116,7 +98,7 @@ $(document).ready(function () {
 
         
         var orderData = {
-          selectedAddressIndex: selectedAddressIndex,
+          selectedAddressIndex:selectedAddressIndex ? selectedAddressIndex : 0,
           paymentMethod: paymentMethod
         };
 
@@ -131,8 +113,8 @@ $(document).ready(function () {
             {
                location.href="/succeess"
             } else{
-              console.log(response.response)
-              razorPayment(response.response)
+             
+              razorPayment(response.response);
             }
            
           },
@@ -157,9 +139,7 @@ $(document).ready(function () {
     "image": "https://example.com/your_logo",
     "order_id": order.id, 
     "handler": function (response){
-        // alert(response.razorpay_payment_id);
-        // alert(response.razorpay_order_id);
-        // alert(response.razorpay_signature);
+    
         verifyPayment(response,order);
     },
     "prefill": {
@@ -185,18 +165,13 @@ var rzp1 = new Razorpay(options);
          success: function (response) {
           console.log(response)
           if(response.status){
-            alert("eneterf at the success")
               location.href="/succeess"
           }
           else
           {
-            alert("eneterd at the failure")
             location.href='/'
           }
-          //  error: function (xhr, status, error) {
-          //   // Handle errors
-          //   console.error(error);
-          // }
+         
          }
       })
     }
@@ -396,8 +371,7 @@ var rzp1 = new Razorpay(options);
         console.log("An error occurred: " + error);
       },
       complete: function () {
-        // Enable the submit button after the request is complete
-        // { { !--$('#coupounButton').prop('disabled', false); --} }
+       
       }
 
     });
@@ -414,4 +388,72 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+
+//wallet check box
+$(document).ready(function () {
+ 
+  var checkbox = $("#walletForcheckout");
+  var checkboxText = $("#walletForcheckoutText");
+  const walletId = $(".WalletBalanceId");
+    
+  
+    const totalAmount = $("#totalAmountOffred");
+  const wallet = $("#walletBalance").val();
+  const balance = $("#walletBalance").val();
+ 
+
+ 
+  
+
+
+  checkbox.change(function () {
+    if ($(this).is(":checked")) {
+      $.ajax({
+        url: "/walletupdate",
+        method: "POST",
+        data: { wallet:"update" },
+        success: function (response1) {
+          // Request successful, do something with the response
+          console.log(response1);
+          // Hide the checkbox
+          walletId.hide();
+          if(response1.wallet)
+          {
+          $("#totalAmountOffred").text('₹'+response1.totalAmount);
+
+          }
+
+         
+            // Show the wallet balance applied
+            $("#walletBalanceApplied").text("Wallet balance applied: ");
+             if (response1.walletUsedFull) {
+
+             }
+        },
+        error: function (xhr, status, error) {
+          // Handle errors
+          console.log(error);
+        },
+        complete: function () {
+          // Set the checkbox back to checked
+          checkbox.hide();
+          walletId.hide();
+          checkboxText.html("Wallet balance applied", wallet);
+          checkboxText.css("color", "green");
+          totalAmountOffred.html('₹'+parseInt(total)-parseInt(wallet))
+
+  
+          console.log(flag);
+        },
+      });
+    }
+  });
+  
+});
+
+
+//p
+
+
 

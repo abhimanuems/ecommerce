@@ -18,7 +18,7 @@
       aria-labelledby="exampleModalCenterTitle"
       aria-hidden="true"
     >
-      {{! modal for Vouchers }}
+    
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -47,7 +47,7 @@
             <select class="form-control" id="category" name="category" style="width: 150px;">
                  <option value="home">home</option>
                  {{#each category}}
-              <option value="{{_id}}">{{categoryName}}</option>
+              <option value="{{categoryName}}">{{categoryName}}</option>
               {{/each}}
             </select>
           </div>
@@ -100,7 +100,7 @@
               <tr style="font-size: .8rem;">
                 <td>{{banner.title}}</td>
                 <td>{{banner.category}}</td>
-                <td><img src="/banner/{{banner.images.[0]}}" style="width: 50px; height:40px;" alt="Product Image" /></td>
+                <td><img src="{{banner.images.[0]}}" style="width: 50px; height:40px;" alt="Product Image" /></td>
 
                 <td>
                  
@@ -164,11 +164,11 @@
             <label for="category">Select Category:</label>
             <select class="form-control" name="category" style="width: 150px;">
             <option value="home">home</option>
-              <option value="64857153bb980dc78fda4262">Electronics</option>
-                 <option value="64857165bb980dc78fda4263">Grocery</option>
-                  <option value="64857175bb980dc78fda4264">Books</option>
-                   <option value="6485718abb980dc78fda4265">Health & Wellness</option>
-                    <option value="64887c2374ab0d07b66671ac">Mobiles</option>
+              <option value="{{category}}">Electronics</option>
+                 <option value="{{category}}">Grocery</option>
+                  <option value="{{category}}">Books</option>
+                   <option value="{{category}}">Health & Wellness</option>
+                    <option value="{{category}}">Mobiles</option>
             </select>
           </div>
         </div>

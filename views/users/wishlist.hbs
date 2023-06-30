@@ -1,15 +1,16 @@
+{{#if messages}}
+<div id="flash-message-wishlist" class="alert alert-success fixed-bottom text-center" style="display: none;">
+  {{messages.success}}</div>
+{{/if}}
 <div class="conatiner">
   <div class="row">
     <div class="col-3 ml-5">
       <div class="card mx-3 my-3">
         <div class="card-body">
           <h1>
-            <img
-              class="img-fluid"
-              src="\images\profile-pic-male_4811a1.svg"
-              alt="First slide"
-            />
-            Hello</h1>
+            <img class="img-fluid" src="\images\profile-pic-male_4811a1.svg" alt="First slide" />
+            Hello
+          </h1>
         </div>
       </div>
       <div class="card mx-3 my-3">
@@ -44,36 +45,60 @@
       <ul class="list-group mx-3 my-3">
         <li class="list-group-item">
           <p class="font-weight-bold">My Wishlist</p>
-        
-            <div class="card border-0">
-              <div class="card-body">
-           
-                <table class="table table-borderless">
-  <tbody>
-           {{#each products}}
-    <tr style="height: 100px;">
-      <td> <img  style ="height:50px; width:50px"src="/productImages/{{images.[0]}}" /></td>
-                      <td> <a href="/products/{{_id}}" class="link-primary">{{productName}}</a>
-                        <br>
-                        <br>
-                       <span class="font-weight-bold">  ₹{{offeredprice}}</span> &nbsp; &nbsp; <del class="text-secondary" style="font-size: 12px;"> <span>₹{{sellingPrice}}</span></del>
-                      </td>
-                       <td class="float-right">
-                        <button style="border: none; background-color:#ffffff"  onclick="window.location.href='/removewishlist/{{_id}}'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
-</svg></button>
-                       </td>
-    </tr>
-      {{/each}}
-  </tbody>
-</table>
+          {{#if products}}
+          <div class="card border-0">
+            <div class="card-body">
 
-               
+              <table class="table table-borderless">
+                <tbody>
+                  {{#each products}}
+                  <tr style="height: 100px;">
+                    <td> <img style="height:50px; width:50px" src="/productImages/{{images.[0]}}" /></td>
+                    <td> <a href="/products/{{_id}}" class="link-primary">{{productName}}</a>
+                      <br>
+                      <br>
+                      <span class="font-weight-bold"> ₹{{offeredprice}}</span> &nbsp; &nbsp; <del class="text-secondary"
+                        style="font-size: 12px;"> <span>₹{{sellingPrice}}</span></del>
+                    </td>
+                    <td class="float-right">
+                      <button style="border: none; background-color:#ffffff"
+                        onclick="window.location.href='/removewishlist/{{_id}}'"><svg xmlns="http://www.w3.org/2000/svg"
+                          width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                          <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                          <path
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                        </svg></button>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
 
+
+
+            </div>
+          </div>
+          {{else}}
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 d-flex justify-content-center align-items-center">
+                <img class="img-fluid" src="https://drive.google.com/uc?export=view&id=1xDQFvLx4Nigqmqi7ZfWsTRYJmsdkgEdD" alt="Empty Wishlist">
               </div>
             </div>
-        
+            <div class="row">
+              <div class="col-md-12 text-center mt-3">
+                <h6>You have no items in your wishlist. Start adding!</h6>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/';">
+                  Shop now
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+          {{/if}}
+
 
         </li>
 
@@ -83,3 +108,14 @@
   </div>
 
 </div>
+<script>
+  $(document).ready(function () {
+    const flashMessage = '{{ messages.success }}';
+    if (flashMessage) {
+      $('#flash-message-wishlist').text(flashMessage).fadeIn('slow');
+      setTimeout(() => {
+        $('#flash-message-wishlist').fadeOut('slow');
+      }, 3000);
+    }
+  });
+</script>

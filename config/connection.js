@@ -5,7 +5,7 @@ const state = {
 };
 
 module.exports.connect = async function () {
-  const url = process.env.mongoUrl
+  const url = process.env.mongoUrl ||"mongodb://localhost:27017"
   const dbname = "Melocia"
 
   try {

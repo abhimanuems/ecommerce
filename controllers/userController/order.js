@@ -234,7 +234,7 @@ module.exports = {
             user: req.session.user,
             mobileNumber: req.session.mobileNumber,
             amounts: req.session.amounts,
-            product,
+            product: req.session.product,
             result,
             productOffer: req.session.productOffer,
             wallet: req.session.wal,

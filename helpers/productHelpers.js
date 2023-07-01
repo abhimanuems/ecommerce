@@ -59,8 +59,7 @@ module.exports = {
   return new Promise(async (resolve, reject) => {
     try {
       const featuredProduct = await db
-        .get()
-        .collection("product")
+        .get().collection(collection.PRODUCTCOLLECTION)
         .find({ featuredProduct: "on" })
         .toArray();
       resolve(featuredProduct);

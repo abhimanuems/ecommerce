@@ -5,12 +5,13 @@ const state = {
 };
 
 module.exports.connect = async function () {
-  const url = process.env.mongoUrl;
-  const dbname = "Melocia";
+  const url = process.env.mongoUrl
+  const dbname = "Melocia"
 
   try {
-    const client = await MongoClient.connect(url);
+    const client = await MongoClient.connect(url, { useNewUrlParser: true });
     state.db = client.db(dbname);
+    console.log("database connected");
   } catch (error) {
     throw new Error(`Error connecting to MongoDB: ${error}`);
   }

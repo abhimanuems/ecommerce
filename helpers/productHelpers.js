@@ -56,15 +56,20 @@ module.exports = {
   },
   //finding the featured product
   getFeaturedProduct: () => {
-    return new Promise(async (resolve, reject) => {
-      let featuredProduct = await db
-        .get()
-        .collection(collection.PRODUCTCOLLECTION)
+  return new Promise(async (resolve, reject) => {
+    try {
+      const featuredProduct = await db
+        .get().collection(collection.PRODUCTCOLLECTION)
         .find({ featuredProduct: "on" })
         .toArray();
       resolve(featuredProduct);
-    });
-  },
+    } catch (err) {
+      console.log("Error at getFeaturedProduct:", err);
+      reject(err);
+    }
+  });
+},
+
   // finding the mobile category
   getMobiles: () => {
     return new Promise(async (resolve, reject) => {

@@ -8,6 +8,7 @@ const instance = new Razorpay({
   key_secret: process.env.key_secret,
 });
 
+
 module.exports = {
   //for finding the cart length
   getCartLength: (mobileNumber) => {
@@ -260,7 +261,7 @@ module.exports = {
       db.get()
         .collection(collection.CREDENTIALCOLLECTION)
         .updateOne({ phone: mobileNumber }, { $unset: { cartItems: "" } })
-        .then((response) => { });
+        .then((response) => { resolve(response)});
     });
   },
   //for updating the order status
@@ -436,6 +437,7 @@ module.exports = {
 
   // razpor pay
   razorPay: (id, total) => {
+    console.log("total and id is ",id,typeof(total))
     return new Promise((resolve, reject) => {
       var options = {
         amount: total * 100,
@@ -443,6 +445,7 @@ module.exports = {
         receipt: id,
       };
       instance.orders.create(options, function (err, order) {
+        console.log("order is ",order)
         resolve(order);
       });
     });

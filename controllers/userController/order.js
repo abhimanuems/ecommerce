@@ -280,7 +280,12 @@ module.exports = {
       }
 
       const totalPrice = req.session.amounts.totalAmountOfferedPrice;
-
+      console.log(
+        "total price is ",
+        totalPrice,
+        "mobil",
+        req.session.mobileNumber
+      );
       orderHelpers
         .orderDetails(
           req.session.mobileNumber,
@@ -304,6 +309,7 @@ module.exports = {
             orderHelpers.deleteCart(req.session.mobileNumber);
             productHelpers.updateProductQuantity(req.session.productIds);
             res.json({ COD: true });
+            
           } else {
             userHelpers.updateWalletBalance(
               req.session.mobileNumber,

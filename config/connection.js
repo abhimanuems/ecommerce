@@ -9,7 +9,10 @@ module.exports.connect = async function () {
   const dbname = "Melocia"
 
   try {
-    const client = await MongoClient.connect(url, { useNewUrlParser: true });
+    const client = await MongoClient.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(url)
     state.db = client.db(dbname);
     console.log("database connected");

@@ -45,12 +45,11 @@ module.exports = {
   //finding the trending product
   getTrendingFeaturedForUserHome: () => {
     return new Promise(async (resolve, reject) => {
-      let trendingProduct = awaitdb
+      let trendingProduct = await db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
         .find({ trendingProduct: "on" })
         .toArray();
-
       resolve(trendingProduct.slice(0, 4));
     });
   },

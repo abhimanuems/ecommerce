@@ -84,7 +84,7 @@ module.exports = {
   },
   //admin edit product updating
   editProductsPost: async (req, res) => {
-    console.log("req.params id is at ",req.params.id,"at product")
+    console.log("req boys at edit product us ",req.body)
     if (req.session.isAdmin) {
        const uploadedUrls = [];
         for (const imagePath of req.files) {

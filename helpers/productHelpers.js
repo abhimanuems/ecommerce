@@ -62,7 +62,6 @@ module.exports = {
         .find({ featuredProduct: "on" })
         .toArray();
       resolve(featuredProduct);
-      console.log(featuredProduct)
     } catch (err) {
       console.log("Error at getFeaturedProduct:", err);
       reject(err);

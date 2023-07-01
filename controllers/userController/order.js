@@ -193,8 +193,8 @@ module.exports = {
                         mobileNumber: req.session.mobileNumber,
                         address,
                         amounts,
-                        product:req.session.product,
-                        result,
+                        product: req.session.product,
+                        result: req.session.result,
                         productOffer: req.session.productOffer,
                         wallet: req.session.wal,
                       });
@@ -235,7 +235,7 @@ module.exports = {
             mobileNumber: req.session.mobileNumber,
             amounts: req.session.amounts,
             product: req.session.product,
-            result,
+            result: req.session.result,
             productOffer: req.session.productOffer,
             wallet: req.session.wal,
           });

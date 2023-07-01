@@ -75,7 +75,7 @@ module.exports = {
       let mobiles = await db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ category: "Mobiles" })
+        .find({ category: "Mobiles" },{status:true})
         .toArray();
 
       resolve(mobiles);

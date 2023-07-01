@@ -10,6 +10,7 @@ module.exports.connect = async function () {
 
   try {
     const client = await MongoClient.connect(url, { useNewUrlParser: true });
+    console.log(url)
     state.db = client.db(dbname);
     console.log("database connected");
   } catch (error) {

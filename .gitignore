@@ -1,3 +1,4 @@
 .env
 workout.js
 config
+config/connection.js

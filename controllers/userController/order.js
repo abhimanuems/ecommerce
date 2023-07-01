@@ -146,6 +146,7 @@ module.exports = {
           const address = result[0].address;
           const amounts = req.session.amounts;
           const product = req.session.product;
+          console.log('product is from checkout',product)
           productHelpers.changeQuantity(
             req.session.id,
             req.session.counts,

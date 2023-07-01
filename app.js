@@ -10,7 +10,6 @@ const db = require("./config/connection");
 const session = require("express-session");
 const router = require("./routes/user");
 const flash = require("express-flash");
-// const fileUpload = require("express-fileupload");
 const handleBarHelpers = require('./handlebarHelpers/helper.js');
 require("dotenv").config();
 

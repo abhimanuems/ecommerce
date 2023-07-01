@@ -8,8 +8,8 @@ const pageNation = require("../../Middleware/pagenation");
 module.exports = {
   // users home
   home: function (req, res) {
-    productHelper.getFeaturedProduct().then((fProduct) => {
-      const featuredProduct = fProduct.slice(0, 4);
+    // productHelper.getFeaturedProduct().then((fProduct) => {
+    //   const featuredProduct = fProduct.slice(0, 4);
       productHelper.getTrendingFeaturedForUserHome().then((product) => {
         categoryHelpers.viewCategory().then((category) => {
           const limitedCategory = category.slice(0, 6);
@@ -35,7 +35,7 @@ module.exports = {
           });
         });
       });
-    });
+    // });
   },
   // mobile catgeory 
   mobile: (req, res) => {

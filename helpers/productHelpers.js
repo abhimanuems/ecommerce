@@ -1,5 +1,6 @@
 const db = require("../config/connection");
 const collection = require("../config/collections");
+const async = require("hbs/lib/async");
 const ObjectId = require("mongodb").ObjectId;
 module.exports = {
   //add product
@@ -23,7 +24,7 @@ module.exports = {
   //finding all products
   getAllProducts: () => {
     return new Promise((resolve, reject) => {
-      let product = db
+      const product = db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
         .find({ status: true })
@@ -33,22 +34,37 @@ module.exports = {
   },
   // finding a specific product
   getSelectedProduct: (id) => {
-    return new Promise((resolve, reject) => {
-      let product = db
-        .get()
-        .collection(collection.PRODUCTCOLLECTION)
-        .find({ _id: new ObjectId(id) })
-        .toArray();
+    return new Promise(async(resolve, reject) => {
+      const product = await db
+      .get()
+      .collection(collection.PRODUCTCOLLECTION)
+      .aggregate([
+        {
+          $match: {
+            _id: new ObjectId(id),
+            status: true
+          }
+        }
+      ])
+      .toArray();
+
       resolve(product);
     });
   },
   //finding the trending product
   getTrendingFeaturedForUserHome: () => {
     return new Promise(async (resolve, reject) => {
-      let trendingProduct = await db
+      const trendingProduct = await db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ trendingProduct: "on" })
+        .aggregate([
+          {
+            $match: {
+              trendingProduct: "on",
+              status: true,
+            },
+          },
+        ])
         .toArray();
       resolve(trendingProduct.slice(0, 4));
     });
@@ -58,9 +74,17 @@ module.exports = {
   return new Promise(async (resolve, reject) => {
     try {
       const featuredProduct = await db
-        .get().collection(collection.PRODUCTCOLLECTION)
-        .find({ featuredProduct: "on" })
-        .toArray();
+      .get()
+      .collection(collection.PRODUCTCOLLECTION)
+      .aggregate([
+        {
+          $match: {
+            featuredProduct: "on",
+            status: true
+          }
+        }
+      ])
+      .toArray();
       resolve(featuredProduct);
     } catch (err) {
       console.log("Error at getFeaturedProduct:", err);
@@ -72,10 +96,17 @@ module.exports = {
   // finding the mobile category
   getMobiles: () => {
     return new Promise(async (resolve, reject) => {
-      let mobiles = await db
+      const mobiles = await db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ category: "Mobiles" },{status:true})
+        .aggregate([
+          {
+            $match: {
+              category: "Mobiles",
+              status: true,
+            },
+          },
+        ])
         .toArray();
 
       resolve(mobiles);
@@ -84,10 +115,17 @@ module.exports = {
   //finding the electronics category
   getElectronics: () => {
     return new Promise((resolve, reject) => {
-      let electronics = db
+      const electronics = db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ category: "Electronics" })
+        .aggregate([
+          {
+            $match: {
+              category: "Electronics",
+              status: true,
+            },
+          },
+        ])
         .toArray();
       resolve(electronics);
     });
@@ -95,10 +133,17 @@ module.exports = {
   //finding the books category
   getBooks: () => {
     return new Promise((resolve, reject) => {
-      let books = db
+      const books = db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ category: "Books" })
+          .aggregate([
+          {
+            $match: {
+              category: "Books",
+              status: true,
+            },
+          },
+        ])
         .toArray();
       resolve(books);
     });
@@ -106,10 +151,17 @@ module.exports = {
   //finding the health and wellness category
   getHealthAndWellness: () => {
     return new Promise((resolve, reject) => {
-      let products = db
+      const products = db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ category: "Health" })
+         .aggregate([
+          {
+            $match: {
+              category: "Health",
+              status: true,
+            },
+          },
+        ])
         .toArray();
       resolve(products);
     });
@@ -120,7 +172,14 @@ module.exports = {
       let products = db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ category: "Grocery" })
+         .aggregate([
+          {
+            $match: {
+              category: "Grocery",
+              status: true,
+            },
+          },
+        ])
         .toArray();
       resolve(products);
     });
@@ -131,7 +190,14 @@ module.exports = {
       const products = db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find({ _id: new ObjectId(id) })
+        .aggregate([
+          {
+            $match: {
+              _id: new ObjectId(id),
+              status: true,
+            },
+          },
+        ])
         .toArray();
       resolve(products).catch((err) => {
         reject(err);
@@ -292,7 +358,7 @@ module.exports = {
       const product = await db
         .get()
         .collection(collection.PRODUCTCOLLECTION)
-        .find()
+        .find({status:true})
         .toArray();
       resolve(product);
       console.log(product);

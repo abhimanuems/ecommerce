@@ -146,7 +146,6 @@ module.exports = {
           const address = result[0].address;
           const amounts = req.session.amounts;
           const product = req.session.product;
-          console.log('product is from checkout',product)
           productHelpers.changeQuantity(
             req.session.id,
             req.session.counts,
@@ -154,6 +153,7 @@ module.exports = {
           );
           if (!req.session.offersApplied) {
             productHelpers.getProductOffer(ids).then((offer) => {
+              console.log("product offer is ",offer);
               req.session.productOffer = offer;
               let offerProductAmount = 0;
               offer.forEach((element) => {
@@ -163,6 +163,7 @@ module.exports = {
               categoryHelpers
                 .findOffersAndApply(req.session.product, req.session.counts)
                 .then((result) => {
+                  console.log("catgoery offers are ",result)
                   if (result.length != 0) {
                     for (let i = 0; i < result.length; i++) {
                       if (result[i].offer.priceType == "flat") {
@@ -184,6 +185,7 @@ module.exports = {
                         }
                       }
                     }
+                  
                     req.session.result = result;
                     req.session.offersApplied = true;
                     if (req.session.OrderPlaced == false) {
@@ -500,7 +502,7 @@ module.exports = {
         .checkCouponValidity(coupon, req.session.mobileNumber)
         .then((result) => {
           if (result.length != 0) {
-            res.json({ status: false, message: "coupon alreday used" });
+            res.json({ status: false, message: "coupon already used" });
           } else {
             let totalPrice = req.body.total;
             totalPrice = totalPrice.replace("₹", "");

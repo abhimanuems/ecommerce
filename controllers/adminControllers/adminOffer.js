@@ -141,7 +141,7 @@ module.exports = {
   //admin referal offer view page
   referalOffer: (req, res) => {
     userHelpers.getReferals().then((referals) => {
-      res.render("admin/referaloffer", { admin: true, referals });
+      res.render("admin/referaloffer",{ admin: true, referals });
     });
   },
   //admin approve referals
@@ -152,7 +152,8 @@ module.exports = {
   //admin viewing product offer page
   getProductOffers: (req, res) => {
     productHelpers.getAllProductsWithOffer().then((products) => {
-      res.render("admin/productOffer", { admin: true, products });
+     console.log("eneterd at the product offer");
+      res.render("admin/productOfferAdmin", { admin: true, products });
     });
   },
   //admin edit product offer page

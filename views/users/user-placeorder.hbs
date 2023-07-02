@@ -29,18 +29,19 @@
               {{#each productOffer}}
               <p> <span style="color: forestgreen;">₹{{offer.offer_price}} </span> flat off for {{productName}} </p>
               {{/each}}
+              {{else}}
+               <p> <span style="color: rgb(228, 52, 43);">No offers found! </p>
               {{/if}}
-             
            
              {{#if offers}}
               <h6 style="color: green;">Applied Offers</h6>
               <p><span class="badge badge-warning">{{offers.offer.priceType}} off {{offers.offer.maxDiscount}} on
-                  {{offers.offer.title}}</span></p>
-                  {{/if}}
+              {{offers.offer.title}}</span></p>
+              {{/if}}
  
-{{else}}
- <h6>No offers found!</h6>
-{{/ifOr}}
+            {{else}}
+           <h6>No offers found!</h6>
+            {{/ifOr}}
               {{!-- {{#if productOffer}}
               <h6 style="color: green;">Product Offer applied</h6>
               {{#each productOffer}}

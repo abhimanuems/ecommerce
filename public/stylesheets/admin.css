@@ -75,7 +75,7 @@ sidebar a{
 
 
 
-#product-carousel {
+#product-carouseladmin {
     width: 300px;
     /* Adjust the width as desired */
     margin-right: 15px;
@@ -84,18 +84,18 @@ sidebar a{
     /* Float the carousel to the left */
 }
 
-.carousel-inner {
+.carousel-inneradmin {
     height: 100px;
     /* Adjust the height as desired */
 }
 
-.carousel-item {
+.carousel-itemadmin {
     height: 100%;
     /* Make each item fill the height of the carousel */
 }
 
-.carousel-control-prev,
-.carousel-control-next {
+.carousel-control-prev-admin,
+.carousel-control-next-admin {
     top: 50%;
     /* Position the control buttons vertically centered */
     transform: translateY(-50%);

@@ -209,9 +209,10 @@ module.exports = {
                       mobileNumber: req.session.mobileNumber,
                       address,
                       amounts,
-                      product:req.session.product,
+                      product: req.session.product,
                       offers: null,
                       productOffer: req.session.productOffer,
+                      wallet: req.session.wal,
                     });
                   }
                 });

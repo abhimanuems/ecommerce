@@ -15,10 +15,10 @@
       </div> --}}
    <div class="col-md-3" style="width: 50px;">
     <div class="text-center">
-  <div id="product-carousel" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner border">
+  <div id="product-carouseladmin" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inneradmin border">
       {{#each images}}
-      <div class="carousel-item {{#isFirstIndex @index}}active{{/isFirstIndex}}">
+      <div class="carousel-itemadmin {{#isFirstIndex @index}}active{{/isFirstIndex}}">
         <a href="#" class="img-fluid">
           <img class="w-100 h-100" src="{{this}}" alt="Image">
           <span><img src="{{this}}" style="height: 20px; width: 20px;"></span>
@@ -26,10 +26,10 @@
       </div>
       {{/each}}
     </div>
-    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+    <a class="carousel-control-prev-admin" href="#product-carousel" data-slide="prev">
       <i class="fa fa-2x fa-angle-left text-dark"></i>
     </a>
-    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+    <a class="carousel-control-next-admin" href="#product-carousel" data-slide="next">
       <i class="fa fa-2x fa-angle-right text-dark"></i>
     </a>
   </div>

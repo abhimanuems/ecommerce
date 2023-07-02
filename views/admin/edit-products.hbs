@@ -3,7 +3,7 @@
   <hr />
   <div class="row">
     {{#each product}}
-      <div class="col-md-3">
+      {{!-- <div class="col-md-3">
         <div class="text-center">
           <img
           style="width: 200px; hieght:250px"
@@ -12,9 +12,32 @@
             alt="avatar"
           />
         </div>
+      </div> --}}
+   <div class="col-md-3" style="width: 50px;">
+    <div class="text-center">
+  <div id="product-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner border">
+      {{#each images}}
+      <div class="carousel-item {{#isFirstIndex @index}}active{{/isFirstIndex}}">
+        <a href="#" class="img-fluid">
+          <img class="w-100 h-100" src="{{this}}" alt="Image">
+          <span><img src="{{this}}" style="height: 20px; width: 20px;"></span>
+        </a>
       </div>
-      <div class="col-md-9 personal-info">
-        <h3 style="color: lightslategray;">Edit Products</h3>
+      {{/each}}
+    </div>
+    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+      <i class="fa fa-2x fa-angle-left text-dark"></i>
+    </a>
+    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+      <i class="fa fa-2x fa-angle-right text-dark"></i>
+    </a>
+  </div>
+  </div>
+</div>
+
+      <div class="col-md-9 personal-info ">
+        <h3 style="color: lightslategray;" class="ml-4">Edit Products</h3>
 
         <form
           class="form-horizontal"
@@ -172,3 +195,27 @@
   </div>
 </div>
 <hr />
+
+<script>
+  var currentIndex = 0;
+  var imgElement = document.getElementById('current-image');
+
+  function showPrevImage() {
+    if (images && images.length > 0) {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      imgElement.src = images[currentIndex];
+    }
+  }
+
+  function showNextImage() {
+    if (images && images.length > 0) {
+      currentIndex = (currentIndex + 1) % images.length;
+      imgElement.src = images[currentIndex];
+    }
+  }
+
+  // Display the first image when the page loads
+  if (images && images.length > 0) {
+    imgElement.src = images[currentIndex];
+  }
+</script>

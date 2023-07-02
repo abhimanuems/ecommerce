@@ -75,3 +75,29 @@ sidebar a{
 
 
 
+#product-carousel {
+    width: 300px;
+    /* Adjust the width as desired */
+    margin-right: 15px;
+    /* Add margin on the right side to create space */
+    float: left;
+    /* Float the carousel to the left */
+}
+
+.carousel-inner {
+    height: 100px;
+    /* Adjust the height as desired */
+}
+
+.carousel-item {
+    height: 100%;
+    /* Make each item fill the height of the carousel */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    top: 50%;
+    /* Position the control buttons vertically centered */
+    transform: translateY(-50%);
+    /* Adjust the vertical alignment as needed */
+}

@@ -153,7 +153,6 @@ module.exports = {
           );
           if (!req.session.offersApplied) {
             productHelpers.getProductOffer(ids).then((offer) => {
-              console.log("product offer is ",offer);
               req.session.productOffer = offer;
               let offerProductAmount = 0;
               offer.forEach((element) => {

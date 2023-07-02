@@ -207,7 +207,10 @@ module.exports = {
   },
   // updating the product details
   updateProducts: (id, products, image) => {
+    console.log("from edit products is ",products);
     products.images = image;
+    const quantity = parseInt(products.quantity);
+    products.quantity = quantity;
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.PRODUCTCOLLECTION)

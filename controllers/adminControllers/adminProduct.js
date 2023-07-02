@@ -86,16 +86,10 @@ module.exports = {
               folder: "Products",
             });
             uploadedUrls.push(result.secure_url);
-            productHelper
-              .addProduct(req.body, uploadedUrls)
-              .then((response) => {
-                res.redirect("/admin/viewproducts");
-              });
           } catch (error) {
             console.log("Error uploading image:", error);
           }
         }
-      
       productHelper
         .updateProducts(req.params.id, req.body, uploadedUrls)
         .then((result) => {

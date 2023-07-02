@@ -1,4 +1,34 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #product-carousel {
+  width: 300px; /* Adjust the width as desired */
+  margin-right: 15px; /* Add margin on the right side to create space */
+  float: left; /* Float the carousel to the left */
+}
+
+.carousel-inner {
+  height: 100px; /* Adjust the height as desired */
+}
+
+.carousel-item {
+  height: 100%; /* Make each item fill the height of the carousel */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  top: 50%; /* Position the control buttons vertically centered */
+  transform: translateY(-50%); /* Adjust the vertical alignment as needed */
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
   <h1 style="color:slategrey ;">Edit Product</h1>
   <hr />
   <div class="row">
@@ -13,12 +43,12 @@
           />
         </div>
       </div> --}}
-   <div class="col-md-3" style="width: 50px;">
+   <div class="col-md-3">
     <div class="text-center">
-  <div id="product-carouseladmin" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inneradmin border">
+  <div id="product-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner border">
       {{#each images}}
-      <div class="carousel-itemadmin {{#isFirstIndex @index}}active{{/isFirstIndex}}">
+      <div class="carousel-item {{#isFirstIndex @index}}active{{/isFirstIndex}}">
         <a href="#" class="img-fluid">
           <img class="w-100 h-100" src="{{this}}" alt="Image">
           <span><img src="{{this}}" style="height: 20px; width: 20px;"></span>
@@ -26,10 +56,10 @@
       </div>
       {{/each}}
     </div>
-    <a class="carousel-control-prev-admin" href="#product-carousel" data-slide="prev">
+    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
       <i class="fa fa-2x fa-angle-left text-dark"></i>
     </a>
-    <a class="carousel-control-next-admin" href="#product-carousel" data-slide="next">
+    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
       <i class="fa fa-2x fa-angle-right text-dark"></i>
     </a>
   </div>
@@ -219,3 +249,5 @@
     imgElement.src = images[currentIndex];
   }
 </script>
+</body>
+</html>

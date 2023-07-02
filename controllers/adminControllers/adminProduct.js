@@ -67,12 +67,6 @@ module.exports = {
   },
   // admin edit products
   editProductsGet: async (req, res) => {
-    console.log(
-      "id at edit product is ",
-      req.params.id,
-      req.params.id[0],
-      req.params.id[1]
-    );
     if (req.session.isAdmin) {
       const id = req.params.id;
       await productHelper.getSelectedProduct(id).then((product) => {
@@ -84,7 +78,6 @@ module.exports = {
   },
   //admin edit product updating
   editProductsPost: async (req, res) => {
-    console.log("req boys at edit product us ",req.body)
     if (req.session.isAdmin) {
        const uploadedUrls = [];
         for (const imagePath of req.files) {
@@ -93,6 +86,11 @@ module.exports = {
               folder: "Products",
             });
             uploadedUrls.push(result.secure_url);
+            productHelper
+              .addProduct(req.body, uploadedUrls)
+              .then((response) => {
+                res.redirect("/admin/viewproducts");
+              });
           } catch (error) {
             console.log("Error uploading image:", error);
           }

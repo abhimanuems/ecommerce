@@ -153,3 +153,19 @@ Handlebars.registerHelper("ifOr", function (a, b, options) {
     return options.inverse(this);
   }
 });
+
+
+
+Handlebars.registerHelper("ifAny", function () {
+  const args = Array.prototype.slice.call(arguments);
+  const options = args.pop();
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i]) {
+      return options.fn(this);
+    }
+  }
+
+  return options.inverse(this);
+});
+

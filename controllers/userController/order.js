@@ -185,6 +185,7 @@ module.exports = {
                       }
                     }
                   
+                    console.log("amounts is ",amounts)
                     req.session.result = result;
                     req.session.offersApplied = true;
                     if (req.session.OrderPlaced == false) {

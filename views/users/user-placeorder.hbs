@@ -9,16 +9,25 @@
             <h2 style="color:#27374D ;">Login: <span style="font-size: 1.2rem;">{{mobileNumber}}</span></h2>
           </div>
         </div>
-
-
-
         <div class="card my-3 mx-3">
           <div class="card-body">
-
-
             <div class="container mx-2 my-3">
-              {{#ifOr result productOffer }}
-               {{#if result }}
+              {{#ifAny productOffer result}}
+
+              {{#each result}}
+              <h6 style="color: green;">Category Offers</h6>
+              <p>{{offer.priceType}} off {{offer.maxDiscount}} on {{offer.title}}</p>
+              {{/each}}
+              {{#each productOffer}}
+              <h6 style="color: green;">Product Offer applied</h6>
+              <p> <span style="color: forestgreen;">₹{{offer.offer_price}} </span> Flat off for {{productName}} </p>
+              {{/each}}
+              {{else}}
+              <p> <span style="color: rgb(228, 52, 43);">No offers found! </p>
+
+              {{/ifAny}}
+              {{!-- {{#ifOr result productOffer }}
+              {{#if result }}
               <h6 style="color: green;">Category Offers</h6>
               {{#each result}}
               <p>{{offer.priceType}} off {{offer.maxDiscount}} on {{offer.title}}</p>
@@ -30,18 +39,18 @@
               <p> <span style="color: forestgreen;">₹{{offer.offer_price}} </span> flat off for {{productName}} </p>
               {{/each}}
               {{else}}
-               <p> <span style="color: rgb(228, 52, 43);">No offers found! </p>
+              <p> <span style="color: rgb(228, 52, 43);">No offers found! </p>
               {{/if}}
-           
-             {{#if offers}}
+
+              {{#if offers}}
               <h6 style="color: green;">Applied Offers</h6>
               <p><span class="badge badge-warning">{{offers.offer.priceType}} off {{offers.offer.maxDiscount}} on
-              {{offers.offer.title}}</span></p>
+                  {{offers.offer.title}}</span></p>
               {{/if}}
- 
-            {{else}}
-           <h6>No offers found!</h6>
-            {{/ifOr}}
+
+              {{else}}
+              <h6>No offers found!</h6>
+              {{/ifOr}} --}}
               {{!-- {{#if productOffer}}
               <h6 style="color: green;">Product Offer applied</h6>
               {{#each productOffer}}
@@ -121,7 +130,7 @@
 
         <div class="container my-1">
           <div class="card-body border">
-            <div class="d-flex justify-content-between mb-2" >
+            <div class="d-flex justify-content-between mb-2">
               <p class="mb-2 WalletBalanceId">Wallet Balance:</p>
               <p class="mb-2 WalletBalanceId" id="walletBalance">₹{{wallet}}</p>
             </div>
@@ -203,10 +212,12 @@
                   <div class="modal-body">
                     <div class="container mt-5">
                       <h2 style="color: #2874f0;">Add Address</h2>
-                      <form action="/addaddress/{{mobileNumber}}" method="post" id="myformAddress">
+                      <form action="/addaddress/{{mobileNumber}}" method="post" id="myformAddressPaymentPage">
                         <div class="form-group">
                           <label for="name">Name:</label>
-                          <input type="text" class="form-control" name="name" id="name" required />
+                          <input type="text" class="form-control" name="name" id="name-address" required />
+                          <small class="error-message" id="name-addressError" style="color:red
+                  ;"></small>
                         </div>
                         <div class="form-group">
                           <label for="mobile">Mobile Number:</label>
@@ -214,6 +225,7 @@
                             required />
                           <small class="form-text text-muted">Please enter a 10-digit mobile
                             number.</small>
+                          
                         </div>
                         <div class="form-group">
                           <label for="pincode">Pincode:</label>
@@ -225,14 +237,20 @@
                         <div class="form-group">
                           <label for="locality">Locality:</label>
                           <input type="text" class="form-control" name="locality" id="locality" required />
+                            <small class="error-message" id="locality-addressError" style="color:red
+                  ;"></small>
                         </div>
                         <div class="form-group">
                           <label for="address">Address:</label>
                           <textarea class="form-control" id="address" rows="3" name="address" required></textarea>
+                           <small class="error-message" id="address-addressError" style="color:red
+                  ;"></small>
                         </div>
                         <div class="form-group">
                           <label for="city">City/District/Town:</label>
                           <input type="text" class="form-control" id="city" name="city" required />
+                           <small class="error-message" id="city-addressError" style="color:red
+                  ;"></small>
                         </div>
                         <div class="form-group">
                           <label for="state">State:</label>
@@ -295,98 +313,136 @@
               </div>
             </div>
 
-     <script>
-              $(document).ready(function () {    
-      $(".address-checkbox").change(function () {
-        var selectedAddressIndex = $(this).val();
-        $("#selectedAddressIndex").val(selectedAddressIndex);
-      });
+            <script>
+              $(document).ready(function () {
+                $(".address-checkbox").change(function () {
+                  var selectedAddressIndex = $(this).val();
+                  $("#selectedAddressIndex").val(selectedAddressIndex);
+                });
 
-   
 
-      
-      $("#proceedToPaymentButton").click(function () {
-        var selectedAddressIndex = $("#selectedAddressIndex").val();
-        var paymentMethod = $("input[name='paymentMethod']:checked").val();
 
-        
-        var orderData = {
-          selectedAddressIndex:selectedAddressIndex ? selectedAddressIndex : 0,
-          paymentMethod: paymentMethod
-        };
 
-       
-        $.ajax({
-          url: "/paymentGate", 
-          type: "POST",
-          data: orderData,
-          success: function (response) {
-            
-            if(response.COD)
-            {
-               location.href="/succeess"
-            } else{
-             
-              razorPayment(response.response);
-            }
-           
-          },
-          error: function (xhr, status, error) {
-          
-            console.error(error);
-          }
-        }); 
+                $("#proceedToPaymentButton").click(function () {
+                  var selectedAddressIndex = $("#selectedAddressIndex").val();
+                  var paymentMethod = $("input[name='paymentMethod']:checked").val();
 
-       
-        $('#exampleModalCenterPlaceOrder').modal('hide');
-      });
-    });
 
-    function razorPayment(order){
-      var options = {
-    "key": "rzp_test_bLt7yzzH20t8v9", 
-    "amount": order.amount, 
-    "currency": "INR",
-    "name": "Melocia",
-    "description": "Your  Transaction Details",
-    "image": "https://example.com/your_logo",
-    "order_id": order.id, 
-    "handler": function (response){
-    
-        verifyPayment(response,order);
-    },
-    "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
-        "contact": "9000090000"
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
+                  var orderData = {
+                    selectedAddressIndex: selectedAddressIndex ? selectedAddressIndex : 0,
+                    paymentMethod: paymentMethod
+                  };
+
+
+                  $.ajax({
+                    url: "/paymentGate",
+                    type: "POST",
+                    data: orderData,
+                    success: function (response) {
+
+                      if (response.COD) {
+                        location.href = "/succeess"
+                      } else {
+
+                        razorPayment(response.response);
+                      }
+
+                    },
+                    error: function (xhr, status, error) {
+
+                      console.error(error);
+                    }
+                  });
+
+
+                  $('#exampleModalCenterPlaceOrder').modal('hide');
+                });
+              });
+
+              function razorPayment(order) {
+                var options = {
+                  "key": "rzp_test_bLt7yzzH20t8v9",
+                  "amount": order.amount,
+                  "currency": "INR",
+                  "name": "Melocia",
+                  "description": "Your  Transaction Details",
+                  "image": "https://example.com/your_logo",
+                  "order_id": order.id,
+                  "handler": function (response) {
+
+                    verifyPayment(response, order);
+                  },
+                  "prefill": {
+                    "name": "Gaurav Kumar",
+                    "email": "gaurav.kumar@example.com",
+                    "contact": "9000090000"
+                  },
+                  "notes": {
+                    "address": "Razorpay Corporate Office"
+                  },
+                  "theme": {
+                    "color": "#3399cc"
+                  }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+              }
+              function verifyPayment(payment, order) {
+                $.ajax({
+                  url: '/verifypayment',
+                  method: "post",
+                  data: { payment, order },
+                  success: function (response) {
+                    console.log(response)
+                    if (response.status) {
+                      location.href = "/succeess"
+                    }
+                    else {
+                      location.href = '/'
+                    }
+
+                  }
+                })
+              }
+
+            </script>
+         <script>
+  const form = document.getElementById('myformAddressPaymentPage');
+  form.addEventListener('submit', function (event) {
+  // Prevent form submission
+  event.preventDefault();
+
+  // Perform form validations
+  if (validateForm()) {
+    // If the form is valid, submit it
+    form.submit();
+  }
+});
+
+  function validateForm() {
+    const nameValue = document.getElementById('name-address').value.trim();
+    const localityValue = document.getElementById('locality').value.trim();
+    const addressValue = document.getElementById('address').value.trim();
+    const cityValue = document.getElementById('city').value.trim();
+
+    if (nameValue === '') {
+      document.getElementById("name-addressError").textContent =
+        "Please enter a valid  name.";
+      return false;
+    } else if (localityValue === '') {
+      document.getElementById("locality-addressError").textContent =
+        "Please enter a valid  locality";
+      return false;
+    } else if (addressValue === '') {
+       document.getElementById("address-addressError").textContent =
+        "Please enter a valid address";
+      return false;
+    } else if (cityValue === '') {
+       document.getElementById("city-addressError").textContent =
+        "Please enter a valid city";
+      return false;
+    } else {
+      return true;
     }
-};
-var rzp1 = new Razorpay(options);
-    rzp1.open();
-    }
-    function verifyPayment(payment,order){
-      $.ajax({
-        url:'/verifypayment',
-        method:"post",
-        data:{payment,order},
-         success: function (response) {
-          console.log(response)
-          if(response.status){
-              location.href="/succeess"
-          }
-          else
-          {
-            location.href='/'
-          }
-         
-         }
-      })
-    }
-
- </script>
+  }
+</script>

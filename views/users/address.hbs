@@ -83,41 +83,41 @@
                     <div class="modal-body">
                       <div class="container mt-5">
                         <h2 style="color: #2874f0;">Edit Address</h2>
-                        <form action="/addaddress" method="POST" enctype="multipart/form-data">
+                        <form action="/addaddress" method="POST" enctype="multipart/form-data" >
                           <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" name="name" value="{{this.name}}" id="name" />
+                            <input type="text" class="form-control" name="name" value="{{this.name}}" id="nameeditaddress" />
                           </div>
                           <div class="form-group">
                             <label for="mobile">Mobile Number:</label>
-                            <input type="tel" class="form-control" id="mobile" name="mobile" pattern="[0-9]{10}"
+                            <input type="tel" class="form-control" id="mobileeditaddress" name="mobile" pattern="[0-9]{10}"
                               value="{{this.phone}}" required />
                             <small class="form-text text-muted">Please enter a 10-digit mobile number.</small>
                           </div>
                           <div class="form-group">
                             <label for="pincode">Pincode:</label>
-                            <input type="text" class="form-control" id="pincode" name="pincode" pattern="[0-9]{6}"
+                            <input type="text" class="form-control" id="pincode-editaddress" name="pincode" pattern="[0-9]{6}"
                               value="{{this.pincode}}" required />
                             <small class="form-text text-muted">Please enter a 6-digit pincode.</small>
                           </div>
                           <div class="form-group">
                             <label for="locality">Locality:</label>
-                            <input type="text" class="form-control" name="locality" id="locality"
+                            <input type="text" class="form-control" name="locality" id="locality-editaddress"
                               value="{{this.locality}}" required />
                           </div>
                           <div class="form-group">
                             <label for="address">Address:</label>
-                            <textarea class="form-control" id="address" rows="3" name="address"
+                            <textarea class="form-control" id="address-editadddress" rows="3" name="address"
                               value=" {{this.address}}" required></textarea>
                           </div>
                           <div class="form-group">
                             <label for="city">City/District/Town:</label>
-                            <input type="text" class="form-control" id="city" name="city" value=" {{this.city}}"
+                            <input type="text" class="form-control" id="city-editaddress" name="city" value=" {{this.city}}"
                               required />
                           </div>
                           <div class="form-group">
                             <label for="state">State:</label>
-                            <select class="form-control" id="state" name="state" value="{{this.state}}" required>
+                            <select class="form-control" id="state-editaddess" name="state" value="{{this.state}}" required>
                               <option disabled selected>Select State</option>
                               <option>Andhra Pradesh</option>
                               <option>Arunachal Pradesh</option>
@@ -157,12 +157,12 @@
                           </div>
                           <div class="form-group">
                             <label for="landmark">Landmark:</label>
-                            <input type="text" class="form-control" name="landmark" id="landmark"
+                            <input type="text" class="form-control" name="landmark" id="landmark-editaddress"
                               placeholder="optional" />
                           </div>
                           <div class="form-group">
                             <label for="alternatePhone">Alternate Phone:</label>
-                            <input type="tel" class="form-control" id="alternatePhone" name="alternatePhone"
+                            <input type="tel" class="form-control" id="alternatePhone-editaddress" name="alternatePhone"
                               placeholder="optional" />
                           </div>
                           <button type="submit" class="btn btn-primary">Submit</button>
@@ -202,32 +202,42 @@
       <div class="modal-body">
         <div class="container mt-5">
           <h2 style="color: #2874f0;">Add Address</h2>
-          <form id="addressForm" action="/addaddress" method="post">
+          <form id="myaccount-address" action="/addaddress" method="post" >
             <div class="form-group">
               <label for="name">Name:</label>
-              <input type="text" class="form-control" name="name" id="name" required />
+              <input type="text" class="form-control" name="name" id="name-myaccount" required />
+               <small class="error-message" id="name-myaccountError" style="color:red
+                  ;"></small>
             </div>
             <div class="form-group">
               <label for="mobile">Mobile Number:</label>
-              <input type="tel" class="form-control" id="mobile" name="mobile" pattern="[0-9]{10}" required />
+              <input type="tel" class="form-control" id="mobile-myaccount" name="mobile" pattern="[0-9]{10}" required />
               <small class="form-text text-muted">Please enter a 10-digit mobile number.</small>
+               <small class="error-message" id="mobile-myaccountError" style="color:red
+                  ;"></small>
             </div>
             <div class="form-group">
               <label for="pincode">Pincode:</label>
-              <input type="text" class="form-control" id="pincode" name="pincode" pattern="[0-9]{6}" required />
+              <input type="text" class="form-control" id="pincode-myaccount" name="pincode" pattern="[0-9]{6}" required />
               <small class="form-text text-muted">Please enter a 6-digit pincode.</small>
             </div>
             <div class="form-group">
               <label for="locality">Locality:</label>
-              <input type="text" class="form-control" name="locality" id="locality" required />
+              <input type="text" class="form-control" name="locality" id="locality-myaccount" required />
+              <small class="error-message" id="locality-myaccountError" style="color:red
+                  ;"></small>
             </div>
             <div class="form-group">
               <label for="address">Address:</label>
-              <textarea class="form-control" id="address" rows="3" name="address" required></textarea>
+              <textarea class="form-control" id="address-myaccount" rows="3" name="address" required></textarea>
+               <small class="error-message" id="address-myaccountError" style="color:red
+                  ;"></small>
             </div>
             <div class="form-group">
               <label for="city">City/District/Town:</label>
-              <input type="text" class="form-control" id="city" name="city" required />
+              <input type="text" class="form-control" id="city-myaccount" name="city" required />
+               <small class="error-message" id="city-myaccountError" style="color:red
+                  ;"></small>
             </div>
             <div class="form-group">
               <label for="state">State:</label>
@@ -288,50 +298,45 @@
     </div>
   </div>
 </div>
-{{!--
-<script>
-  function validateForm() {
-    var name = document.getElementById('name').value.trim();
-    var mobile = document.getElementById('mobile').value;
-    var pincode = document.getElementById('pincode').value;
-    var locality = document.getElementById('locality').value;
-    var address = document.getElementById('address').value;
-    var city = document.getElementById('city').value;
-    var state = document.getElementById('state').value;
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const formaddress = document.getElementById('myaccount-address');
+    formaddress.addEventListener('submit', function (event) {
+      // Prevent form submission
+      event.preventDefault();
 
-    var mobilePattern = /^[0-9]{10}$/;
-    var pincodePattern = /^[0-9]{6}$/;
+      // Perform form validations
+      if (validateForm()) {
+        // If the form is valid, submit it
+        formaddress.submit();
+      }
+    });
 
-    if (name == '') {
-      alert('Please enter your name.');
-      return false;
-    }
-    if (!mobilePattern.test(mobile)) {
-      alert('Please enter a valid 10-digit mobile number.');
-      return false;
-    }
-    if (!pincodePattern.test(pincode)) {
-      alert('Please enter a valid 6-digit pincode.');
-      return false;
-    }
-    if (locality.trim() == '') {
-      alert('Please enter the locality.');
-      return false;
-    }
-    if (address.trim() == '') {
-      alert('Please enter the address.');
-      return false;
-    }
-    if (city.trim() == '') {
-      alert('Please enter the city/district/town.');
-      return false;
-    }
-    if (state == 'Select State') {
-      alert('Please select a state.');
-      return false;
-    }
+    function validateForm() {
+      const nameValue = document.getElementById('name-myaccount').value.trim();
+      const localityValue = document.getElementById('locality-myaccount').value.trim();
+      const addressValue = document.getElementById('address-myaccount').value.trim();
+      const cityValue = document.getElementById('city-myaccount').value.trim();
 
-    return true;
-  }
-
-</script> --}}
+      if (nameValue === '') {
+        document.getElementById("name-myaccountError").textContent =
+          "Please enter a valid name.";
+        return false;
+      } else if (localityValue === '') {
+        document.getElementById("locality-myaccountError").textContent =
+          "Please enter a valid locality";
+        return false;
+      } else if (addressValue === '') {
+        document.getElementById("address-myaccountError").textContent =
+          "Please enter a valid address";
+        return false;
+      } else if (cityValue === '') {
+        document.getElementById("city-myaccountError").textContent =
+          "Please enter a valid city";
+        return false;
+      } else {
+        return true;
+      }
+    }
+  });
+</script>

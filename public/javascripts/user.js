@@ -233,7 +233,7 @@ document.querySelectorAll(".selectaddress").forEach(function (input) {
     });
 
 
-    //zoom
+   
  $('#coupounButton').click(function () {
     event.preventDefault();
     const couponCode = $('#coupounTextBox').val();
@@ -361,7 +361,6 @@ $(document).ready(function () {
 });
 
 
-//p
-
+//address avlidation
 
 

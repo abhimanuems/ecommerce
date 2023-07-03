@@ -139,8 +139,9 @@
                     </div>
                     {{/each}}
 
-
+                         {{#if pages}}
                     <div class="col-12 pb-1">
+                        
                         <nav>
                             <ul class="pagination justify-content-center">
                                 <li class="page-item">
@@ -148,6 +149,7 @@
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
+                               
                                 {{#each (range pages)}}
                                 {{#isEqual pageNo @index}}
                                 <li class="page-item active">
@@ -166,8 +168,10 @@
                                 </li>
                             </ul>
                         </nav>
+                        
 
                     </div>
+                    {{/if}}
                 </div>
             </div>
 

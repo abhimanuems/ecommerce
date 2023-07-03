@@ -250,6 +250,7 @@ module.exports = {
       .then((products) => {
         productHelper.getCount(pageNo, 6, aggrigateStages).then((counts) => {
           const pages = Math.floor(counts / 6);
+          console.log("pages are ",pages,pageNo)
 
           categoryHelpers.viewCategory().then((category) => {
             res.render("users/allproucts", {

@@ -61,12 +61,13 @@
             <input style="width:500px" type="tel" class="text-center editable" placeholder="{{phone}}" value="{{phone}}"
               readonly>
           </li>
+          {{#if referalCode}}
           <li class="list-group-item text-center">
 
 
-            <p>{{referalCode}} <button class="btn btn-success float-right"
-                onclick="function clickedReferal({{referalCode}})">Share</button></p>
+            <p>{{referalCode}}<button class="btn btn-success float-right" onclick="sendWhatsAppMessage('{{referalCode}}')">Share</button></p>
           </li>
+          {{/if}}
           <li class="list-group-item">
             <h6>FAQs</h6>
             <br>
@@ -124,3 +125,16 @@
     </div>
   </div>
 </div>
+
+<script>
+  function sendWhatsAppMessage(referalCode) {
+    // Build the URL you want to share
+    var url = "https://melocia.shop/signup?ref=" + referalCode;
+    
+    // Format the message with the URL
+    var message = "Sign up using my referral link: " + url;
+    
+    // Open WhatsApp in a new tab with the message
+    window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(message), "_blank");
+  }
+</script>

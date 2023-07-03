@@ -3,6 +3,8 @@ const collection = require("../config/collections");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
+const { resolve } = require("path");
+const { truncate } = require("fs/promises");
 const instance = new Razorpay({
   key_id: process.env.key_id,
   key_secret: process.env.key_secret,
@@ -205,6 +207,7 @@ module.exports = {
       receipt: null,
       razorPayStatus: null,
       walletUsed: walletUsed,
+      orderStatus: false,
     };
     return new Promise(async (resolve, reject) => {
       await db
@@ -223,6 +226,9 @@ module.exports = {
         .get()
         .collection(collection.ORDERCOLLECTION)
         .aggregate([
+          {
+            $match: { orderStatus: true },
+          },
           {
             $lookup: {
               from: "product",
@@ -261,7 +267,9 @@ module.exports = {
       db.get()
         .collection(collection.CREDENTIALCOLLECTION)
         .updateOne({ phone: mobileNumber }, { $unset: { cartItems: "" } })
-        .then((response) => { resolve(response)});
+        .then((response) => {
+          resolve(response);
+        });
     });
   },
   //for updating the order status
@@ -283,7 +291,7 @@ module.exports = {
         });
     });
   },
-  //for viewing the order detials user 
+  //for viewing the order detials user
   viewOrderDetailsUser: (mobile) => {
     return new Promise(async (resolve, reject) => {
       const orderDetails = await db
@@ -348,6 +356,7 @@ module.exports = {
           {
             $match: {
               phone: mobile,
+              orderStatus:true
             },
           },
           {
@@ -379,9 +388,8 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log("order details are ", order)
+      console.log("order details are ", order);
       resolve(order);
-
     });
   },
 
@@ -437,7 +445,7 @@ module.exports = {
 
   // razpor pay
   razorPay: (id, total) => {
-    console.log("total and id is ",id,typeof(total))
+    console.log("total and id is ", id, typeof total);
     return new Promise((resolve, reject) => {
       var options = {
         amount: total * 100,
@@ -445,7 +453,7 @@ module.exports = {
         receipt: id,
       };
       instance.orders.create(options, function (err, order) {
-        console.log("order is ",order)
+        console.log("order is ", order);
         resolve(order);
       });
     });
@@ -456,8 +464,8 @@ module.exports = {
       let hmac = crypto.createHmac("sha256", "9f8327fvCnjWCAj0mpp8uNJB");
       hmac.update(
         data["payment[razorpay_order_id]"] +
-        "|" +
-        data["payment[razorpay_payment_id]"]
+          "|" +
+          data["payment[razorpay_payment_id]"]
       );
       hmac = hmac.digest("hex");
       if (hmac == data["payment[razorpay_signature]"]) {
@@ -502,6 +510,7 @@ module.exports = {
         .aggregate([
           {
             $match: {
+              orderStatus:true,
               Date: {
                 $gte: new Date(startOfDay),
                 $lt: new Date(endOfDay),
@@ -600,6 +609,7 @@ module.exports = {
         .aggregate([
           {
             $match: {
+              orderStatus:true,
               Date: {
                 $gte: startOfDay,
                 $lt: endOfDay,
@@ -633,6 +643,7 @@ module.exports = {
           .aggregate([
             {
               $match: {
+                orderStatus:true,
                 Date: {
                   $gte: new Date(startOfDay),
                   $lt: new Date(endOfDay),
@@ -652,7 +663,6 @@ module.exports = {
         resolve(data);
       });
     } else if (id == "weekly") {
-
       const currentDate = new Date();
       const endOfDay = currentDate.getTime();
       currentDate.setDate(currentDate.getDate() - 8);
@@ -724,6 +734,7 @@ module.exports = {
         .aggregate([
           {
             $match: {
+              orderStatus:true,
               Date: {
                 $gte: new Date(start),
                 $lt: new Date(end),
@@ -743,5 +754,12 @@ module.exports = {
       resolve(order);
     });
   },
-
+  changeOrderStatus:(id)=>{
+    return new Promise((resolve,reject)=>{
+      console.log("eneter at the order status",id)
+      db.get().collection(collection.ORDERCOLLECTION).updateOne({_id:new ObjectId(id)},{$set:{orderStatus:true}}).then((res)=>{
+        resolve(res)
+      });
+    })
+  }
 };

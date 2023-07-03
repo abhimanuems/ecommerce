@@ -56,7 +56,7 @@ router.post("/quantityupdate", orderController.cartQuantity);
 
 router.get("/removecart/:id", orderController.removeCart);
 
-router.post("/walletupdate", orderController.walletBalance);
+// router.post("/walletupdate", orderController.walletBalance);
 
 router.get("/checkoutForOrder", orderController.checkOut);
 

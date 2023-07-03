@@ -517,4 +517,18 @@ module.exports = {
         .then(() => {});
     });
   },
+  //walletUpadtion
+  walletBalanceUpdate:(mobile,total)=>{
+    return new Promise((resolve,reject)=>{
+     db.get()
+       .collection(collection.CREDENTIALCOLLECTION)
+       .aggregate([
+         { $match: { phone: mobile } },
+         { $inc: { wallet: -total } },
+       ]).then((res)=>{
+        resolve(res);
+       })
+
+    })
+  }
 };

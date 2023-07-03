@@ -331,13 +331,21 @@ $(document).ready(function () {
           $("#totalAmountOffred").text('₹'+response1.totalAmount);
 
           }
+          if(response1.button){
+            $("#walletPay");
+          }
 
          
             // Show the wallet balance applied
             $("#walletBalanceApplied").text("Wallet balance applied: ");
              if (response1.walletUsedFull) {
+              document.getElementById("walletPay").style.display = "block";
+              document.getElementById("razorpay").style.display = "none";
+               document.getElementById("cod").style.display = "none";
+
 
              }
+          
         },
         error: function (xhr, status, error) {
           // Handle errors

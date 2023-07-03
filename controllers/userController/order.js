@@ -91,51 +91,52 @@ module.exports = {
 
   //wallet balance
 
-  walletBalance: (req, res) => {
-    if (req.session.user && req.body.wallet == "update") {
-      if (!req.session.walletBalanceUpdate) {
-        req.session.walletBalanceUpdate = true;
-        userHelpers
-          .getWalletBalance(req.session.mobileNumber)
-          .then((wallet) => {
-            wallet = wallet[0].wallet;
-            if (req.session.walletBalanceUpdate) {
-              if (req.session.amounts.totalAmountOfferedPrice > wallet) {
-                req.session.walletBalanceApplied = wallet;
-                req.session.amounts.totalAmountOfferedPrice -= wallet;
-                wallet = 0;
-                req.session.wallet = wallet;
-                res.json({
-                  status: true,
-                  wallet: true,
-                  totalAmount: req.session.amounts.totalAmountOfferedPrice,
-                });
-              } else {
-                req.session.walletBalanceApplied =
-                  req.session.amounts.totalAmountOfferedPrice;
-                wallet -= req.session.amounts.totalAmountOfferedPrice;
-                req.session.amounts.totalAmountOfferedPrice = 0;
-                req.session.wallet = wallet;
-                res.json({
-                  status: true,
-                  wallet: true,
-                  walletUsedFull: true,
-                  totalAmount: req.session.amounts.totalAmountOfferedPrice,
-                });
-              }
-            }
-          });
-      } else {
-        res.json({
-          status: true,
-          wallet: true,
-          totalAmount: req.session.amounts.totalAmountOfferedPrice,
-        });
-      }
-    } else {
-      res.json({ status: false });
-    }
-  },
+  // walletBalance: (req, res) => {
+  //   if (req.session.user && req.body.wallet == "update") {
+  //     if (!req.session.walletBalanceUpdate) {
+  //       req.session.walletBalanceUpdate = true;
+  //       userHelpers
+  //         .getWalletBalance(req.session.mobileNumber)
+  //         .then((wallet) => {
+  //           wallet = wallet[0].wallet;
+  //           if (req.session.walletBalanceUpdate) {
+  //             if (req.session.amounts.totalAmountOfferedPrice > wallet) {
+  //               req.session.walletBalanceApplied = wallet;
+  //               req.session.amounts.totalAmountOfferedPrice -= wallet;
+  //               wallet = 0;
+  //               req.session.wallet = wallet;
+  //               res.json({
+  //                 status: true,
+  //                 wallet: true,
+  //                 totalAmount: req.session.amounts.totalAmountOfferedPrice,
+  //               });
+  //             } else {
+  //               req.session.walletBalanceApplied =
+  //                 req.session.amounts.totalAmountOfferedPrice;
+  //               wallet -= req.session.amounts.totalAmountOfferedPrice;
+  //               req.session.amounts.totalAmountOfferedPrice = 0;
+  //               req.session.wallet = wallet;
+  //               res.json({
+  //                 status: true,
+  //                 wallet: true,
+  //                 walletUsedFull: true,
+  //                 totalAmount: req.session.amounts.totalAmountOfferedPrice,
+  //                 button:true
+  //               });
+  //             }
+  //           }
+  //         });
+  //     } else {
+  //       res.json({
+  //         status: true,
+  //         wallet: true,
+  //         totalAmount: req.session.amounts.totalAmountOfferedPrice,
+  //       });
+  //     }
+  //   } else {
+  //     res.json({ status: false });
+  //   }
+  // },
   //checkout details
   checkOut: (req, res) => {
     if (req.session.user) {
@@ -162,7 +163,6 @@ module.exports = {
               categoryHelpers
                 .findOffersAndApply(req.session.product, req.session.counts)
                 .then((result) => {
-                  console.log("catgoery offers are ",result)
                   if (result.length != 0) {
                     for (let i = 0; i < result.length; i++) {
                       if (result[i].offer.priceType == "flat") {
@@ -184,8 +184,7 @@ module.exports = {
                         }
                       }
                     }
-                  
-                    console.log("amounts is ",amounts)
+                
                     req.session.result = result;
                     req.session.offersApplied = true;
                     if (req.session.OrderPlaced == false) {
@@ -284,12 +283,6 @@ module.exports = {
       }
 
       const totalPrice = req.session.amounts.totalAmountOfferedPrice;
-      console.log(
-        "total price is ",
-        totalPrice,
-        "mobil",
-        req.session.mobileNumber
-      );
       orderHelpers
         .orderDetails(
           req.session.mobileNumber,
@@ -303,25 +296,42 @@ module.exports = {
           req.session.walletBalanceApplied
         )
         .then((id) => {
+          req.session.orderId=id
           req.session.OrderPlaced = true;
           if (paymentMode == "COD") {
-            userHelpers.updateWalletBalance(
-              req.session.mobileNumber,
-              req.session.wallet
-            );
+            // userHelpers.updateWalletBalance(
+            //   req.session.mobileNumber,
+            //   req.session.wallet
+            // );
+            orderHelpers.changeOrderStatus(id);
             offerHelpers.UpdateRefferal(req.session.mobileNumber);
             orderHelpers.deleteCart(req.session.mobileNumber);
             productHelpers.updateProductQuantity(req.session.productIds);
             res.json({ COD: true });
             
-          } else {
-            userHelpers.updateWalletBalance(
-              req.session.mobileNumber,
-              req.session.wallet
-            );
+          } else if (paymentMode == "Razorpay") {
+            // userHelpers.updateWalletBalance(
+            //   req.session.mobileNumber,
+            //   req.session.wallet
+            // );
             orderHelpers.razorPay(id, totalPrice).then((response) => {
               res.json({ response });
             });
+          }
+          else if(paymentMode=='wallet'){
+            userHelpers.findWalletBalance(req.session.mobileNumber).then((wallet)=>{
+              if(totalPrice<=wallet){
+                userHelpers.walletBalanceUpdate(req.session.mobileNumber,totalPrice);
+                 offerHelpers.UpdateRefferal(req.session.mobileNumber);
+                 orderHelpers.deleteCart(req.session.mobileNumber);
+                 productHelpers.updateProductQuantity(req.session.productIds);
+                 orderHelpers.changeOrderStatus(id);
+                 res.json({ COD: true });
+              }else{
+                 res.json({ wallet:true});
+              }
+             
+            })
           }
         });
     } else {
@@ -483,6 +493,7 @@ module.exports = {
             .changePaymentStatus(req.body["receipt"], req.body)
             .then(() => {
               orderHelpers.deleteCart(req.session.mobileNumber);
+               orderHelpers.changeOrderStatus(req.session.orderId);
               res.json({ status: true });
             });
         })

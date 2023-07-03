@@ -134,11 +134,11 @@
               <p class="mb-2 WalletBalanceId">Wallet Balance:</p>
               <p class="mb-2 WalletBalanceId" id="walletBalance">₹{{wallet}}</p>
             </div>
-            <div class="form-check">
+            {{!-- <div class="form-check">
               <input type="radio" id="walletForcheckout" name="wallet" value="wallet">
               <label for="wallet" id="walletForcheckoutText">Wallet</label>
               <br>
-            </div>
+            </div> --}}
             <div class="d-flex justify-content-between mb-2">
               <p class="mb-2">Total price:</p>
               <p class="mb-2">₹{{amounts.totalAmountSellingPrice}}</p>
@@ -175,6 +175,9 @@
               data-target="#exampleModalCenterPlaceOrder">
               Place Order
             </button>
+            <div class="mt-2">
+              <small class="mt-3" style="color: red;"><p id="walletUpadte"></p></small>
+            </div>
 
             <div class="modal fade" id="exampleModalCenterPlaceOrder" tabindex="-1" role="dialog"
               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -193,6 +196,9 @@
                       <br>
                       <input type="radio" id="razorpay" name="paymentMethod" value="Razorpay">
                       <label for="razorpay">Razorpay</label>
+                      <br>
+                      <input type="radio"  name="paymentMethod" value="wallet" >
+                      <label for="razorpay" id="walletPayLabel">wallet</label>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -342,7 +348,11 @@
 
                       if (response.COD) {
                         location.href = "/succeess"
-                      } else {
+                      } if(response.wallet){
+                       $("#walletUpadte").text("Insufficent balance on wallet");
+
+                      }
+                      else {
 
                         razorPayment(response.response);
                       }

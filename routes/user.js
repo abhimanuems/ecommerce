@@ -70,7 +70,6 @@ router.post("/addaddress", orderController.addAddressmyAccount);
 
 router.post("/editaddress/:id", orderController.editAddress);
 
-
 router.post("/verifypayment", orderController.verifyPayment);
 
 router.get("/myaccount", userLoginController.myAccount);

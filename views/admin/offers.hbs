@@ -428,7 +428,7 @@
                       <label for="category">Select Category:</label>
                       <select class="form-control" id="category" name="category" style="width: 150px;">
                         {{#each category}}
-                        <option value="{{_id}}">{{categoryName}}</option>
+                        <option value="{{categoryName}}">{{categoryName}}</option>
                         {{/each}}
                       </select>
                     </div>
@@ -506,7 +506,7 @@
             <td>{{offer.priceType}}</td>
             <td>{{offer.maxPercentage}}</td>
             <td>{{offer.maxDiscount}}</td>
-            <td>{{offer.category}}</td>
+            <td>{{categoryName}}</td>
             <td>{{offer.minspent}}</td>
             <td>{{offer.limitPerOrder}}</td>
             <td>{{offer.startTime}}</td>

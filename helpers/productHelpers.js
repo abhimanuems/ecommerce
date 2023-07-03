@@ -320,7 +320,6 @@ module.exports = {
         .collection(collection.PRODUCTCOLLECTION)
         .find({ _id: { $in: productIdObjects } })
         .toArray();
-      console.log(products);
       resolve(products);
     });
   },
@@ -347,7 +346,7 @@ module.exports = {
         .collection(collection.PRODUCTCOLLECTION)
         .updateOne({ _id: new ObjectId(id) }, { $set: { offer: data } })
         .then((resposne) => {
-          resolve(response);
+          resolve(0);
         })
         .catch((err) => {
           reject(err);

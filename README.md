@@ -15,7 +15,7 @@ functionality, this e-commerce project provides a seamless and secure shopping e
 - [Installation](#installation)
 - [Technologies](#Technologies)
 - [Contributing](#contributing)
-- [Ask Questions](#Ask Questions)
+- [Ask Questions](#AskQuestions)
 
 ## Installation
 

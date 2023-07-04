@@ -199,6 +199,7 @@ module.exports = {
           },
         ])
         .toArray();
+        console.log("products are ",products)
       resolve(products).catch((err) => {
         reject(err);
         console.log("error is ", err);

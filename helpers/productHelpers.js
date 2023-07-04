@@ -331,7 +331,7 @@ module.exports = {
         const products = await db
           .get()
           .collection(collection.PRODUCTCOLLECTION)
-          .find({ productName: { $regex: text, $options: "i" } })
+          .find({status:true},{ productName: { $regex: text, $options: "i" } })
           .toArray();
 
         resolve(products.slice(0, 6));

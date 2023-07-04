@@ -68,9 +68,27 @@
     </table>
     {{else}}
     <div>
-      <p>refer now</p>
+      <div class="card">
+  <div class="card-body">
+   <p style="color: blue;">You not yet refered any one refer now <span class="float-right"><button class="btn btn-success " onclick="sendWhatsAppMessage('{{referalCode}}')">Refer Now</button></span></p>
+  </div>
+</div>
+      
       {{/if}}
     </div>
       </div>
     </div>
   </div>
+
+  <script>
+  function sendWhatsAppMessage(referalCode) {
+    // Build the URL you want to share
+    var url = "https://melocia.shop/signup?ref=" + referalCode;
+    
+    // Format the message with the URL
+    var message = "Sign up using my referral link: " + url;
+    
+    // Open WhatsApp in a new tab with the message
+    window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(message), "_blank");
+  }
+</script>

@@ -28,6 +28,7 @@ module.exports = {
       if (error) {
         console.log(err);
       } else {
+         
         res.render("admin/adminlogin", {
           data: "logout succesfully",
           login: true,

@@ -17,7 +17,7 @@ require("dotenv").config();
 db.connect();
 
 const app = express();
-app.use(flash());
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -56,6 +56,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(flash());
 
 app.use("/admin", adminRouter);
 app.use("/", userRouter);

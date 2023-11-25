@@ -5,8 +5,8 @@ const state = {
 };
 
 module.exports.connect = async function () {
-  // const url =  process.env.mongoURL;
-  const url = "mongodb://localhost:27017";
+  const url =  process.env.mongoURL;
+   //const url = "mongodb://localhost:27017";
   const dbname = "Melocia"
 
   try {
@@ -14,11 +14,11 @@ module.exports.connect = async function () {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log(url)
     state.db = client.db(dbname);
     console.log("database connected");
   } catch (error) {
-    throw new Error(`Error connecting to MongoDB: ${error}`);
+    console.error(error)
+   // throw new Error(`Error connecting to MongoDB: ${error}`);
   }
 };
 
